@@ -37,6 +37,7 @@
         android:layout_marginEnd="52dp"
         android:text="ENTER"
         android:textSize="24sp"
+        android:onClick="onEnterClick"
         app:layout_constraintBaseline_toBaselineOf="@+id/cancel_class_button"
         app:layout_constraintEnd_toStartOf="@+id/cancel_class_button"
         app:layout_constraintStart_toStartOf="parent" />
@@ -49,6 +50,7 @@
         android:layout_marginBottom="89dp"
         android:text="CANCEL"
         android:textSize="24sp"
+        android:onClick="onCancelClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
