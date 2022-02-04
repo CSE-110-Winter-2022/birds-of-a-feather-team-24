@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoFTeam24">
         <activity
+            android:name=".AddClassesActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
