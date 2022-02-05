@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoFTeam24">
         <activity
+<<<<<<< HEAD
             android:name=".StudentsListActivity"
             android:exported="false" />
         <activity
@@ -22,6 +23,11 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
+=======
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+>>>>>>> 388b590 (save name feature, without db)
             android:name=".AddClassesActivity"
             android:exported="false" />
         <activity
