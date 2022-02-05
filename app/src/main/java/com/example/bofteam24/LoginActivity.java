@@ -1,7 +1,6 @@
 package com.example.bofteam24;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,13 +14,10 @@ public class LoginActivity extends AppCompatActivity {
     Button button_name;
     EditText editText;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
 
         button_name = (Button) findViewById(R.id.button_confirm);
         editText = (EditText) findViewById(R.id.name);
