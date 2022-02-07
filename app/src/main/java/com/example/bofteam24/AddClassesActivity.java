@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.bofteam24.db.AppDatabase;
+import com.example.bofteam24.db.CourseRoom;
+
 import java.util.Arrays;
 
 public class AddClassesActivity extends AppCompatActivity {
@@ -16,6 +19,7 @@ public class AddClassesActivity extends AppCompatActivity {
     private Spinner quarterSpinner;
     private EditText subjectField;
     private EditText courseNumField;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,17 @@ public class AddClassesActivity extends AppCompatActivity {
         course.create(getApplicationContext());
 
         System.out.println(Arrays.toString(Course.getAll(getApplicationContext())));
+
+
+        //Using Room Database
+        db = AppDatabase.singleton(this);
+
+        String courseDesc = String.format("%s %s %s %d", subject, courseNumber,
+                quarter, year);
+        CourseRoom newCourse = new CourseRoom(1, 1, courseDesc);
+        db.courseDao().insert(newCourse);
+        System.out.println(db.courseDao().get(1));
+        db.courseDao().delete(newCourse);
     }
 
     public void onCancelClick(View view) {
