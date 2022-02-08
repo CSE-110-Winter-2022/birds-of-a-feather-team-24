@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bofteam24.db.AppDatabase;
@@ -32,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //get user_id extra from intent to decide which layout to display
 
-        different_user = false;
+        different_user = true;
 
         if (different_user) {
             //change "my courses" -> "<other_user>'s courses"
@@ -42,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
             //hide add course button
             Button add_course_button = findViewById(R.id.add_course_button);
             add_course_button.setVisibility(View.GONE);
+
         }
 
         //TODO:
@@ -67,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         coursesViewAdapter = new CoursesViewAdapter(courses, (course) -> {
             db.courseDao().delete(course);
-        });
+        }, different_user);
         coursesRecyclerView.setAdapter(coursesViewAdapter);
     }
 

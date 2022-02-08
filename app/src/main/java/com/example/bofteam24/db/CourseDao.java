@@ -21,6 +21,8 @@ public interface CourseDao {
     @Query("SELECT * FROM courses where courseId=:courseId")
     CourseRoom get(int courseId);
 
+    //add a duplicate course check?
+
     @Query("SELECT COUNT(*) from courses")
     int count();
 

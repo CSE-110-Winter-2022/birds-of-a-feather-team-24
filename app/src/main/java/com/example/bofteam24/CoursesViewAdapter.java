@@ -18,11 +18,14 @@ import java.util.function.Consumer;
 public class CoursesViewAdapter extends RecyclerView.Adapter<CoursesViewAdapter.ViewHolder> {
     private final List<CourseRoom> courses;
     private final Consumer<CourseRoom> onCourseRemoved;
+    private boolean different_user;
 
-    public CoursesViewAdapter(List<CourseRoom> courses, Consumer<CourseRoom> onCourseRemoved) {
+    public CoursesViewAdapter(List<CourseRoom> courses, Consumer<CourseRoom> onCourseRemoved,
+                              boolean different_user) {
         super();
         this.courses = courses;
         this.onCourseRemoved= onCourseRemoved;
+        this.different_user = different_user;
     }
 
 //    public void addCourse(CourseRoom course) {
@@ -42,7 +45,7 @@ public class CoursesViewAdapter extends RecyclerView.Adapter<CoursesViewAdapter.
                 .from(parent.getContext())
                 .inflate(R.layout.course_description_row, parent, false);
 
-        return new ViewHolder(view, this::removeCourse, onCourseRemoved);
+        return new ViewHolder(view, this::removeCourse, onCourseRemoved, different_user);
     }
 
     @Override
@@ -59,7 +62,8 @@ public class CoursesViewAdapter extends RecyclerView.Adapter<CoursesViewAdapter.
         private final TextView courseTextView;
         private CourseRoom course;
 
-        ViewHolder(View itemView, Consumer<Integer> removeCourse, Consumer<CourseRoom> onCourseRemoved) {
+        ViewHolder(View itemView, Consumer<Integer> removeCourse,
+                   Consumer<CourseRoom> onCourseRemoved, boolean different_user) {
             super(itemView);
             this.courseTextView = itemView.findViewById(R.id.course_description_tv);
 
@@ -68,6 +72,10 @@ public class CoursesViewAdapter extends RecyclerView.Adapter<CoursesViewAdapter.
                 removeCourse.accept(this.getAdapterPosition());
                 onCourseRemoved.accept(course);
             });
+
+            if (different_user) {
+                removeButton.setVisibility(View.GONE);
+            }
         }
 
         public void setCourse(CourseRoom course) {
