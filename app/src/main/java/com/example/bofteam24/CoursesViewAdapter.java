@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,10 +25,10 @@ public class CoursesViewAdapter extends RecyclerView.Adapter<CoursesViewAdapter.
         this.onCourseRemoved= onCourseRemoved;
     }
 
-    public void addCourse(CourseRoom course) {
-        this.courses.add(course);
-        this.notifyItemInserted(this.courses.size() - 1);
-    }
+//    public void addCourse(CourseRoom course) {
+//        this.courses.add(course);
+//        this.notifyItemInserted(this.courses.size() - 1);
+//    }
 
     public void removeCourse(int position) {
         this.courses.remove(position);
@@ -62,11 +63,11 @@ public class CoursesViewAdapter extends RecyclerView.Adapter<CoursesViewAdapter.
             super(itemView);
             this.courseTextView = itemView.findViewById(R.id.course_description_tv);
 
-//            Button removeButton = itemView.findViewById(R.id.remove_note_button);
-//            removeButton.setOnClickListener((view) -> {
-//                removeNote.accept(this.getAdapterPosition());
-//                onNoteRemoved.accept(note);
-//            });
+            ImageView removeButton = itemView.findViewById(R.id.delete_course_iv);
+            removeButton.setOnClickListener((view) -> {
+                removeCourse.accept(this.getAdapterPosition());
+                onCourseRemoved.accept(course);
+            });
         }
 
         public void setCourse(CourseRoom course) {

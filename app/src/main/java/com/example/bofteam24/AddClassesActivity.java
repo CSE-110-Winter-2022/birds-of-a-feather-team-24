@@ -1,7 +1,9 @@
 package com.example.bofteam24;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.example.bofteam24.db.CourseRoom;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class AddClassesActivity extends AppCompatActivity {
 
@@ -22,6 +25,7 @@ public class AddClassesActivity extends AppCompatActivity {
     private EditText subjectField;
     private EditText courseNumField;
     private AppDatabase db;
+    private CoursesViewAdapter coursesViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +69,15 @@ public class AddClassesActivity extends AppCompatActivity {
         CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
                 1, courseDesc);
         db.courseDao().insert(newCourse);
+//        coursesViewAdapter.addCourse(newCourse);
         List<CourseRoom> courseRoomList = db.courseDao().getForUser(1);
         printCourseList(courseRoomList);
+    }
+
+    private boolean checkIfFieldsAreValid(String subject, String courseNum) {
+        return subject.chars().allMatch(Character::isLetter)
+                && courseNum.chars().allMatch(Character::isLetterOrDigit) && subject.length() > 0
+                && courseNum.length() > 0;
     }
 
     public void onEnterClick(View view) {
@@ -80,16 +91,47 @@ public class AddClassesActivity extends AppCompatActivity {
 
 //        System.out.println(Arrays.toString(Course.getAll(getApplicationContext())));
 
+        boolean fieldsValid = checkIfFieldsAreValid(subject, courseNumber);
 
-        //Using Room Database
-        String courseDesc = String.format("%s %s %s %d", subject, courseNumber,
-                quarter, year);
-        addNewCourseToDatabase(courseDesc);
+        if (!fieldsValid) {
+            //create prompt
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Inputs must be non-empty and include zero spaces." +
+                    " Subject can only include letters." +
+                    " Course # can include letters and numbers");
+            builder.setTitle("Alert!");
+            builder.setCancelable(true);
+
+            builder
+                    .setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }
+
+                    );
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else {
+            //Using Room Database
+            String courseDesc = String.format("%s %s %s %d", subject.toUpperCase(),
+                    courseNumber.toUpperCase(), quarter, year);
+            addNewCourseToDatabase(courseDesc);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Course added!");
+            builder.setCancelable(true);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
     public void onCancelClick(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
-//        finish();
     }
 }
