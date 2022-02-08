@@ -12,7 +12,7 @@ import com.example.bofteam24.db.User;
 
 import java.util.List;
 
-public class testActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private RecyclerView coursesRecyclerView;
     private RecyclerView.LayoutManager coursesLayoutManager;

@@ -13,6 +13,10 @@ public class CourseRoom {
         this.courseName = courseName;
     }
 
+    public String toString() {
+        return this.courseName;
+    }
+
     @PrimaryKey
     @ColumnInfo
     public int courseId;

@@ -13,6 +13,7 @@ public interface UserWithCoursesDao {
     @Query("SELECT * FROM users")
     List<UserWithCourses> getAll();
 
+    @Transaction
     @Query("SELECT * FROM users WHERE userId=:userId")
     UserWithCourses get(int userId);
 

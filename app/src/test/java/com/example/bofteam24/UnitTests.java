@@ -15,4 +15,5 @@ public class UnitTests {
         Course course = new Course(2022, "Winter", "CSE", "110");
         assertEquals("CSE 110 Winter 2022", course.toString());
     }
+
 }

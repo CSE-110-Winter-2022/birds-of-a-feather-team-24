@@ -5,10 +5,16 @@ plugins {
 android {
     compileSdk 32
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     defaultConfig {
         applicationId "com.example.bofteam24"
         minSdk 28
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 

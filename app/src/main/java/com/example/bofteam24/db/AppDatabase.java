@@ -13,7 +13,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase singleton(Context context) {
         if (singletonInstance == null) {
             singletonInstance = Room.databaseBuilder(context, AppDatabase.class, "user.db")
-//                    .createFromAsset("starter-persons.db")
                     .allowMainThreadQueries()
                     .build();
         }
@@ -21,6 +20,13 @@ public abstract class AppDatabase extends RoomDatabase {
         return singletonInstance;
     }
 
+    public void closeDatabase() {
+        if (singletonInstance.isOpen()) {
+            singletonInstance.getOpenHelper().close();
+        }
+    }
+
     public abstract  UserWithCoursesDao userWithCoursesDao();
     public abstract  CourseDao courseDao();
+    public abstract UserDao userDao();
 }
