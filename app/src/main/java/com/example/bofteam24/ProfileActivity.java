@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
@@ -19,11 +22,29 @@ public class ProfileActivity extends AppCompatActivity {
     private CoursesViewAdapter coursesViewAdapter;
     private AppDatabase db;
     private User user;
+    private boolean different_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        different_user = true;
+
+        if (different_user) {
+            //change "my courses" -> "<other_user>'s courses"
+            TextView coursesLabel = findViewById(R.id.my_courses_tv);
+            coursesLabel.setText("(user_name)'s courses");
+
+            //hide add course button
+            Button add_course_button = findViewById(R.id.add_course_button);
+            add_course_button.setVisibility(View.GONE);
+        }
+
+        //TODO:
+        //list other user's courses
+        //set profile pic to user's
+        //setTitle to name of user
 
         //update
         setTitle("Update to name of user");
