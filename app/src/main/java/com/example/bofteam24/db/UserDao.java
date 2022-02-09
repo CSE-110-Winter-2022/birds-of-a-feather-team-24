@@ -7,4 +7,6 @@ import androidx.room.Query;
 public interface UserDao {
     @Query("SELECT MAX(userId) from users")
     int maxId();
+
+
 }

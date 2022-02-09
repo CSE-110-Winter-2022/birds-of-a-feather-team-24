@@ -26,4 +26,10 @@ public class CourseRoom {
 
     @ColumnInfo
     public String courseName;
+
+    //courseId, userId1, "CSE 12 FALL 2019"
+    //courseId, userId1, "CSE 12 FALL 2019"
+    //courseId, userId, "CSE 12 FALL 2019"
+    //courseId, userId, "CSE 12 FALL 2019"
+
 }

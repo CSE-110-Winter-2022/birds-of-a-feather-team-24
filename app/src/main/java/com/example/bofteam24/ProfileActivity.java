@@ -33,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //get user_id extra from intent to decide which layout to display
 
-        different_user = true;
+        different_user = false;
 
         if (different_user) {
             //change "my courses" -> "<other_user>'s courses"
