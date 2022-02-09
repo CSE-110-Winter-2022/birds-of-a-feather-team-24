@@ -17,8 +17,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.junit.runner.manipulation.Ordering;
 import org.robolectric.annotation.Config;
+import org.robolectric.Robolectric;
 
 import static org.junit.Assert.assertEquals;
 
