@@ -44,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
             Button add_course_button = findViewById(R.id.add_course_button);
             add_course_button.setVisibility(View.GONE);
 
+
         }
 
         //TODO:
