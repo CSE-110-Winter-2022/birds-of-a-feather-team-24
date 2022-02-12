@@ -8,11 +8,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "users")
 public class User {
 
-//    public User(int userId, String name) {
-//        this.userId = userId;
-//        this.name = name;
-//    }
-
     public User(String userId, String name, String photoUrl) {
         this.userId = userId;
         this.name = name;
