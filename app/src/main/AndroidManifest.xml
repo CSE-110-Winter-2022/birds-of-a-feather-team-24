@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoFTeam24">
         <activity
+            android:name=".LoginActivity"
+
             android:name=".StudentsListActivity"
             android:exported="false" />
         <activity
@@ -20,6 +22,7 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
+
             android:exported="false" />
         <activity
             android:name=".AddClassesActivity"
