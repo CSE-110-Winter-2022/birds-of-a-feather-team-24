@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,7 +17,10 @@ import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -24,27 +29,28 @@ public class ProfileActivity extends AppCompatActivity {
     private CoursesViewAdapter coursesViewAdapter;
     private AppDatabase db;
     private User user;
-    private boolean different_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        String userId = getIntent().getExtras().getString("user_id", null);
+
         //get user_id extra from intent to decide which layout to display
 
-        different_user = false;
-
-        if (different_user) {
+        boolean differentUser = getIntent().getExtras().getBoolean("different_user", false);
+        if (differentUser) {
             //change "my courses" -> "<other_user>'s courses"
             TextView coursesLabel = findViewById(R.id.my_courses_tv);
             coursesLabel.setText("(user_name)'s courses");
 
             //hide add course button
-            Button add_course_button = findViewById(R.id.add_course_button);
-            add_course_button.setVisibility(View.GONE);
+            Button addCourseButton = findViewById(R.id.add_course_button);
+            addCourseButton.setVisibility(View.GONE);
 
 
+            showProfilePictureFromURL("https://upload.wikimedia.org/wikipedia/commons/1/13/Ia-never-gonna-give-you-up-rick-astley-trionfale-remaster-4k-v3-500421.jpg");
         }
 
         //TODO:
@@ -72,6 +78,22 @@ public class ProfileActivity extends AppCompatActivity {
             db.courseDao().delete(course);
         }, different_user);
         coursesRecyclerView.setAdapter(coursesViewAdapter);
+    }
+
+    private void showProfilePictureFromURL(String url) {
+        Executors.newSingleThreadExecutor().submit(() -> {
+            try {
+                InputStream is = (InputStream) new URL(url).getContent();
+                Drawable img = Drawable.createFromStream(is, null);
+                runOnUiThread(() -> {
+                    ImageView pfp = (ImageView) findViewById(R.id.profile_picture);
+                    pfp.setImageDrawable(img);
+                });
+            } catch (Exception e) {
+                Log.e("ProfileActivity", "Failed to load " + url);
+                Log.e("ProfileActivity", e.toString());
+            }
+        });
     }
 
     public void onAddCourseClicked(View view) {
