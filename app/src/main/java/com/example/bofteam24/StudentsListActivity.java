@@ -12,11 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bofteam24.db.AppDatabase;
+import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
 import com.example.bofteam24.db.UserWithCourses;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +32,7 @@ public class StudentsListActivity extends AppCompatActivity {
     MessageListener messageListener;
     Message mMessage;
     String csvInfo;
-    AppDatabase db;
+    public static AppDatabase db;
     public static List<User> users; // ----------ADDED
     public static boolean cameFromMock = false;
     //ArrayList<User> users = new ArrayList<User>();
@@ -101,6 +104,7 @@ public class StudentsListActivity extends AppCompatActivity {
                 String courseYear = csvInfoDivided[i];
                 courseInfo = courseYear + " " + csvInfoDivided[i + 1] + " " + csvInfoDivided[i + 2]
                         + " " + courseNumber;
+                allCoursesInfo.add(courseInfo);
                 i = i + 2;
             }
             else if (i >= 6) {
@@ -108,9 +112,10 @@ public class StudentsListActivity extends AppCompatActivity {
                 String courseYear = csvInfoDivided[i].substring(3,7);
                 courseInfo = courseYear + " " + csvInfoDivided[i + 1] + " " + csvInfoDivided[i + 2]
                         + " " + courseNumber;
+                allCoursesInfo.add(courseInfo);
                 i = i + 2;
             }
-            allCoursesInfo.add(courseInfo);
+            //allCoursesInfo.add(courseInfo);
         }
 
         return allCoursesInfo;
@@ -133,24 +138,37 @@ public class StudentsListActivity extends AppCompatActivity {
                 String firstName = firstNameAndPhotoUrl[0];
                 String photoURL = firstNameAndPhotoUrl[1];
                 ArrayList<String> allCoursesInfo = getAllCoursesInfo(csvInfoDivided);
+                // allCoursesInfo = ["2022 WI CSE 110", "2021 WI CSE 11", "2022 SP MMW 121", etc]
                 Random rand = new Random();
-                int randNum = rand.nextInt(100);
-                User newUser = new User(String.valueOf(randNum), firstName, photoURL);
+                int userID = rand.nextInt(1000);
+                String userIDString = String.valueOf(userID);
+                User newUser = new User(userIDString, firstName, photoURL);
+                StudentsListActivity.db.userDao().insert(newUser);
                 Log.d("------------test user entered, new user created name ", firstName);
-                db.userDao().insert(newUser);
-                StudentsListActivity.users = db.userDao().getAll();
+                for (String oneCourseInfo : allCoursesInfo) {
+                    int courseID = rand.nextInt(10000);
+                    String courseInfoAndID = oneCourseInfo + ", " + String.valueOf(courseID);
+                    Log.d("------------------------info for one course ", courseInfoAndID);
+                    // oneCourseInfo is a string such as: "2022 WI CSE 110"
+                    CourseRoom course = new CourseRoom(courseID, userIDString, oneCourseInfo);
+                    StudentsListActivity.db.courseDao().insert(course);
+                }
+                StudentsListActivity.users = StudentsListActivity.db.userDao().getAll();
                 Log.d("------------test user entered, user list size ", String.valueOf(StudentsListActivity.users.size()));
             }
 
             @Override
             public void onLost(@NonNull Message message) {
+                if (message == null) {
+                    return;
+                }
                 Log.d(TAG, "Lost message: " + new String(message.getContent()));
             }
         };
 
-        db = AppDatabase.singleton(this);
-        StudentsListActivity.users = db.userDao().getAll(); // ----------REMOVED
-        Log.d("------------user list size ", String.valueOf(db.userDao().getAll().size()));
+        StudentsListActivity.db = AppDatabase.singleton(this);
+        StudentsListActivity.users = StudentsListActivity.db.userDao().getAll(); // ----------REMOVED
+        Log.d("------------user list size ", String.valueOf(StudentsListActivity.db.userDao().getAll().size()));
         //mMessage = new Message("Hello World".getBytes());
 
         // get the same shared preference from MockActivity.java
@@ -178,47 +196,28 @@ public class StudentsListActivity extends AppCompatActivity {
         }
         Nearby.getMessagesClient(this).publish(new Message("I am the user".getBytes()));
 
-//        if (!csvInfo.equals(defaultString)) {
-//            // Log.d("------------Entered csv info", csvInfo);
-//            csvInfo = csvInfo.trim(); // clean up csv input
-//            // Log.d("------------Entered csv info after trim", csvInfo);
-//            mMessage = new Message(csvInfo.getBytes());
-//
-//            String[] csvInfoDivided = cleanCVSInput(csvInfo); // split the csv input into small
-//            // strings according to ","
-//            String[] firstNameAndPhotoUrl = getFirstNameAndUrl(csvInfoDivided);
-//
-//            String firstName = firstNameAndPhotoUrl[0]; // get first name: Bill
-//            String photoURL = firstNameAndPhotoUrl[1]; // get the specific URL for profile pic
-//            ArrayList<String> allCoursesInfo = getAllCoursesInfo(csvInfoDivided); // get Bill's courses
-//            // Now we have firstName = Bill, photoURL = https://blah blah, allCoursesInfo = ["FA 2022 CSE 110", "SP 2021 CSE 11", etc]
-//
-//            // printAllCourses(allCoursesInfo);
-//
-//            // AppDatabase db = AppDatabase.singleton(getApplicationContext());
-//            // db = AppDatabase.singleton(this);
-//            Random rand = new Random();
-//            int randNum = rand.nextInt(100);
-//            User newUser = new User(String.valueOf(randNum), firstName, photoURL);
-//            Log.d("------------test user entered, new user created name ", firstName);
-//            db.userDao().insert(newUser);
-//            users = db.userDao().getAll();
-//            Log.d("------------test user entered, user list size ", String.valueOf(users.size()));
-//
-//        }
-
         Log.d("------------ RecyclerView stuff coming up ", "...");
         RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
         Log.d("------------ StudentViewAdapter stuff coming up ", "...");
-        Log.d("------------ StudentsListActivity.users.size() ", String.valueOf(StudentsListActivity.users.size()));
         StudentViewAdapter adapter = new StudentViewAdapter(StudentsListActivity.users);
         Log.d("------------ studentView.setAdapter(adapter) ", "...");
         studentView.setAdapter(adapter);
         Log.d("------------ studentView.setLayoutManager(new LinearLayoutManager(this)) ", "...");
         studentView.setLayoutManager(new LinearLayoutManager(this));
-//        Intent intent = getIntent();
-//        finish();
-//        startActivity(intent);
+
+        List<User> allUsers = StudentsListActivity.db.userDao().getAll();
+        Log.d("------------ size of allUsers ", String.valueOf(StudentsListActivity.users.size()));
+        for(User user : allUsers) {
+            String userInfo = user.getName() + ", " + user.getUserId();
+            Log.d("------------------------ user ", userInfo);
+        }
+
+        List<CourseRoom> allCourses = StudentsListActivity.db.courseDao().getAll();
+        Log.d("------------ size of all courses ", String.valueOf(allCourses.size()));
+        for(CourseRoom course : allCourses) {
+            String courseInfo = course.getCourseName() + ", " + course.getUserId() + ", " + course.getCourseId();
+            Log.d("------------------------ course ", courseInfo);
+        }
 
     }
 
@@ -247,9 +246,11 @@ public class StudentsListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (!this.csvInfo.equals(defaultString)) {
-            Nearby.getMessagesClient(this).unsubscribe(messageListener);
-            this.messageListener.onLost(this.mMessage);
+        if (StudentsListActivity.cameFromMock) {
+            if (!this.csvInfo.equals(defaultString)) {
+                Nearby.getMessagesClient(this).unsubscribe(messageListener);
+                this.messageListener.onLost(this.mMessage);
+            }
         }
 
         Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         AppDatabase db = AppDatabase.singleton(this);
         db.userDao().deleteAll();
+        db.courseDao().deleteAll();
     }
 
     public void onStartClick(View view) {
