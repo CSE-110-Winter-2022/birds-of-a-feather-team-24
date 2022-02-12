@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         coursesViewAdapter = new CoursesViewAdapter(courses, (course) -> {
             db.courseDao().delete(course);
-        }, different_user);
+        }, differentUser);
         coursesRecyclerView.setAdapter(coursesViewAdapter);
     }
 
