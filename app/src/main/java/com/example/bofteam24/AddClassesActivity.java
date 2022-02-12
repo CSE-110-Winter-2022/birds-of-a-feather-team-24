@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
@@ -67,7 +68,7 @@ public class AddClassesActivity extends AppCompatActivity {
 
     private void addNewCourseToDatabase(String courseDesc) {
         CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
-                1, courseDesc);
+                "user id example", courseDesc);
         db.courseDao().insert(newCourse);
 //        coursesViewAdapter.addCourse(newCourse);
         List<CourseRoom> courseRoomList = db.courseDao().getForUser(1);
@@ -122,11 +123,7 @@ public class AddClassesActivity extends AppCompatActivity {
                     courseNumber.toUpperCase(), quarter, year);
             addNewCourseToDatabase(courseDesc);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Course added!");
-            builder.setCancelable(true);
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Toast.makeText(this, "Course added!", Toast.LENGTH_SHORT).show();
         }
     }
 
