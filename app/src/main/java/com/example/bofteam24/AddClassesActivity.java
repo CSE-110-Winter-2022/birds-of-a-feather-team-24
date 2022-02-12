@@ -67,7 +67,7 @@ public class AddClassesActivity extends AppCompatActivity {
 
     private void addNewCourseToDatabase(String courseDesc) {
         CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
-                1, courseDesc);
+                "1", courseDesc);
         db.courseDao().insert(newCourse);
 //        coursesViewAdapter.addCourse(newCourse);
         List<CourseRoom> courseRoomList = db.courseDao().getForUser(1);

@@ -20,7 +20,7 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
-    @PrimaryKey
+    @PrimaryKey // userID must be different for every user
     @NonNull
     private String userId;
 
