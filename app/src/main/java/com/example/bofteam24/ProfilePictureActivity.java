@@ -71,7 +71,7 @@ public class ProfilePictureActivity extends AppCompatActivity {
 
         //save to db
         db = AppDatabase.singleton(this);
-        //db.userDao().insert();
+        db.userDao().insert(newUser);
 
 
 
