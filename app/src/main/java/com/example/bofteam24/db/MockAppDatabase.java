@@ -12,8 +12,8 @@ public abstract class MockAppDatabase extends RoomDatabase {
 
     public static MockAppDatabase singleton(Context context) {
         singletonInstance = Room.databaseBuilder(context, MockAppDatabase.class, "user.db")
-                    .allowMainThreadQueries()
-                    .build();
+                .allowMainThreadQueries()
+                .build();
 
         return singletonInstance;
     }

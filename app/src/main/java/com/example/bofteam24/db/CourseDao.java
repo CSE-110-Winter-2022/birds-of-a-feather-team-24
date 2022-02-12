@@ -29,7 +29,7 @@ public interface CourseDao {
     @Query("SELECT MAX(courseId) from courses")
     int maxId();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Replaces instance of first course if two courses have same IDs
     void insert(CourseRoom course);
 
     @Delete
