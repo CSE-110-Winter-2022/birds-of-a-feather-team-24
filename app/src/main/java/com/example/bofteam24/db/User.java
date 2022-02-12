@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey;
 public class User {
 
     public User(){
-        this.userId = 0;
         this.name = "";
         this.photo_url = "";
     }
