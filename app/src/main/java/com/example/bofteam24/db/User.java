@@ -1,6 +1,5 @@
 package com.example.bofteam24.db;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,44 +7,28 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "users")
 public class User {
 
-    public User(String userId, String name, String photoUrl) {
+    public User(){
+        this.userId = 0;
+        this.name = "";
+        this.photo_url = "";
+    }
+
+    public User(int userId, String name, String photo_url) {
         this.userId = userId;
         this.name = name;
-        this.photoUrl = photoUrl;
+        this.photo_url = photo_url;
     }
+
+    public void setUserName(String name) { this.name = name; }
+
+    public void setPhotoUrl(String url) { this.photo_url = url; }
 
     @PrimaryKey
-    @NonNull
-    private String userId;
+    public int userId;
 
     @ColumnInfo
-    private String name;
+    public String name;
 
     @ColumnInfo
-    private String photoUrl;
-
-    @NonNull
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(@NonNull String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
+    public String photo_url;
 }

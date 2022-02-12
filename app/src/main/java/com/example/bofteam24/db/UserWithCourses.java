@@ -14,9 +14,9 @@ public class UserWithCourses {
             projection = {"courseName"})
     public List<String> courses;
 
-    public String getId() { return this.user.getUserId(); }
+    public int getId() { return this.user.userId; }
 
-    public String getName() { return this.user.getName(); }
+    public String getName() { return this.user.name; }
 
-    public List<String> getCourses() { return courses; }
+    public List<String> getCourses() { return this.courses; }
 }

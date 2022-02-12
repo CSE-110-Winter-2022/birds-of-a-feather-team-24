@@ -35,10 +35,11 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Bundle extras = getIntent().getExtras();
-        String userId = extras == null ? null : extras.getString("user_id", null);
+        String userId = getIntent().getExtras().getString("user_id", null);
 
-        boolean differentUser = !"id".equals(userId);
+        //get user_id extra from intent to decide which layout to display
+
+        boolean differentUser = getIntent().getExtras().getBoolean("different_user", false);
         if (differentUser) {
             //change "my courses" -> "<other_user>'s courses"
             TextView coursesLabel = findViewById(R.id.my_courses_tv);

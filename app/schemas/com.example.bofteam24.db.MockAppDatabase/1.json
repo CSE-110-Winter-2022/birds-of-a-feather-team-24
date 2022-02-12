@@ -2,16 +2,16 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fd35f0fa895b7930f92b3c9a6c8e8b26",
+    "identityHash": "6193d9ac57a6ec385a39ceacd0a259ec",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT, `photoUrl` TEXT, PRIMARY KEY(`userId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER NOT NULL, `name` TEXT, `photo_url` TEXT, PRIMARY KEY(`userId`))",
         "fields": [
           {
             "fieldPath": "userId",
             "columnName": "userId",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -21,8 +21,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "photoUrl",
-            "columnName": "photoUrl",
+            "fieldPath": "photo_url",
+            "columnName": "photo_url",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "courses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`courseId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT, `courseName` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`courseId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `courseName` TEXT, PRIMARY KEY(`courseId`))",
         "fields": [
           {
             "fieldPath": "courseId",
@@ -49,8 +49,8 @@
           {
             "fieldPath": "userId",
             "columnName": "userId",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "courseName",
@@ -63,7 +63,7 @@
           "columnNames": [
             "courseId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -72,7 +72,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fd35f0fa895b7930f92b3c9a6c8e8b26')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6193d9ac57a6ec385a39ceacd0a259ec')"
     ]
   }
 }

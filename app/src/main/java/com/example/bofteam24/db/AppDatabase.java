@@ -7,7 +7,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {User.class, CourseRoom.class}, version = 3)
+@Database(entities = {User.class, CourseRoom.class}, version = 2,
+autoMigrations = @AutoMigration(from = 1, to = 2))
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase singletonInstance;
 
@@ -15,7 +16,6 @@ public abstract class AppDatabase extends RoomDatabase {
         if (singletonInstance == null) {
             singletonInstance = Room.databaseBuilder(context, AppDatabase.class, "user.db")
                     .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
                     .build();
         }
 
