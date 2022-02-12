@@ -30,12 +30,11 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
-            android:id="@+id/image_button"
+            android:id="@+id/profile_pic"
             android:layout_width="77dp"
             android:layout_height="64dp"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:src="@drawable/profilepic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.089"
             app:layout_constraintLeft_toLeftOf="parent"
