@@ -2,6 +2,7 @@ package com.example.bofteam24;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,9 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.bofteam24.db.User;
+
 public class LoginActivity extends AppCompatActivity {
     Button button_name;
     EditText editText;
+    String name;
 
 
     @Override
@@ -50,11 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void saveName(){
-        SharedPreferences name = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor saveName = name.edit();
         TextView nameView = findViewById(R.id.name);
-        saveName.putString("name", nameView.getText().toString());
-        saveName.apply();
+        name = nameView.getText().toString();
     }
 
     public String loadName() {
@@ -69,7 +70,12 @@ public class LoginActivity extends AppCompatActivity {
         return savedName;
     }
 
-    public void ConfirmClick(View view) { this.finish(); }
+    public void ConfirmClick(View view) {
+        Intent profilePictureAct = new Intent(LoginActivity.this, ProfilePictureActivity.class);
+        profilePictureAct.putExtra("username", name);
+        startActivity(profilePictureAct);
+        this.finish();
+    }
 
     @Override
     protected void onDestroy(){

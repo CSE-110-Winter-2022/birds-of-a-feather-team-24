@@ -29,7 +29,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-
         android:hint="Enter Picture URL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
