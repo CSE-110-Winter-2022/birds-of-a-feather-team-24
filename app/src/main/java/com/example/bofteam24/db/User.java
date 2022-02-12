@@ -12,11 +12,21 @@ public class User {
 //        this.name = name;
 //    }
 
+    public User(){
+        this.userId = 0;
+        this.name = "";
+        this.photo_url = "";
+    }
+
     public User(int userId, String name, String photo_url) {
         this.userId = userId;
         this.name = name;
         this.photo_url = photo_url;
     }
+
+    public void setUserName(String name) { this.name = name; }
+
+    public void setPhotoUrl(String url) { this.photo_url = url; }
 
     @PrimaryKey
     public int userId;
