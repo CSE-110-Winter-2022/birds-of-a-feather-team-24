@@ -34,4 +34,7 @@ public interface CourseDao {
 
     @Delete
     void delete(CourseRoom course);
+
+    @Query("DELETE FROM courses")
+    void deleteAll();
 }
