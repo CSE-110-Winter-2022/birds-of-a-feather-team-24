@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.25" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_profile.xml" value="0.28940217391304346" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_test.xml" value="0.20520833333333333" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/course_description_row.xml" value="0.28940217391304346" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/spinner_textview_align.xml" value="0.20520833333333333" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.159375" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.159375" />
         <entry key="..\:/Users/Kirtan/Desktop/UCSD/CSE110/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.25" />
-        <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.334375" />
-        <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_login.xml" value="0.31521739130434784" />
-        <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_main.xml" value="0.334375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/activity_students_list.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/course_description_row.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/spinner_textview_align.xml" value="0.23802083333333332" />
       </map>
     </option>
   </component>
