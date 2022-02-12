@@ -41,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        StudentsListActivity.db.courseDao().deleteAll();
+        StudentsListActivity.db.userDao().deleteAll();
         AppDatabase db = AppDatabase.singleton(this);
-        db.userDao().deleteAll();
         db.courseDao().deleteAll();
+        db.userDao().deleteAll();
     }
 
     public void onStartClick(View view) {

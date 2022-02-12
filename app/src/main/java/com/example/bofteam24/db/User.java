@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity(tableName = "users")
 public class User {
 
@@ -18,6 +20,7 @@ public class User {
         this.userId = userId;
         this.name = name;
         this.photoUrl = photoUrl;
+        //this.numOfSameCourses = numOfSameCourses;
     }
 
     @PrimaryKey // userID must be different for every user
@@ -29,6 +32,9 @@ public class User {
 
     @ColumnInfo
     private String photoUrl;
+
+//    @ColumnInfo
+//    private int numOfSameCourses;
 
     @NonNull
     public String getUserId() {
@@ -54,4 +60,8 @@ public class User {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
+
+//    public int getNumOfSameCourses() { return numOfSameCourses; }
+//
+//    public void setNumOfSameCourses(int numOfSameCourses) { this.numOfSameCourses = numOfSameCourses; }
 }

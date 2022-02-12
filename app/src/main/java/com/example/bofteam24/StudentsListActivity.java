@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +36,7 @@ public class StudentsListActivity extends AppCompatActivity {
     String csvInfo;
     public static AppDatabase db;
     public static List<User> users; // ----------ADDED
+    public static List<CourseRoom> allCoursesInfo;
     public static boolean cameFromMock = false;
     //ArrayList<User> users = new ArrayList<User>();
 
@@ -127,6 +130,7 @@ public class StudentsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
         messageListener = new MessageListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onFound(@NonNull Message message) {
                 Log.d(TAG, "Found message: " + new String(message.getContent()));
@@ -137,22 +141,29 @@ public class StudentsListActivity extends AppCompatActivity {
                 String[] firstNameAndPhotoUrl = getFirstNameAndUrl(csvInfoDivided);
                 String firstName = firstNameAndPhotoUrl[0];
                 String photoURL = firstNameAndPhotoUrl[1];
-                ArrayList<String> allCoursesInfo = getAllCoursesInfo(csvInfoDivided);
-                // allCoursesInfo = ["2022 WI CSE 110", "2021 WI CSE 11", "2022 SP MMW 121", etc]
+                ArrayList<String> allCoursesString = getAllCoursesInfo(csvInfoDivided);
+
+                // StudentsListActivity.allCoursesInfo = getAllCoursesInfo(csvInfoDivided); // make public static of this
+                // allCoursesInfoString = ["2022 WI CSE 110", "2021 WI CSE 11", "2022 SP MMW 121", etc]
                 Random rand = new Random();
                 int userID = rand.nextInt(1000);
                 String userIDString = String.valueOf(userID);
                 User newUser = new User(userIDString, firstName, photoURL);
                 StudentsListActivity.db.userDao().insert(newUser);
+
                 Log.d("------------test user entered, new user created name ", firstName);
-                for (String oneCourseInfo : allCoursesInfo) {
+                String[] ourCoursesArr = {"2022 WI CSE 110", "2021 FA CSE 140", "2021,FA,CSE,101"};
+                List<String> ourCourses = Arrays.asList(ourCoursesArr);
+
+                for (String oneCourse : allCoursesString) {
                     int courseID = rand.nextInt(10000);
-                    String courseInfoAndID = oneCourseInfo + ", " + String.valueOf(courseID);
+                    String courseInfoAndID = oneCourse + ", " + String.valueOf(courseID);
                     Log.d("------------------------info for one course ", courseInfoAndID);
                     // oneCourseInfo is a string such as: "2022 WI CSE 110"
-                    CourseRoom course = new CourseRoom(courseID, userIDString, oneCourseInfo);
+                    CourseRoom course = new CourseRoom(courseID, userIDString, oneCourse);
                     StudentsListActivity.db.courseDao().insert(course);
                 }
+                StudentsListActivity.allCoursesInfo = StudentsListActivity.db.courseDao().getAll();
                 StudentsListActivity.users = StudentsListActivity.db.userDao().getAll();
                 Log.d("------------test user entered, user list size ", String.valueOf(StudentsListActivity.users.size()));
             }
@@ -169,6 +180,8 @@ public class StudentsListActivity extends AppCompatActivity {
         StudentsListActivity.db = AppDatabase.singleton(this);
         StudentsListActivity.users = StudentsListActivity.db.userDao().getAll(); // ----------REMOVED
         Log.d("------------user list size ", String.valueOf(StudentsListActivity.db.userDao().getAll().size()));
+        StudentsListActivity.allCoursesInfo = StudentsListActivity.db.courseDao().getAll();
+        Log.d("------------all courses list size ", String.valueOf(StudentsListActivity.db.courseDao().getAll().size()));
         //mMessage = new Message("Hello World".getBytes());
 
         // get the same shared preference from MockActivity.java
@@ -206,14 +219,16 @@ public class StudentsListActivity extends AppCompatActivity {
         studentView.setLayoutManager(new LinearLayoutManager(this));
 
         List<User> allUsers = StudentsListActivity.db.userDao().getAll();
-        Log.d("------------ size of allUsers ", String.valueOf(StudentsListActivity.users.size()));
+        Log.d("------------ size of users ", String.valueOf(StudentsListActivity.users.size()));
+        Log.d("------------------------ user, userID ", "...");
         for(User user : allUsers) {
             String userInfo = user.getName() + ", " + user.getUserId();
             Log.d("------------------------ user ", userInfo);
         }
 
         List<CourseRoom> allCourses = StudentsListActivity.db.courseDao().getAll();
-        Log.d("------------ size of all courses ", String.valueOf(allCourses.size()));
+        Log.d("------------ size of courses ", String.valueOf(allCourses.size()));
+        Log.d("------------------------ course, userID, courseID", "...");
         for(CourseRoom course : allCourses) {
             String courseInfo = course.getCourseName() + ", " + course.getUserId() + ", " + course.getCourseId();
             Log.d("------------------------ course ", courseInfo);
