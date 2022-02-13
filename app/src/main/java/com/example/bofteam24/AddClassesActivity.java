@@ -70,7 +70,7 @@ public class AddClassesActivity extends AppCompatActivity {
                 "1", courseDesc);
         db.courseDao().insert(newCourse);
 //        coursesViewAdapter.addCourse(newCourse);
-        List<CourseRoom> courseRoomList = db.courseDao().getForUser(1);
+        List<CourseRoom> courseRoomList = db.courseDao().getForUser("1");
         printCourseList(courseRoomList);
     }
 

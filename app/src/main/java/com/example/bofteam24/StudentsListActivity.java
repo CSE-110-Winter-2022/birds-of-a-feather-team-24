@@ -232,4 +232,9 @@ public class StudentsListActivity extends AppCompatActivity {
 
         Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
     }
+
+    public void onGoToProfileClicked(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
 }

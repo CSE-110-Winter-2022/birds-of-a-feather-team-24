@@ -26,6 +26,9 @@ public interface UserDao {
     @Query("DELETE FROM users")
     void deleteAll();
 
+    @Query("SELECT * FROM users where userId=:userId")
+    User getUserWithId(String userId);
+
     @Query("SELECT COUNT(*) from users")
     int count();
 
