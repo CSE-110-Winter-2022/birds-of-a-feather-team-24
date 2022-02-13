@@ -16,8 +16,10 @@ import android.widget.TextView;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.User;
 
+import java.util.UUID;
+
 public class ProfilePictureActivity extends AppCompatActivity {
-    User newUser = new User();
+//    User newUser = new User();
     Button button_submit;
     EditText urlText;
     private AppDatabase db;
@@ -26,8 +28,8 @@ public class ProfilePictureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_picture);
-        String name = getIntent().getStringExtra("username");
-        newUser.setUserName(name);
+//        String name = getIntent().getStringExtra("username");
+//        newUser.setUserName(name);
 
         button_submit = (Button) findViewById(R.id.button_submit);
         urlText = (EditText) findViewById(R.id.profile_picture_url);
@@ -65,28 +67,37 @@ public class ProfilePictureActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void saveProfileUrl(){
-        TextView urlView = findViewById(R.id.profile_picture_url);
-        newUser.setPhotoUrl(urlView.toString());
 
-        //save to db
+    public void storeUser(String url){
+        SharedPreferences pref = getSharedPreferences("USER_SHARED_PREF", MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+
+        String randomID = UUID.randomUUID().toString();
+        edit.putString("ID", randomID);
+        edit.commit();
+        String name = getIntent().getStringExtra("username");
+
+        User user = new User(randomID, name, url);
         db = AppDatabase.singleton(this);
-        db.userDao().insert(newUser);
-
-
-
-        Intent addClassesAct = new Intent(ProfilePictureActivity.this, AddClassesActivity.class);
-        startActivity(addClassesAct);
+        db.userDao().insert(user);
     }
 
     public void submitClick(View view) {
-        saveProfileUrl();
+        TextView urlView = findViewById(R.id.profile_picture_url);
+
+        storeUser(urlView.toString());
+
+        Intent addClassesAct = new Intent(ProfilePictureActivity.this, AddClassesActivity.class);
+        startActivity(addClassesAct);
         this.finish();
     }
 
     public void skipClick(View view) {
-        newUser.setPhotoUrl("https://imgur.com/oljiNUB");
-        saveProfileUrl();
+
+        storeUser("https://imgur.com/oljiNUB");
+
+        Intent addClassesAct = new Intent(ProfilePictureActivity.this, AddClassesActivity.class);
+        startActivity(addClassesAct);
         this.finish();
     }
 
