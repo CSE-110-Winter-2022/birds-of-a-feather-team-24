@@ -102,7 +102,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onBackClicked(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent;// changed
+        if(ProfileActivity.differentUser) {
+            intent = new Intent(this, StudentsListActivity.class);
+        }
+        else {
+            intent = new Intent(this, MainActivity.class);
+        }
         startActivity(intent);
     }
 }

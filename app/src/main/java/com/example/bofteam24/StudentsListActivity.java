@@ -33,15 +33,11 @@ import java.util.Random;
 public class StudentsListActivity extends AppCompatActivity {
 
     private static final String TAG = "BoF-Team24";
-    final String defaultString = "default String";
     public static MessageListener messageListener;
-    Message mMessage;
-    String csvInfo;
     public static AppDatabase db;
     public static List<User> users;
     public static List<CourseRoom> allCoursesInfo;
     public static boolean cameFromMock = false;
-    //ArrayList<User> users = new ArrayList<User>();
 
     /*
     Method to clean up the incoming cvs input. Remove spaces, new lines, etc.
@@ -59,16 +55,17 @@ public class StudentsListActivity extends AppCompatActivity {
                 csvInfoDivided[i] = csvInfoDivided[i].trim();
                 csvInfoDivided[i] = csvInfoDivided[i].replace("\n", "-"); //--> added the "-"
             }
-            Log.d("---------------- index", index);
-            Log.d("--- csvInfoDivided[i]", csvInfoDivided[i]);
-            Log.d("--- size of ^", String.valueOf(csvInfoDivided[i].length()));
+//            Log.d("---------------- index", index);
+//            Log.d("--- csvInfoDivided[i]", csvInfoDivided[i]);
+//            Log.d("--- size of ^", String.valueOf(csvInfoDivided[i].length()));
         }
 
         return csvInfoDivided;
     }
 
     /*
-    Prints all the courses of a student in this format: 2021 FA CSE 110
+    Prints all the courses of a student in this format: 2021 FA CSE 110.
+    Used only for debugging.
      */
     private void printAllCourses(ArrayList<String> allCoursesInfo) {
         for(String cInfo : allCoursesInfo) {
@@ -106,7 +103,6 @@ public class StudentsListActivity extends AppCompatActivity {
         for(int i = 0; i < csvInfoDivided.length; i++) {
             if (i == csvInfoDivided.length-1) {break;}
             else if (i == 6) {
-                // String courseNumber = csvInfoDivided[i+3].substring(0,3);
                 String courseNumber = csvInfoDivided[i+3].split("-")[0];
                 String courseYear = csvInfoDivided[i];
                 courseInfo = courseYear + " " + csvInfoDivided[i + 1] + " " + csvInfoDivided[i + 2]
@@ -115,8 +111,6 @@ public class StudentsListActivity extends AppCompatActivity {
                 i = i + 2;
             }
             else if (i >= 6) {
-                // String courseNumber = csvInfoDivided[i+3].substring(0,3); // --> commented out
-                // String courseYear = csvInfoDivided[i].substring(3,7); // --> commented out
                 String courseNumber = csvInfoDivided[i+3].split("-")[0];
                 String courseYear = csvInfoDivided[i].split("-")[1];
 
@@ -125,7 +119,6 @@ public class StudentsListActivity extends AppCompatActivity {
                 allCoursesInfo.add(courseInfo);
                 i = i + 2;
             }
-            //allCoursesInfo.add(courseInfo);
         }
 
         return allCoursesInfo;
@@ -151,7 +144,9 @@ public class StudentsListActivity extends AppCompatActivity {
                 ArrayList<String> allCoursesString = getAllCoursesInfo(csvInfoDivided);
                 // allCoursesInfoString = ["2022 WI CSE 110", "2021 WI CSE 11", "2022 SP MMW 121", etc]
 
+                // this needs to be actual courses
                 String[] myCourses = {"2022 WI CSE 110", "2021 FA CSE 140", "2021 FA CSE 101"}; //random
+
                 int sameCourses = 0;
                 for(String myCourse : myCourses) {
                     for(String otherCourse : allCoursesString) {
@@ -160,30 +155,23 @@ public class StudentsListActivity extends AppCompatActivity {
                         }
                     }
                 }
-                Log.d("-------------------------------------------------------- same number of courses ",
-                        String.valueOf(sameCourses));
+
                 if (sameCourses == 0) { return; }
+
                 Random rand = new Random();
                 int userID = rand.nextInt(1000);
                 String userIDString = String.valueOf(userID);
+                Log.d("------------------ user ID when creating user ", userIDString);
                 User newUser = new User(userIDString, firstName, photoURL, sameCourses);
                 StudentsListActivity.db.userDao().insert(newUser);
 
-                Log.d("------------test user entered, new user created name ", firstName);
-
-
                 for (String oneCourse : allCoursesString) {
                     int courseID = rand.nextInt(10000);
-                    String courseInfoAndID = oneCourse + ", " + String.valueOf(courseID);
-                    // Log.d("------------------------info for one course ", courseInfoAndID);
-                    // oneCourseInfo is a string such as: "2022 WI CSE 110"
                     CourseRoom course = new CourseRoom(courseID, userIDString, oneCourse);
                     StudentsListActivity.db.courseDao().insert(course);
                 }
                 StudentsListActivity.allCoursesInfo = StudentsListActivity.db.courseDao().getAll();
                 StudentsListActivity.users = StudentsListActivity.db.userDao().getAll();
-                // Collections.sort(agentDtoList, Comparator.comparing(AgentSummaryDTO::getCustomerCount));
-                Log.d("------------test user entered, user list size ", String.valueOf(StudentsListActivity.users.size()));
             }
 
             @Override
@@ -193,15 +181,8 @@ public class StudentsListActivity extends AppCompatActivity {
         };
 
         StudentsListActivity.db = AppDatabase.singleton(this);
-        StudentsListActivity.users = StudentsListActivity.db.userDao().getAll(); // ----------REMOVED
-        Log.d("------------StudentsListActivity.users size ", String.valueOf(StudentsListActivity.users.size()));
+        StudentsListActivity.users = StudentsListActivity.db.userDao().getAll();
         StudentsListActivity.allCoursesInfo = StudentsListActivity.db.courseDao().getAll();
-        Log.d("------------StudentsListActivity.allCoursesInfo size ", String.valueOf(StudentsListActivity.allCoursesInfo.size()));
-        //mMessage = new Message("Hello World".getBytes());
-
-        // get the same shared preference from MockActivity.java
-        // Log.d("------------ is cvsInfo \"default string\" or an actual test? ", csvInfo);
-        Log.d("------------ came from mock? ", String.valueOf(StudentsListActivity.cameFromMock));
 
         Nearby.getMessagesClient(this).subscribe(StudentsListActivity.messageListener);
 
@@ -210,67 +191,33 @@ public class StudentsListActivity extends AppCompatActivity {
         //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
         Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
         Collections.reverse(StudentsListActivity.users);
-        Log.d("--------------- StudentsListActivity.users sorted ------------------ ", "...");
-        for(User user : StudentsListActivity.users) {
-            String name = user.getName();
-            Log.d("------------ user name ", name);
-        }
 
-        Log.d("------------ RecyclerView stuff coming up ", "...");
-        RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
-        Log.d("------------ StudentViewAdapter stuff coming up ", "...");
-        StudentViewAdapter adapter = new StudentViewAdapter(StudentsListActivity.users);
-        Log.d("------------ studentView.setAdapter(adapter) ", "...");
-        studentView.setAdapter(adapter);
-        Log.d("------------ studentView.setLayoutManager(new LinearLayoutManager(this)) ", "...");
-        studentView.setLayoutManager(new LinearLayoutManager(this));
+        // before
+//        RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
+//        StudentViewAdapter adapter = new StudentViewAdapter(StudentsListActivity.users);
+//        studentView.setAdapter(adapter);
+//        studentView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<User> allUsers = StudentsListActivity.db.userDao().getAll();
-        Log.d("------------ size of allUsers (StudentsListActivity.db.userDao().getAll()) ", String.valueOf(allUsers.size()));
-        Log.d("------------------------ user, userID ", "...");
-        for(User user : allUsers) {
-            String userInfo = user.getName() + ", " + user.getUserId();
-            Log.d("------------------------ user ", userInfo);
-        }
-
-        List<CourseRoom> allCourses = StudentsListActivity.db.courseDao().getAll();
-        Log.d("------------ size of allCourses (StudentsListActivity.db.courseDao().getAll()) ", String.valueOf(allCourses.size()));
-        Log.d("------------------------ course, userID, courseID", "...");
-        for(CourseRoom course : allCourses) {
-            String courseInfo = course.getCourseName() + ", " + course.getUserId() + ", " + course.getCourseId();
-            Log.d("------------------------ course ", courseInfo);
-        }
-
+        RecyclerView studentView = findViewById(R.id.student_view);
+        LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
+        studentView.setLayoutManager(studentLayoutManager);
+        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
+        studentView.setAdapter(studentViewAdapter);
     }
 
     public void onStopClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        //finish();
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if (!this.csvInfo.equals(defaultString)) {
-//            Nearby.getMessagesClient(this).subscribe(messageListener);
-//            this.messageListener.onFound(this.mMessage);
-//        }
-//
-//        Nearby.getMessagesClient(this).publish(new Message("I am the user".getBytes()));
-//    }
 
     @Override
     protected void onDestroy() {
-        // ------- comment everything from here to retain prev users ------
+        // ------- comment everything from here  ----------------------
         if(StudentsListActivity.db != null) {
             StudentsListActivity.db.courseDao().deleteAll();
             StudentsListActivity.db.userDao().deleteAll();
         }
-//        AppDatabase db = AppDatabase.singleton(this); // make db a private variable
-//        db.courseDao().deleteAll();
-//        db.userDao().deleteAll();
-        // ---------------------- to here ----------------------
+        // ---------------------- to here to retain prev users ----------------------
         super.onDestroy();
     }
 

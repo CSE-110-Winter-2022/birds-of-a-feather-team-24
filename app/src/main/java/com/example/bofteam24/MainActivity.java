@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        // ------- comment everything from here to retain prev users ------
+        // ------- comment everything from here ----------------------
         if (StudentsListActivity.db != null) {
             StudentsListActivity.db.courseDao().deleteAll();
             StudentsListActivity.db.userDao().deleteAll();
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             this.db.courseDao().deleteAll();
             this.db.userDao().deleteAll();
         }
-        // ---------------------- to here ----------------------
+        // ---------------------- to here to retain prev users ----------------------
         super.onDestroy();
     }
 

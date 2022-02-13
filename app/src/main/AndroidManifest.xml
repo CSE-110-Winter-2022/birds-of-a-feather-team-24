@@ -18,6 +18,9 @@
             android:exported="false" />
 
         <activity
+            android:name=".TestingActivity"
+            android:exported="false" />
+        <activity
             android:name=".MockActivity"
             android:exported="false" />
 

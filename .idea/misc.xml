@@ -3,18 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_login.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile_picture.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_students_list.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/Kirtan/Desktop/UCSD/CSE110/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_mock.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_mock_api.xml" value="0.17" />
-        <entry key="app/src/main/res/layout/activity_students_list.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/course_description_row.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/fav_student_row.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/spinner_textview_align.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/student_row.xml" value="0.33" />
       </map>
     </option>
   </component>

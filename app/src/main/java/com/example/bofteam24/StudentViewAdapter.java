@@ -66,6 +66,13 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             studentButton = (Button) itemView.findViewById(R.id.student_button);
             profilePic = (ImageButton) itemView.findViewById(R.id.profile_pic);
             numCommonCourses = (TextView) itemView.findViewById(R.id.num_common_courses);
+            studentButton.setOnClickListener((view)->{
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("user_id", this.student.getUserId());
+                intent.putExtra("different_user", true);
+                context.startActivity(intent);
+            });
         }
 
         public void setStudent(User student) {
@@ -86,7 +93,7 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
         @Override
         public void onClick(View view) {
 //            Context context = view.getContext();
-//            Intent intent = new Intent(context, MainActivity.class);
+//            Intent intent = new Intent(context, TestingActivity.class);
 //            context.startActivity(intent);
             Log.d("--------Student button or student image clicked", ".....");
         }
