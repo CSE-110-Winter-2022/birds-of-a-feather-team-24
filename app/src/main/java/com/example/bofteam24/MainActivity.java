@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.bofteam24.db.AppDatabase;
+import com.example.bofteam24.db.CourseRoom;
+import com.example.bofteam24.db.User;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.Nearby;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +40,21 @@ public class MainActivity extends AppCompatActivity {
             Intent listAct = new Intent(MainActivity.this, StudentsListActivity.class);
             startActivity(listAct);
         }
+
+        db = AppDatabase.singleton(this);
     }
 
     @Override
     protected void onDestroy() {
+        if (StudentsListActivity.db != null) {
+            StudentsListActivity.db.courseDao().deleteAll();
+            StudentsListActivity.db.userDao().deleteAll();
+        }
+        if(this.db != null) {
+            this.db.courseDao().deleteAll();
+            this.db.userDao().deleteAll();
+        }
         super.onDestroy();
-        StudentsListActivity.db.courseDao().deleteAll();
-        StudentsListActivity.db.userDao().deleteAll();
-        AppDatabase db = AppDatabase.singleton(this);
-        db.courseDao().deleteAll();
-        db.userDao().deleteAll();
     }
 
     public void onStartClick(View view) {

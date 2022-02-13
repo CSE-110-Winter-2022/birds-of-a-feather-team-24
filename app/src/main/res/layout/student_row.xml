@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/num_common_classes"
+            android:id="@+id/num_common_courses"
             android:layout_width="54dp"
             android:layout_height="46dp"
             android:gravity="center"

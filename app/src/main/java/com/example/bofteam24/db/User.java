@@ -16,11 +16,11 @@ public class User {
 //        this.photoUrl = "";
 //    }
 
-    public User(String userId, String name, String photoUrl) {
+    public User(@NonNull String userId, String name, String photoUrl, int numOfSameCourses) {
         this.userId = userId;
         this.name = name;
         this.photoUrl = photoUrl;
-        //this.numOfSameCourses = numOfSameCourses;
+        this.numOfSameCourses = numOfSameCourses;
     }
 
     @PrimaryKey // userID must be different for every user
@@ -33,8 +33,7 @@ public class User {
     @ColumnInfo
     private String photoUrl;
 
-//    @ColumnInfo
-//    private int numOfSameCourses;
+    private int numOfSameCourses;
 
     @NonNull
     public String getUserId() {
@@ -61,7 +60,7 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
-//    public int getNumOfSameCourses() { return numOfSameCourses; }
-//
-//    public void setNumOfSameCourses(int numOfSameCourses) { this.numOfSameCourses = numOfSameCourses; }
+    public int getNumOfSameCourses() { return numOfSameCourses; }
+
+    public void setNumOfSameCourses(int numOfSameCourses) { this.numOfSameCourses = numOfSameCourses; }
 }

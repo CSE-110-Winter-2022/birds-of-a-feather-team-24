@@ -54,12 +54,14 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
 
         private final Button studentButton;
         private final ImageButton profilePic;
+        private final TextView numCommonCourses;
         private User student;
 
         public ViewHolder(View itemView) {
             super(itemView);
             studentButton = (Button) itemView.findViewById(R.id.student_button);
             profilePic = (ImageButton) itemView.findViewById(R.id.profile_pic);
+            numCommonCourses = (TextView) itemView.findViewById(R.id.num_common_courses);
         }
 
         public void setStudent(User student) {
@@ -71,6 +73,10 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             String studentFirstName = this.student.getName().split(" ")[0];
             this.studentButton.setText(studentFirstName);
             this.studentButton.setEnabled(true);
+
+            int commonCourses = this.student.getNumOfSameCourses();
+            this.numCommonCourses.setText(String.valueOf(commonCourses));
+            this.numCommonCourses.setEnabled(true);
         }
 
         @Override

@@ -22,8 +22,11 @@ import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
 import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -31,11 +34,11 @@ public class StudentsListActivity extends AppCompatActivity {
 
     private static final String TAG = "BoF-Team24";
     final String defaultString = "default String";
-    MessageListener messageListener;
+    public static MessageListener messageListener;
     Message mMessage;
     String csvInfo;
     public static AppDatabase db;
-    public static List<User> users; // ----------ADDED
+    public static List<User> users;
     public static List<CourseRoom> allCoursesInfo;
     public static boolean cameFromMock = false;
     //ArrayList<User> users = new ArrayList<User>();
@@ -133,81 +136,81 @@ public class StudentsListActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onFound(@NonNull Message message) {
-                Log.d(TAG, "Found message: " + new String(message.getContent()));
                 String messageString = new String(message.getContent());
-                Log.d("------------messageString ", messageString);
+                Log.d(TAG, "Found message: " + messageString);
+                // Log.d("------------messageString ", messageString);
                 messageString = messageString.trim();
                 String[] csvInfoDivided = cleanCVSInput(messageString);
                 String[] firstNameAndPhotoUrl = getFirstNameAndUrl(csvInfoDivided);
                 String firstName = firstNameAndPhotoUrl[0];
                 String photoURL = firstNameAndPhotoUrl[1];
                 ArrayList<String> allCoursesString = getAllCoursesInfo(csvInfoDivided);
-
-                // StudentsListActivity.allCoursesInfo = getAllCoursesInfo(csvInfoDivided); // make public static of this
                 // allCoursesInfoString = ["2022 WI CSE 110", "2021 WI CSE 11", "2022 SP MMW 121", etc]
+
+                String[] myCourses = {"2022 WI CSE 110", "2021 FA CSE 140", "2021 FA CSE 101"};
+                int sameCourses = 0;
+                for(String myCourse : myCourses) {
+                    for(String otherCourse : allCoursesString) {
+                        if (myCourse.equals(otherCourse)) {
+                            sameCourses+=1;
+                        }
+                    }
+                }
+                Log.d("-------------------------------------------------------- same number of courses ",
+                        String.valueOf(sameCourses));
+
                 Random rand = new Random();
                 int userID = rand.nextInt(1000);
                 String userIDString = String.valueOf(userID);
-                User newUser = new User(userIDString, firstName, photoURL);
+                User newUser = new User(userIDString, firstName, photoURL, sameCourses);
                 StudentsListActivity.db.userDao().insert(newUser);
 
                 Log.d("------------test user entered, new user created name ", firstName);
-                String[] ourCoursesArr = {"2022 WI CSE 110", "2021 FA CSE 140", "2021,FA,CSE,101"};
-                List<String> ourCourses = Arrays.asList(ourCoursesArr);
+
 
                 for (String oneCourse : allCoursesString) {
                     int courseID = rand.nextInt(10000);
                     String courseInfoAndID = oneCourse + ", " + String.valueOf(courseID);
-                    Log.d("------------------------info for one course ", courseInfoAndID);
+                    // Log.d("------------------------info for one course ", courseInfoAndID);
                     // oneCourseInfo is a string such as: "2022 WI CSE 110"
                     CourseRoom course = new CourseRoom(courseID, userIDString, oneCourse);
                     StudentsListActivity.db.courseDao().insert(course);
                 }
                 StudentsListActivity.allCoursesInfo = StudentsListActivity.db.courseDao().getAll();
                 StudentsListActivity.users = StudentsListActivity.db.userDao().getAll();
+                // Collections.sort(agentDtoList, Comparator.comparing(AgentSummaryDTO::getCustomerCount));
                 Log.d("------------test user entered, user list size ", String.valueOf(StudentsListActivity.users.size()));
             }
 
             @Override
             public void onLost(@NonNull Message message) {
-                if (message == null) {
-                    return;
-                }
                 Log.d(TAG, "Lost message: " + new String(message.getContent()));
             }
         };
 
         StudentsListActivity.db = AppDatabase.singleton(this);
         StudentsListActivity.users = StudentsListActivity.db.userDao().getAll(); // ----------REMOVED
-        Log.d("------------user list size ", String.valueOf(StudentsListActivity.db.userDao().getAll().size()));
+        Log.d("------------StudentsListActivity.users size ", String.valueOf(StudentsListActivity.users.size()));
         StudentsListActivity.allCoursesInfo = StudentsListActivity.db.courseDao().getAll();
-        Log.d("------------all courses list size ", String.valueOf(StudentsListActivity.db.courseDao().getAll().size()));
+        Log.d("------------StudentsListActivity.allCoursesInfo size ", String.valueOf(StudentsListActivity.allCoursesInfo.size()));
         //mMessage = new Message("Hello World".getBytes());
 
         // get the same shared preference from MockActivity.java
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        this.csvInfo = sp.getString("csv_info", defaultString);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear().apply();
-        Log.d("------------ is cvsInfo \"default string\" or an actual test? ", csvInfo);
+        // Log.d("------------ is cvsInfo \"default string\" or an actual test? ", csvInfo);
         Log.d("------------ came from mock? ", String.valueOf(StudentsListActivity.cameFromMock));
 
-        if(StudentsListActivity.cameFromMock) {
-            if (!csvInfo.equals(defaultString)) {
-                this.mMessage = new Message(csvInfo.getBytes());
+        Nearby.getMessagesClient(this).subscribe(StudentsListActivity.messageListener);
 
-                Nearby.getMessagesClient(this).subscribe(messageListener);
-                this.messageListener.onFound(this.mMessage);
-                //            Intent intent = getIntent();
-//            finish();
-//            startActivity(intent);
-            }
-        }
-        else {
-            Log.d("------------ cameFromMock = false ", "...");
-            Nearby.getMessagesClient(this).subscribe(messageListener);
-        }
         Nearby.getMessagesClient(this).publish(new Message("I am the user".getBytes()));
+
+        //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
+        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
+        Collections.reverse(StudentsListActivity.users);
+        Log.d("--------------- StudentsListActivity.users sorted ------------------ ", "...");
+        for(User user : StudentsListActivity.users) {
+            String name = user.getName();
+            Log.d("------------ user name ", name);
+        }
 
         Log.d("------------ RecyclerView stuff coming up ", "...");
         RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
@@ -219,7 +222,7 @@ public class StudentsListActivity extends AppCompatActivity {
         studentView.setLayoutManager(new LinearLayoutManager(this));
 
         List<User> allUsers = StudentsListActivity.db.userDao().getAll();
-        Log.d("------------ size of users ", String.valueOf(StudentsListActivity.users.size()));
+        Log.d("------------ size of allUsers (StudentsListActivity.db.userDao().getAll()) ", String.valueOf(allUsers.size()));
         Log.d("------------------------ user, userID ", "...");
         for(User user : allUsers) {
             String userInfo = user.getName() + ", " + user.getUserId();
@@ -227,7 +230,7 @@ public class StudentsListActivity extends AppCompatActivity {
         }
 
         List<CourseRoom> allCourses = StudentsListActivity.db.courseDao().getAll();
-        Log.d("------------ size of courses ", String.valueOf(allCourses.size()));
+        Log.d("------------ size of allCourses (StudentsListActivity.db.courseDao().getAll()) ", String.valueOf(allCourses.size()));
         Log.d("------------------------ course, userID, courseID", "...");
         for(CourseRoom course : allCourses) {
             String courseInfo = course.getCourseName() + ", " + course.getUserId() + ", " + course.getCourseId();
@@ -236,15 +239,10 @@ public class StudentsListActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     public void onStopClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
 //    @Override
@@ -259,14 +257,25 @@ public class StudentsListActivity extends AppCompatActivity {
 //    }
 
     @Override
+    protected void onDestroy() {
+        if(StudentsListActivity.db != null) {
+            StudentsListActivity.db.courseDao().deleteAll();
+            StudentsListActivity.db.userDao().deleteAll();
+        }
+//        AppDatabase db = AppDatabase.singleton(this); // make db a private variable
+//        db.courseDao().deleteAll();
+//        db.userDao().deleteAll();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        if (StudentsListActivity.cameFromMock) {
-            if (!this.csvInfo.equals(defaultString)) {
-                Nearby.getMessagesClient(this).unsubscribe(messageListener);
-                this.messageListener.onLost(this.mMessage);
-            }
-        }
+        //if (StudentsListActivity.cameFromMock) {
+        Message lostMessage = new Message("lost signal".getBytes());
+        Nearby.getMessagesClient(this).unsubscribe(StudentsListActivity.messageListener);
+        StudentsListActivity.messageListener.onLost(lostMessage);
+        //}
 
         Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
     }
