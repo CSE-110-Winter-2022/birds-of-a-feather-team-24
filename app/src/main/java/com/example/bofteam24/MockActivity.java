@@ -104,6 +104,7 @@ public class MockActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // ------- comment everything from here to retain prev users ------
         if (StudentsListActivity.db != null) {
             StudentsListActivity.db.courseDao().deleteAll();
             StudentsListActivity.db.userDao().deleteAll();
@@ -112,6 +113,7 @@ public class MockActivity extends AppCompatActivity {
             this.db.courseDao().deleteAll();
             this.db.userDao().deleteAll();
         }
+        // ---------------------- to here ----------------------
         super.onDestroy();
     }
 }

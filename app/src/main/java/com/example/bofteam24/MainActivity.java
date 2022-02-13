@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // ------- comment everything from here to retain prev users ------
         if (StudentsListActivity.db != null) {
             StudentsListActivity.db.courseDao().deleteAll();
             StudentsListActivity.db.userDao().deleteAll();
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             this.db.courseDao().deleteAll();
             this.db.userDao().deleteAll();
         }
+        // ---------------------- to here ----------------------
         super.onDestroy();
     }
 
@@ -61,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, StudentsListActivity.class);
         startActivity(intent);
     }
-
 
     public void onMockClick(View view) {
         Intent intent = new Intent(this, MockActivity.class);

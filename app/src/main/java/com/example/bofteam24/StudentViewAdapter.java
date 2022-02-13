@@ -60,17 +60,12 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
         private final TextView numCommonCourses;
         private User student;
 
-        //
-        @SuppressLint("UseSwitchCompatOrMaterialCode")
-        private final Switch favSwitch;
 
         public ViewHolder(View itemView) {
             super(itemView);
             studentButton = (Button) itemView.findViewById(R.id.student_button);
             profilePic = (ImageButton) itemView.findViewById(R.id.profile_pic);
             numCommonCourses = (TextView) itemView.findViewById(R.id.num_common_courses);
-            //
-            favSwitch = itemView.findViewById(R.id.switch_fav);
         }
 
         public void setStudent(User student) {
@@ -86,8 +81,6 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             int commonCourses = this.student.getNumOfSameCourses();
             this.numCommonCourses.setText(String.valueOf(commonCourses));
             this.numCommonCourses.setEnabled(true);
-
-            this.favSwitch.setChecked(false);
         }
 
         @Override

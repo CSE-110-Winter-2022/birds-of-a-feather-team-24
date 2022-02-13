@@ -151,7 +151,7 @@ public class StudentsListActivity extends AppCompatActivity {
                 ArrayList<String> allCoursesString = getAllCoursesInfo(csvInfoDivided);
                 // allCoursesInfoString = ["2022 WI CSE 110", "2021 WI CSE 11", "2022 SP MMW 121", etc]
 
-                String[] myCourses = {"2022 WI CSE 110", "2021 FA CSE 140", "2021 FA CSE 101"};
+                String[] myCourses = {"2022 WI CSE 110", "2021 FA CSE 140", "2021 FA CSE 101"}; //random
                 int sameCourses = 0;
                 for(String myCourse : myCourses) {
                     for(String otherCourse : allCoursesString) {
@@ -262,6 +262,7 @@ public class StudentsListActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // ------- comment everything from here to retain prev users ------
         if(StudentsListActivity.db != null) {
             StudentsListActivity.db.courseDao().deleteAll();
             StudentsListActivity.db.userDao().deleteAll();
@@ -269,6 +270,7 @@ public class StudentsListActivity extends AppCompatActivity {
 //        AppDatabase db = AppDatabase.singleton(this); // make db a private variable
 //        db.courseDao().deleteAll();
 //        db.userDao().deleteAll();
+        // ---------------------- to here ----------------------
         super.onDestroy();
     }
 
