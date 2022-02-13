@@ -15,57 +15,62 @@
         android:layout_width="match_parent"
         android:layout_height="78dp">
 
+
         <Button
-            android:id="@+id/student_button"
+            android:id="@+id/student_button2"
             android:layout_width="178dp"
             android:layout_height="56dp"
             android:gravity="center"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.459"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.727"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="42dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="X"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.918"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.628"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
         <ImageButton
-            android:id="@+id/profile_pic"
+            android:id="@+id/profile_pic2"
             android:layout_width="77dp"
             android:layout_height="64dp"
             android:background="@null"
             android:scaleType="fitCenter"
-            app:layout_constraintHorizontal_bias="0.089"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.089"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
-            android:id="@+id/num_common_courses"
+            android:id="@+id/num_common_courses2"
             android:layout_width="54dp"
             android:layout_height="46dp"
             android:gravity="center"
             android:text="1"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.857"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Switch
-            android:id="@+id/switch_fav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Favorite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.949"
+            app:layout_constraintHorizontal_bias="0.798"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            app:layout_constraintVertical_bias="0.593" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -57,11 +57,11 @@ public class StudentsListActivity extends AppCompatActivity {
             String index = String.valueOf(i);
             if (i >=3 ) {
                 csvInfoDivided[i] = csvInfoDivided[i].trim();
-                csvInfoDivided[i] = csvInfoDivided[i].replace("\n", ""); // added
+                csvInfoDivided[i] = csvInfoDivided[i].replace("\n", "-"); //--> added the "-"
             }
-//            Log.d("---------------- index", index);
-//            Log.d("--- csvInfoDivided[i]", csvInfoDivided[i]);
-//            Log.d("--- size of ^", String.valueOf(csvInfoDivided[i].length()));
+            Log.d("---------------- index", index);
+            Log.d("--- csvInfoDivided[i]", csvInfoDivided[i]);
+            Log.d("--- size of ^", String.valueOf(csvInfoDivided[i].length()));
         }
 
         return csvInfoDivided;
@@ -106,7 +106,8 @@ public class StudentsListActivity extends AppCompatActivity {
         for(int i = 0; i < csvInfoDivided.length; i++) {
             if (i == csvInfoDivided.length-1) {break;}
             else if (i == 6) {
-                String courseNumber = csvInfoDivided[i+3].substring(0,3);
+                // String courseNumber = csvInfoDivided[i+3].substring(0,3);
+                String courseNumber = csvInfoDivided[i+3].split("-")[0];
                 String courseYear = csvInfoDivided[i];
                 courseInfo = courseYear + " " + csvInfoDivided[i + 1] + " " + csvInfoDivided[i + 2]
                         + " " + courseNumber;
@@ -114,8 +115,11 @@ public class StudentsListActivity extends AppCompatActivity {
                 i = i + 2;
             }
             else if (i >= 6) {
-                String courseNumber = csvInfoDivided[i+3].substring(0,3);
-                String courseYear = csvInfoDivided[i].substring(3,7);
+                // String courseNumber = csvInfoDivided[i+3].substring(0,3); // --> commented out
+                // String courseYear = csvInfoDivided[i].substring(3,7); // --> commented out
+                String courseNumber = csvInfoDivided[i+3].split("-")[0];
+                String courseYear = csvInfoDivided[i].split("-")[1];
+
                 courseInfo = courseYear + " " + csvInfoDivided[i + 1] + " " + csvInfoDivided[i + 2]
                         + " " + courseNumber;
                 allCoursesInfo.add(courseInfo);
@@ -158,7 +162,7 @@ public class StudentsListActivity extends AppCompatActivity {
                 }
                 Log.d("-------------------------------------------------------- same number of courses ",
                         String.valueOf(sameCourses));
-
+                if (sameCourses == 0) { return; }
                 Random rand = new Random();
                 int userID = rand.nextInt(1000);
                 String userIDString = String.valueOf(userID);

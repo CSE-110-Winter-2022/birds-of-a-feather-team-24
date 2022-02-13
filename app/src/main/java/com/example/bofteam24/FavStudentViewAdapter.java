@@ -24,26 +24,26 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.ViewHolder> {
+public class FavStudentViewAdapter extends RecyclerView.Adapter<FavStudentViewAdapter.ViewHolder> {
     private List<User> students;
 
-    public StudentViewAdapter(List<User> students) {
+    public FavStudentViewAdapter(List<User> students) {
         this.students = students;
     }
 
     @NonNull
     @Override
-    public StudentViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavStudentViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View studentView = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.student_row, parent, false);
 
-        return new StudentViewAdapter.ViewHolder(studentView);
+        return new FavStudentViewAdapter.ViewHolder(studentView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavStudentViewAdapter.ViewHolder holder, int position) {
         User student = students.get(position);
         holder.setStudent(student);
     }
