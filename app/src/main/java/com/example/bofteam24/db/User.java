@@ -10,12 +10,9 @@ import java.util.List;
 @Entity(tableName = "users")
 public class User {
 
-//    public User() {
-//        this.userId = "";
-//        this.name = "";
-//        this.photoUrl = "";
-//    }
-
+    public User() {
+        this("", "", "", 0);
+    }
     public User(@NonNull String userId, String name, String photoUrl, int numOfSameCourses) {
         this.userId = userId;
         this.name = name;

@@ -37,4 +37,7 @@ public interface CourseDao {
 
     @Query("DELETE FROM courses")
     void deleteAll();
+
+    @Query("DELETE FROM courses WHERE userId!=:userId")
+    void deleteOthers(String userId);
 }

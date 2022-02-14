@@ -17,6 +17,36 @@ public class CourseRoom {
         return this.courseName;
     }
 
+    // String[] myCourses = {"2022 WI CSE 110", "2021 FA CSE 140", "2021 FA CSE 101"}; //random
+    public String toMockString() {
+        String[] details = courseName.toUpperCase().split(" ");
+        //courseId, userId, "CSE 12 FALL 2019"
+        String subject = details[0];
+        String num = details[1];
+        String quarter = details[2];
+        String year = details[3];
+        String quarterAbbrev = "";
+        if(quarter.equals("FALL")) {
+            quarterAbbrev = "FA";
+        }
+        else if(quarter.equals("WINTER")) {
+            quarterAbbrev = "WI";
+        }
+        else if(quarter.equals("SPRING")) {
+            quarterAbbrev = "SP";
+        }
+        else if(quarter.equals("SUMMER SESSION 1")) {
+            quarterAbbrev = "SS1";
+        }
+        else if(quarter.equals("SUMMER SESSION 2")) {
+            quarterAbbrev = "SS2";
+        }
+        else { // SPECIAL SUMMER SESSION
+            quarterAbbrev = "SSS";
+        }
+        return String.format("%s %s %s %s", year, quarterAbbrev, subject, num);
+    }
+
     @PrimaryKey(autoGenerate = true) // auto generate a unique ID for courseID
     private int courseId = 0;   // courseID is just there as if it is a row number
 

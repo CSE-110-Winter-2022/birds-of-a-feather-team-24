@@ -26,12 +26,15 @@ public interface UserDao {
     @Query("DELETE FROM users")
     void deleteAll();
 
-    @Query("SELECT * FROM users where userId=:userId")
+    @Query("SELECT * FROM users WHERE userId=:userId")
     User getUserWithId(String userId);
 
     @Query("SELECT COUNT(*) from users")
     int count();
 
-    @Query("SELECT * FROM users")
-    List<User> getAll();
+    @Query("SELECT * FROM users WHERE userId!=:userId")
+    List<User> getOthers(String userId);
+
+    @Query("DELETE FROM users WHERE userId!=:userId")
+    void deleteOthers(String userId);
 }

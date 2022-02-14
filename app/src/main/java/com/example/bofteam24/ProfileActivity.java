@@ -33,18 +33,17 @@ public class ProfileActivity extends AppCompatActivity {
     private AppDatabase db;
     private User user;
 
+    public static boolean differentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         db = AppDatabase.singleton(this);
 
-//        String userId = getIntent().getExtras().getString("user_id", null);
         String userId = getIntent().getStringExtra("user_id");
-
-        //get user_id extra from intent to decide which layout to display
-
-        boolean differentUser = getIntent().getExtras().getBoolean("different_user", false);
+        String myId = UserSelf.getInstance(this).getUserId();
+        differentUser = !userId.equals(myId);
         if (differentUser) {
             //change "my courses" -> "<other_user>'s courses"
             TextView coursesLabel = findViewById(R.id.my_courses_tv);

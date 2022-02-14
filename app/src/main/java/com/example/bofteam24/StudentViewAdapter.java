@@ -81,7 +81,7 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             Picasso.get().load(student.getPhotoUrl()).into(this.profilePic);
             this.profilePic.setEnabled(true);
 
-            String studentFirstName = this.student.getName().split(" ")[0];
+            String studentFirstName = this.student.getName();
             this.studentButton.setText(studentFirstName);
             this.studentButton.setEnabled(true);
 

@@ -31,29 +31,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences pref = getSharedPreferences("USER_SHARED_PREF", MODE_PRIVATE);
-        if(pref.getString("ID", "").equals("")) {
+        if(UserSelf.getInstance(this).getUserId().equals("")) {
             Intent loginAct = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginAct);
         }
-        else {
-            Intent listAct = new Intent(MainActivity.this, StudentsListActivity.class);
-            startActivity(listAct);
-        }
-
         db = AppDatabase.singleton(this);
     }
 
     @Override
     protected void onDestroy() {
         // ------- comment everything from here ----------------------
-        if (StudentsListActivity.db != null) {
-            StudentsListActivity.db.courseDao().deleteAll();
-            StudentsListActivity.db.userDao().deleteAll();
-        }
         if(this.db != null) {
-            this.db.courseDao().deleteAll();
-            this.db.userDao().deleteAll();
+            String userId = UserSelf.getInstance(this).getUserId();
+            this.db.courseDao().deleteOthers(userId);
+            this.db.userDao().deleteOthers(userId);
         }
         // ---------------------- to here to retain prev users ----------------------
         super.onDestroy();
@@ -66,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onMockClick(View view) {
         Intent intent = new Intent(this, MockActivity.class);
+        startActivity(intent);
+    }
+
+    public void onGoToProfileClicked(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        String userId = UserSelf.getInstance(this).getUserId();
+        intent.putExtra("user_id", userId);
         startActivity(intent);
     }
 }

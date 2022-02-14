@@ -16,11 +16,14 @@ import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.MessageListener;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class MockActivity extends AppCompatActivity {
+
+    public static MessageListener messageListener;
 
     AppDatabase db;
     @Override
@@ -28,6 +31,12 @@ public class MockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock);
         db = AppDatabase.singleton(this);
+
+        if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
+
+        Nearby.getMessagesClient(this).subscribe(messageListener);
+        Nearby.getMessagesClient(this).publish(new Message("I am the user".getBytes()));
+
     }
 
     public void onEnterClick(View view) {
@@ -36,8 +45,8 @@ public class MockActivity extends AppCompatActivity {
         StudentsListActivity.cameFromMock = true;
         if (!csvInfo.equals("")) {
             Message mMessage = new Message(csvInfo.getBytes());
-            Nearby.getMessagesClient(this).subscribe(StudentsListActivity.messageListener);
-            StudentsListActivity.messageListener.onFound(mMessage);
+            Nearby.getMessagesClient(this).subscribe(messageListener);
+            messageListener.onFound(mMessage);
         }
 
         editText.setText("");
@@ -51,14 +60,10 @@ public class MockActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         // ------- comment everything from here ----------------------
-        if (StudentsListActivity.db != null) {
-            StudentsListActivity.db.courseDao().deleteAll();
-            StudentsListActivity.db.userDao().deleteAll();
-        }
-        if(this.db != null) {
-            this.db.courseDao().deleteAll();
-            this.db.userDao().deleteAll();
-        }
+//        if(this.db != null) {
+//            this.db.courseDao().deleteAll();
+//            this.db.userDao().deleteAll();
+//        }
         // ---------------------- to here to retain prev users ----------------------
         super.onDestroy();
     }
