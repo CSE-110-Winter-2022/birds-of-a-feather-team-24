@@ -95,7 +95,7 @@ public class ProfilePictureActivity extends AppCompatActivity {
 
     public void skipClick(View view) {
 
-        storeUser("https://imgur.com/oljiNUB");
+        storeUser("https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg");
 
         Intent addClassesAct = new Intent(ProfilePictureActivity.this, AddClassesActivity.class);
         startActivity(addClassesAct);

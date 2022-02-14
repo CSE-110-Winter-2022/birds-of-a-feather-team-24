@@ -61,8 +61,8 @@ public class DatabaseTesting {
 
     @Test
     public void testDeleteUser() {
-        User user1 = new User("0", "Kirtan", "kirtan_profile.url");
-        User user2 = new User("1", "Brett", "brett_profile.url");
+        User user1 = new User("0", "Kirtan", "kirtan_profile.url", 0);
+        User user2 = new User("1", "Brett", "brett_profile.url", 0);
 
         userDao.insert(user1);
         userDao.insert(user2);
@@ -95,10 +95,10 @@ public class DatabaseTesting {
 
     @Test
     public void testDeleteCourse() {
-        CourseRoom course1 = new CourseRoom(0, "0", "CSE 11 FALL 2020");
-        CourseRoom course2 = new CourseRoom(1, "0", "CSE 12 WINTER 2021");
-        CourseRoom course3 = new CourseRoom(2, "1", "CSE 11 FALL 2020");
-        CourseRoom course4 = new CourseRoom(3, "1", "CSE 12 WINTER 2021");
+        CourseRoom course1 = new CourseRoom(0, "0", "2020 FALL CSE 11");
+        CourseRoom course2 = new CourseRoom(1, "0", "2021 WINTER CSE 12");
+        CourseRoom course3 = new CourseRoom(2, "1", "2020 FALL CSE 11");
+        CourseRoom course4 = new CourseRoom(3, "1", "2021 WINTER CSE 12");
 
         courseDao.insert(course1);
         courseDao.insert(course2);
