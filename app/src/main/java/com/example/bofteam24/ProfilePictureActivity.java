@@ -84,9 +84,9 @@ public class ProfilePictureActivity extends AppCompatActivity {
     }
 
     public void submitClick(View view) {
-        TextView urlView = findViewById(R.id.profile_picture_url);
+        EditText urlView = findViewById(R.id.profile_picture_url);
 
-        storeUser(urlView.toString());
+        storeUser(urlView.getText().toString());
 
         Intent addClassesAct = new Intent(ProfilePictureActivity.this, AddClassesActivity.class);
         startActivity(addClassesAct);
