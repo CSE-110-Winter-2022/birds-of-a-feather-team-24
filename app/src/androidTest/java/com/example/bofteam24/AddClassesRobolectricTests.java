@@ -44,7 +44,8 @@ public class AddClassesRobolectricTests {
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
+//        db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
+        db = AppDatabase.singleton(context);
         userDao = db.userDao();
         courseDao = db.courseDao();
     }
@@ -77,5 +78,91 @@ public class AddClassesRobolectricTests {
             assertEquals("CSE", subjectField.getText().toString());
             assertEquals("110", courseNumField.getText().toString());
         });
+    }
+
+    @Test
+    public void testCancelAddingCourse() {
+        ActivityScenario<AddClassesActivity> scenario = ActivityScenario.launch(AddClassesActivity.class);
+        scenario.moveToState(Lifecycle.State.CREATED);
+        int numCoursesInitial = db.courseDao().count();
+        int numCoursesAfter;
+
+        scenario.onActivity(activity -> {
+            Spinner yearSpinner = (Spinner) activity.findViewById(R.id.year_spinner);
+            Spinner quarterSpinner = (Spinner) activity.findViewById(R.id.quarter_spinner);
+            EditText subjectField = (EditText) activity.findViewById(R.id.subject_text_input);
+            EditText courseNumField = (EditText) activity.findViewById(R.id.course_num_input);
+
+            yearSpinner.setSelection(0);
+            quarterSpinner.setSelection(0);
+            subjectField.setText("CSE");
+            courseNumField.setText("110");
+
+
+
+            Button cancelButton = (Button) activity.findViewById(R.id.cancel_class_button);
+            cancelButton.performClick();
+
+            assertEquals(0, yearSpinner.getSelectedItemPosition());
+            assertEquals(0, quarterSpinner.getSelectedItemPosition());
+            assertEquals("CSE", subjectField.getText().toString());
+            assertEquals("110", courseNumField.getText().toString());
+        });
+
+        numCoursesAfter = courseDao.count();
+
+        assertEquals(numCoursesInitial, numCoursesAfter);
+    }
+
+    @Test
+    public void tryToAddInvalidSubjectTest() {
+        ActivityScenario<AddClassesActivity> scenario = ActivityScenario.launch(AddClassesActivity.class);
+        scenario.moveToState(Lifecycle.State.CREATED);
+        int numCoursesInitial = db.courseDao().count();
+        int numCoursesAfter;
+
+        scenario.onActivity(activity -> {
+            Spinner yearSpinner = (Spinner) activity.findViewById(R.id.year_spinner);
+            Spinner quarterSpinner = (Spinner) activity.findViewById(R.id.quarter_spinner);
+            EditText subjectField = (EditText) activity.findViewById(R.id.subject_text_input);
+            EditText courseNumField = (EditText) activity.findViewById(R.id.course_num_input);
+
+            yearSpinner.setSelection(0);
+            quarterSpinner.setSelection(0);
+            subjectField.setText("CSE110");
+            courseNumField.setText("110");
+
+            Button enterButton = (Button) activity.findViewById(R.id.enter_class_button);
+            enterButton.performClick();
+
+        });
+        numCoursesAfter = courseDao.count();
+        assertEquals(numCoursesInitial, numCoursesAfter);
+    }
+
+    @Test
+    public void tryToAddInvalidCourseNumberTest() {
+        ActivityScenario<AddClassesActivity> scenario = ActivityScenario.launch(AddClassesActivity.class);
+        scenario.moveToState(Lifecycle.State.CREATED);
+        int numCoursesInitial = db.courseDao().count();
+        int numCoursesAfter;
+
+        scenario.onActivity(activity -> {
+            Spinner yearSpinner = (Spinner) activity.findViewById(R.id.year_spinner);
+            Spinner quarterSpinner = (Spinner) activity.findViewById(R.id.quarter_spinner);
+            EditText subjectField = (EditText) activity.findViewById(R.id.subject_text_input);
+            EditText courseNumField = (EditText) activity.findViewById(R.id.course_num_input);
+
+            yearSpinner.setSelection(0);
+            quarterSpinner.setSelection(0);
+            subjectField.setText("CSE");
+            courseNumField.setText("110 123");
+
+            Button enterButton = (Button) activity.findViewById(R.id.enter_class_button);
+            enterButton.performClick();
+
+        });
+        numCoursesAfter = courseDao.count();
+        assertEquals(numCoursesInitial, numCoursesAfter);
     }
 }
