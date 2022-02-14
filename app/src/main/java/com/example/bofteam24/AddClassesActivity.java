@@ -73,8 +73,10 @@ public class AddClassesActivity extends AppCompatActivity {
             Toast.makeText(this, "Error: UserID not yet generated", Toast.LENGTH_SHORT).show();
         }
 
-        CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
-                userId, courseDesc);
+//        CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
+//                userId, courseDesc);
+//        CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1, userId, courseDesc);
+        CourseRoom newCourse = new CourseRoom(0, userId, courseDesc);
         db.courseDao().insert(newCourse);
 //        coursesViewAdapter.addCourse(newCourse);
         List<CourseRoom> courseRoomList = db.courseDao().getForUser(userId);
