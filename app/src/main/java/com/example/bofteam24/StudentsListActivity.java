@@ -66,13 +66,12 @@ public class StudentsListActivity extends AppCompatActivity {
     }
 
     public void onStopClick(View view) {
-        //if (StudentsListActivity.cameFromMock) {
-        Message lostMessage = new Message("lost signal".getBytes());
-        Nearby.getMessagesClient(this).unsubscribe(MockActivity.messageListener);
-        MockActivity.messageListener.onLost(lostMessage);
-//        //}
-//
-        Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
+        if (MockActivity.messageListener != null) {
+            Message lostMessage = new Message("lost signal".getBytes());
+            Nearby.getMessagesClient(this).unsubscribe(MockActivity.messageListener);
+            MockActivity.messageListener.onLost(lostMessage);
+            Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
