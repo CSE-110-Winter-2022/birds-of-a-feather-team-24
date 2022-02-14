@@ -33,6 +33,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+//    sourceSets { main { java.srcDirs = ['src/main/java', 'src/test/java/'] } }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.ar:core:1.23.0'
     def room_version = "2.4.1"
 
     implementation 'com.google.android.gms:play-services-nearby:18.0.2'

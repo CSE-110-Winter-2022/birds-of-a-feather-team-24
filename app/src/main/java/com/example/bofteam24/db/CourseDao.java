@@ -30,7 +30,7 @@ public interface CourseDao {
     int maxId();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) // Replaces instance of first course if two courses have same IDs
-    void insert(CourseRoom course);
+    long insert(CourseRoom course); //returns generated id
 
     @Delete
     void delete(CourseRoom course);

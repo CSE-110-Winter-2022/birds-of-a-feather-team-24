@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -11,9 +15,50 @@ import static org.junit.Assert.*;
  */
 public class UnitTests {
     @Test
-    public void testNewCourseInfoCorrect() {
-        Course course = new Course(2022, "Winter", "CSE", "110");
-        assertEquals("CSE 110 Winter 2022", course.toString());
+    public void testCleanCVSinput() {
+        String csvInput = "Bill,,,\n" +
+                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n" +
+                "2021,FA,CSE,210\n" +
+                "2022,WI,CSE,110\n" +
+                "2022,SP,CSE,110";
+
+        String[] expectedOutput = {"Bill", "", "", "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0",
+                "", "", "2021", "FA", "CSE", "210-2022", "WI", "CSE", "110-2022",
+        "SP", "CSE", "110"};
+        String[] actualOutput = ParseUtils.cleanCVSInput(csvInput);
+        assertArrayEquals(actualOutput, expectedOutput);
+    }
+
+    @Test
+    public void testGetFirstNameAndUrl() {
+        String csvInput = "Bill,,,\n" +
+                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n" +
+                "2021,FA,CSE,210\n" +
+                "2022,WI,CSE,110\n" +
+                "2022,SP,CSE,110";
+
+        String[] csvOutput = ParseUtils.cleanCVSInput(csvInput);
+
+        String[] expectedOutput = {"Bill",  "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0"};
+        String[] actualOutput = ParseUtils.getFirstNameAndUrl(csvOutput);
+
+        assertArrayEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testGetAllCoursesInfo() {
+        String csvInput = "Bill,,,\n" +
+                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n" +
+                "2021,FA,CSE,210\n" +
+                "2022,WI,CSE,110\n" +
+                "2022,SP,CSE,110";
+
+        String[] csvOutput = ParseUtils.cleanCVSInput(csvInput);
+
+        String[] expectedOutputArr = {"2021 FA CSE 210", "2022 WI CSE 110", "2022 SP CSE 110"};
+        List<String> actualOutput = ParseUtils.getAllCoursesInfo(csvOutput);
+
+        assertArrayEquals(expectedOutputArr, actualOutput.toArray());
     }
 
 }
