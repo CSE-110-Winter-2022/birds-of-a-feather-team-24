@@ -131,11 +131,7 @@ public class AddClassesActivity extends AppCompatActivity {
                     courseNumber.toUpperCase(), quarter, year);
             addNewCourseToDatabase(courseDesc);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Course added!");
-            builder.setCancelable(true);
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Toast.makeText(this, "Course Added!", Toast.LENGTH_LONG).show();
         }
     }
 
