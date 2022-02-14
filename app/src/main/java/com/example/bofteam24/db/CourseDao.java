@@ -13,7 +13,7 @@ import java.util.List;
 public interface CourseDao {
     @Transaction
     @Query("SELECT * FROM courses where userId=:userId")
-    List<CourseRoom> getForUser(int userId);
+    List<CourseRoom> getForUser(String userId);
 
     @Query("SELECT * FROM courses")
     List<CourseRoom> getAll();
@@ -29,9 +29,15 @@ public interface CourseDao {
     @Query("SELECT MAX(courseId) from courses")
     int maxId();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Replaces instance of first course if two courses have same IDs
     void insert(CourseRoom course);
 
     @Delete
     void delete(CourseRoom course);
+
+    @Query("DELETE FROM courses")
+    void deleteAll();
+
+    @Query("DELETE FROM courses WHERE userId!=:userId")
+    void deleteOthers(String userId);
 }

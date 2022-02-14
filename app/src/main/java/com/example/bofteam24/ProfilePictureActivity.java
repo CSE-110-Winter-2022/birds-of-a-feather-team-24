@@ -69,15 +69,16 @@ public class ProfilePictureActivity extends AppCompatActivity {
 
 
     public void storeUser(String url){
-        SharedPreferences pref = getSharedPreferences("USER_SHARED_PREF", MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
+
+        User user = UserSelf.getInstance(this);
 
         String randomID = UUID.randomUUID().toString();
-        edit.putString("ID", randomID);
-        edit.commit();
-        String name = getIntent().getStringExtra("username");
+        user.setUserId(randomID);
+        user.setUserId(randomID);
+        user.setPhotoUrl(url);
+        user.setNumOfSameCourses(0);
+        UserSelf.storeID(this);
 
-        User user = new User(randomID, name, url);
         db = AppDatabase.singleton(this);
         db.userDao().insert(user);
     }

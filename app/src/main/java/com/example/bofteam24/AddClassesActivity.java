@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
@@ -66,11 +68,16 @@ public class AddClassesActivity extends AppCompatActivity {
     }
 
     private void addNewCourseToDatabase(String courseDesc) {
+        String userId = UserSelf.getInstance(this).getUserId();
+        if(userId.equals("")) {
+            Toast.makeText(this, "Error: UserID not yet generated", Toast.LENGTH_SHORT).show();
+        }
+
         CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
-                1, courseDesc);
+                userId, courseDesc);
         db.courseDao().insert(newCourse);
 //        coursesViewAdapter.addCourse(newCourse);
-        List<CourseRoom> courseRoomList = db.courseDao().getForUser(1);
+        List<CourseRoom> courseRoomList = db.courseDao().getForUser(userId);
         printCourseList(courseRoomList);
     }
 
@@ -131,7 +138,7 @@ public class AddClassesActivity extends AppCompatActivity {
     }
 
     public void onCancelClick(View view) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

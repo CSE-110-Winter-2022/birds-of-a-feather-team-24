@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "eef0d8a7ec9b3747f6e3acb7fa148d24",
+    "identityHash": "41472d0b710f6e26707eedf99bbed251",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT, `photoUrl` TEXT, PRIMARY KEY(`userId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT, `photoUrl` TEXT, `numOfSameCourses` INTEGER NOT NULL, PRIMARY KEY(`userId`))",
         "fields": [
           {
             "fieldPath": "userId",
@@ -25,6 +25,12 @@
             "columnName": "photoUrl",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "numOfSameCourses",
+            "columnName": "numOfSameCourses",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -38,7 +44,7 @@
       },
       {
         "tableName": "courses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`courseId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `courseName` TEXT, PRIMARY KEY(`courseId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`courseId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT, `courseName` TEXT)",
         "fields": [
           {
             "fieldPath": "courseId",
@@ -49,8 +55,8 @@
           {
             "fieldPath": "userId",
             "columnName": "userId",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "courseName",
@@ -63,7 +69,7 @@
           "columnNames": [
             "courseId"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -72,7 +78,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eef0d8a7ec9b3747f6e3acb7fa148d24')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '41472d0b710f6e26707eedf99bbed251')"
     ]
   }
 }

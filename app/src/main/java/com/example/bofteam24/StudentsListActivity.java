@@ -1,53 +1,102 @@
 package com.example.bofteam24;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.bofteam24.db.AppDatabase;
+import com.example.bofteam24.db.CourseRoom;
+import com.example.bofteam24.db.User;
+import com.example.bofteam24.db.UserWithCourses;
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.MessageListener;
 
+import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class StudentsListActivity extends AppCompatActivity {
 
+    public static AppDatabase db;
+    public static List<User> users;
+    public static List<CourseRoom> allCoursesInfo;
+    public static boolean cameFromMock = false;
+
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
 
-        ArrayList<Course> dummyCourses1 = new ArrayList<Course>();
-        dummyCourses1.add(new Course(2020, "fall", "cse", "11"));
-        dummyCourses1.add(new Course(2020, "winter", "cse", "12"));
+        db = AppDatabase.singleton(this);
+        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
+        allCoursesInfo = db.courseDao().getAll();
 
-        ArrayList<Course> dummyCourses2 = new ArrayList<Course>();
-        dummyCourses2.add(new Course(2020, "fall", "cse", "20"));
-        dummyCourses2.add(new Course(2020, "winter", "cse", "21"));
+        //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
+        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
+        Collections.reverse(StudentsListActivity.users);
 
-        ArrayList<DummyStudent> dummyStudents = new ArrayList<DummyStudent>();
-        dummyStudents.add(new DummyStudent("Abe", "Lincoln",dummyCourses1));
-        dummyStudents.add(new DummyStudent("John", "Doe", dummyCourses2));
-        dummyStudents.add(new DummyStudent("FirstName", "LastName", null));
+        // before
+//        RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
+//        StudentViewAdapter adapter = new StudentViewAdapter(StudentsListActivity.users);
+//        studentView.setAdapter(adapter);
+//        studentView.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
-        // studentView.setAlpha(0); // recycle view disappears
+        RecyclerView studentView = findViewById(R.id.student_view);
+        LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
+        studentView.setLayoutManager(studentLayoutManager);
+        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
+        studentView.setAdapter(studentViewAdapter);
+    }
 
-        StudentViewAdapter adapter = new StudentViewAdapter(dummyStudents);
-        studentView.setAdapter(adapter);
-        studentView.setLayoutManager(new LinearLayoutManager(this));
-
+    public void onStopClick(View view) {
+        //if (StudentsListActivity.cameFromMock) {
+        Message lostMessage = new Message("lost signal".getBytes());
+        Nearby.getMessagesClient(this).unsubscribe(MockActivity.messageListener);
+        MockActivity.messageListener.onLost(lostMessage);
+//        //}
+//
+        Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
+        // ------- comment everything from here  ----------------------
+//        if(StudentsListActivity.db != null) {
+//            StudentsListActivity.db.courseDao().deleteAll();
+//            StudentsListActivity.db.userDao().deleteAll();
+//        }
+        // ---------------------- to here to retain prev users ----------------------
         super.onDestroy();
     }
 
-    public void onStopClick(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //if (StudentsListActivity.cameFromMock) {
+//        Message lostMessage = new Message("lost signal".getBytes());
+//        Nearby.getMessagesClient(this).unsubscribe(StudentsListActivity.messageListener);
+//        StudentsListActivity.messageListener.onLost(lostMessage);
+//        //}
+//
+//        Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
     }
 }
