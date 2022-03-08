@@ -20,11 +20,13 @@ public final class UserSelf {
             if(!storedID.equals("")) {
                 AppDatabase db = AppDatabase.singleton(context);
                 user = db.userDao().getUserWithId(storedID);
+                if (user != null) {
+                    return user;
+                }
             }
-            else {
-                user = new User();
-            }
+            user = new User();
         }
+
         return user;
     }
 

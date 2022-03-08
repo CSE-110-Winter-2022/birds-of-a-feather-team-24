@@ -66,4 +66,9 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("user_id", userId);
         startActivity(intent);
     }
+
+    public void onFavClick(View view) {
+        Intent intent = new Intent(this, FavStudentsListActivity.class);
+        startActivity(intent);
+    }
 }

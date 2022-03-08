@@ -12,6 +12,7 @@ public class UserWithCourses {
             entityColumn = "courseId",
             entity = CourseRoom.class,
             projection = {"courseName"})
+
     public List<String> courses;
 
     public String getId() { return this.user.getUserId(); }

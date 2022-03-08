@@ -11,13 +11,14 @@ import java.util.List;
 public class User {
 
     public User() {
-        this("", "", "", 0);
+        this("", "", "", 0, false);
     }
-    public User(@NonNull String userId, String name, String photoUrl, int numOfSameCourses) {
+    public User(@NonNull String userId, String name, String photoUrl, int numOfSameCourses, boolean fav) {
         this.userId = userId;
         this.name = name;
         this.photoUrl = photoUrl;
         this.numOfSameCourses = numOfSameCourses;
+        this.fav = fav;
     }
 
     @PrimaryKey // userID must be different for every user
@@ -31,6 +32,13 @@ public class User {
     private String photoUrl;
 
     private int numOfSameCourses;
+
+    @ColumnInfo
+    private boolean fav;
+
+    public boolean getFav() { return this.fav; }
+
+    public void setFav(boolean fav) { this.fav = fav; }
 
     @NonNull
     public String getUserId() {

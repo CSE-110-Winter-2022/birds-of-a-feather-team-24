@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.User;
 import com.example.bofteam24.db.UserWithCourses;
 import com.squareup.picasso.Picasso;
@@ -58,6 +59,7 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
         private final Button studentButton;
         private final ImageButton profilePic;
         private final TextView numCommonCourses;
+        private final ImageButton favButton;
         private User student;
 
 
@@ -66,12 +68,30 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             studentButton = (Button) itemView.findViewById(R.id.student_button);
             profilePic = (ImageButton) itemView.findViewById(R.id.profile_pic);
             numCommonCourses = (TextView) itemView.findViewById(R.id.num_common_courses);
+            favButton = (ImageButton) itemView.findViewById(R.id.favorite_button);
+
             studentButton.setOnClickListener((view)->{
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ProfileActivity.class);
                 intent.putExtra("user_id", this.student.getUserId());
                 intent.putExtra("different_user", true);
                 context.startActivity(intent);
+            });
+
+            favButton.setOnClickListener((view) -> {
+                if(!this.student.getFav()) {
+                    Context context = view.getContext();
+                    AppDatabase db = AppDatabase.singleton(context);
+                    db.userDao().updateUserFav(this.student.getUserId(), true);
+                    this.student = db.userDao().getUserWithId(this.student.getUserId());
+                }
+                else if (this.student.getFav()) {
+                    Context context = view.getContext();
+                    AppDatabase db = AppDatabase.singleton(context);
+                    db.userDao().updateUserFav(this.student.getUserId(), false);
+                    this.student = db.userDao().getUserWithId(this.student.getUserId());
+                }
+
             });
         }
 
@@ -88,6 +108,8 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             int commonCourses = this.student.getNumOfSameCourses();
             this.numCommonCourses.setText(String.valueOf(commonCourses));
             this.numCommonCourses.setEnabled(true);
+
+            this.favButton.setEnabled(true);
         }
 
         @Override

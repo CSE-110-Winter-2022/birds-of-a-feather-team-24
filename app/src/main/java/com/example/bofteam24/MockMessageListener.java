@@ -63,7 +63,7 @@ public class MockMessageListener extends MessageListener {
         // THIS IS ONLY FOR MOCKING
         String userIDString = UUID.randomUUID().toString();
         Log.d("------------------ user ID when creating user ", userIDString);
-        User otherUser = new User(userIDString, firstName, photoURL, sameCourses);
+        User otherUser = new User(userIDString, firstName, photoURL, sameCourses, false);
         db.userDao().insert(otherUser);
 
         for (String oneCourse : allCoursesString) {
