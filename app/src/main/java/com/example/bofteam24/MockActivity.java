@@ -19,13 +19,14 @@ import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockActivity extends AppCompatActivity {
 
     public static MessageListener messageListener;
-
     AppDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,42 @@ public class MockActivity extends AppCompatActivity {
         if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
 
         Nearby.getMessagesClient(this).subscribe(messageListener);
-        Nearby.getMessagesClient(this).publish(new Message("I am the user".getBytes()));
+
+        String userId = UserSelf.getInstance(this).getUserId();
+        String test = "Bill,,,\n" +
+                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n" +
+                "2021,FA,CSE,210\n" +
+                "2022,WI,CSE,110\n" +
+                "2022,SP,CSE,110";
+        User user = db.userDao().getUserWithId(userId);
+        List<CourseRoom> courses = db.courseDao().getForUser(userId);
+        String userName = user.getName();
+        String photoURL = user.getPhotoUrl();
+        List<String> stringCourses = new ArrayList<String>();
+
+        for(int i = 0; i < courses.size(); i++) {
+            CourseRoom course = courses.get(i);
+            String stringCourse = course.toMockString();
+            stringCourse = stringCourse.replaceAll(" ", ",");
+            if (i != courses.size()-1) { stringCourse += "\n"; }
+            stringCourses.add(stringCourse);
+        }
+
+        StringBuilder myMessage = new StringBuilder(userName + ",,,\n" + photoURL + ",,,\n");
+
+        for(String course : stringCourses) {
+            myMessage.append(course);//.append("\n");
+        }
+
+//        Log.d("-------------------- test message ", "Bill,,,\n" +
+//                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n" +
+//                "2021,FA,CSE,210\n" +
+//                "2022,WI,CSE,110\n" +
+//                "2022,SP,CSE,110");
+
+        Log.d("---------------------- myMessage ", myMessage.toString());
+
+        Nearby.getMessagesClient(this).publish(new Message(myMessage.toString().getBytes()));
 
     }
 
