@@ -22,4 +22,16 @@ public class Session {
 
     @ColumnInfo
     private String userId;
+
+    @NonNull
+    public String getSession() { return sessionName; }
+
+    public void setSession(@NonNull String session) { this.sessionName = session; }
+
+    public String getUserId() { return userId; }
+
+    public void setUserId(String userId) { this.userId = userId; }
+
 }
+
+

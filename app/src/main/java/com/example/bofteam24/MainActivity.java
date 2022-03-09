@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
+import com.example.bofteam24.db.Session;
 import com.example.bofteam24.db.User;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.Message;
@@ -21,7 +22,9 @@ import com.google.android.gms.nearby.Nearby;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartClick(View view) {
+        Date currentTime = Calendar.getInstance().getTime();
+        String time = currentTime.toString();
         Intent intent = new Intent(this, StudentsListActivity.class);
+        intent.putExtra("time", time);
         startActivity(intent);
     }
 
