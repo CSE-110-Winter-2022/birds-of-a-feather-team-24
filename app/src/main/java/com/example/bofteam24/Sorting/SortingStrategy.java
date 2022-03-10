@@ -21,23 +21,35 @@ public abstract class SortingStrategy implements Comparator<User> {
         this.courses = db.courseDao().getForUser(user.getUserId());
     }
 
+//    @Override
+//    public int compare(User u1, User u2) {
+//        return calculateScore(u2) - calculateScore(u1);
+//    }
+
     @Override
     public int compare(User u1, User u2) {
-        return calculateScore(u2) - calculateScore(u1);
+        if (calculateScore(u2) > calculateScore(u1)) {
+            return 1;
+        }
+        if (calculateScore(u2) < calculateScore(u1)) {
+            return -1;
+        }
+        return 0;
     }
 
     public int calculateScore(User other) {
         String id = other.getUserId();
         List<CourseRoom> others_courses = db.courseDao().getForUser(id);
+        int score = 0;
 
         for(CourseRoom course : courses) {
             for (CourseRoom others_course: others_courses) {
                 if (course.equals(others_course)) {
-
+                    score += calculateCourseScore(course);
                 }
             }
         }
-        return 0;
+        return score;
     }
 
     public abstract int calculateCourseScore(CourseRoom course);
