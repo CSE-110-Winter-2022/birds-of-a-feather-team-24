@@ -19,7 +19,7 @@
         <entry key="app/src/main/res/layout/activity_students_list.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/course_description_row.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/spinner_textview_align.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/student_row.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/student_row.xml" value="0.33" />
       </map>
     </option>
   </component>

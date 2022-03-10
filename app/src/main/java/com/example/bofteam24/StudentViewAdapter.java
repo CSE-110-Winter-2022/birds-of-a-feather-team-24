@@ -4,6 +4,7 @@ package com.example.bofteam24;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,7 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
         private final ImageButton profilePic;
         private final TextView numCommonCourses;
         private final ImageButton favButton;
+        private final ImageView handWave;
         private User student;
 
 
@@ -69,6 +71,7 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             profilePic = (ImageButton) itemView.findViewById(R.id.profile_pic);
             numCommonCourses = (TextView) itemView.findViewById(R.id.num_common_courses);
             favButton = (ImageButton) itemView.findViewById(R.id.favorite_button);
+            handWave = (ImageView) itemView.findViewById(R.id.handwave_img);
 
             studentButton.setOnClickListener((view)->{
                 Context context = view.getContext();
@@ -82,17 +85,20 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
                 if(!this.student.getFav()) {
                     Context context = view.getContext();
                     AppDatabase db = AppDatabase.singleton(context);
+                    this.student.setFav(true);
                     db.userDao().updateUserFav(this.student.getUserId(), true);
                     this.student = db.userDao().getUserWithId(this.student.getUserId());
+
                 }
                 else if (this.student.getFav()) {
                     Context context = view.getContext();
                     AppDatabase db = AppDatabase.singleton(context);
+                    this.student.setFav(false);
                     db.userDao().updateUserFav(this.student.getUserId(), false);
                     this.student = db.userDao().getUserWithId(this.student.getUserId());
                 }
-
             });
+
         }
 
         public void setStudent(User student) {
@@ -110,6 +116,11 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             this.numCommonCourses.setEnabled(true);
 
             this.favButton.setEnabled(true);
+
+            if (this.student.getWave()) {
+                handWave.setVisibility(View.VISIBLE);
+                handWave.setBackgroundColor(Color.TRANSPARENT);
+            }
         }
 
         @Override

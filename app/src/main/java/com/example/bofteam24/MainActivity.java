@@ -27,6 +27,37 @@ public class MainActivity extends AppCompatActivity {
 
     AppDatabase db;
 
+    private void setSameNumCourses() {
+        User me = UserSelf.getInstance(this);
+        List<User> otherUsers = db.userDao().getOthers(me.getUserId());
+        List<CourseRoom> myCourses = db.courseDao().getForUser(me.getUserId());
+
+        for(User otherUser : otherUsers) {
+            List<CourseRoom> otherCoursesRoom = db.courseDao().getForUser(otherUser.getUserId());
+            int sameNumCourses = 0;
+            for(CourseRoom course : myCourses) {
+                String myCourse = course.toMockString();
+                for(CourseRoom otherCourseRoom : otherCoursesRoom) {
+                    String otherCourse = otherCourseRoom.getCourseName();
+                    Log.i("PAIRS", myCourse + ";" + otherCourse);
+                    if (myCourse.equals(otherCourse)) {
+                        sameNumCourses+=1;
+                    }
+                }
+            }
+            if (otherUser.getNumOfSameCourses() != sameNumCourses) {
+                if (sameNumCourses == 0) {
+                    db.courseDao().deleteUserCourses(otherUser.getUserId());
+                    db.userDao().delete(otherUser);
+                }
+                else {
+                    otherUser.setNumOfSameCourses(sameNumCourses);
+                    db.userDao().updateNumCourses(otherUser.getUserId(), sameNumCourses);
+                }
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(loginAct);
         }
         db = AppDatabase.singleton(this);
+        setSameNumCourses();
     }
 
     @Override

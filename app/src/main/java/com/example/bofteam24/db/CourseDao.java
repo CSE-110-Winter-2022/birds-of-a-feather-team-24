@@ -21,6 +21,9 @@ public interface CourseDao {
     @Query("SELECT * FROM courses where courseId=:courseId")
     CourseRoom get(int courseId);
 
+    @Query("SELECT * FROM courses where userId=:userId and courseName=:courseName")
+    CourseRoom getSpecificCourse(String userId, String courseName);
+
     //add a duplicate course check?
 
     @Query("SELECT COUNT(*) from courses")
@@ -40,4 +43,7 @@ public interface CourseDao {
 
     @Query("DELETE FROM courses WHERE userId!=:userId")
     void deleteOthers(String userId);
+
+    @Query("DELETE FROM courses WHERE userId=:userId")
+    void deleteUserCourses(String userId);
 }

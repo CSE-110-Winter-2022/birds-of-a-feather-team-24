@@ -36,7 +36,8 @@ public class StudentsListActivity extends AppCompatActivity {
     public static AppDatabase db;
     public static List<User> users;
     public static List<CourseRoom> allCoursesInfo;
-    public static boolean cameFromMock = false;
+    public static Message myMessage;
+    public static String myMessageString;
 
     @SuppressLint("LongLogTag")
     @Override
@@ -48,15 +49,38 @@ public class StudentsListActivity extends AppCompatActivity {
         users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
         allCoursesInfo = db.courseDao().getAll();
 
-        //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
         Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
         Collections.reverse(StudentsListActivity.users);
 
-        // before
-//        RecyclerView studentView = (RecyclerView) findViewById(R.id.student_view);
-//        StudentViewAdapter adapter = new StudentViewAdapter(StudentsListActivity.users);
-//        studentView.setAdapter(adapter);
-//        studentView.setLayoutManager(new LinearLayoutManager(this));
+        // everything below is for sending your own message to other devices
+        String userId = UserSelf.getInstance(this).getUserId();
+        User user = db.userDao().getUserWithId(userId);
+        List<CourseRoom> courses = db.courseDao().getForUser(userId);
+        String userName = user.getName();
+        String photoURL = user.getPhotoUrl();
+        List<String> stringCourses = new ArrayList<>();
+
+        for(int i = 0; i < courses.size(); i++) {
+            CourseRoom course = courses.get(i);
+            String stringCourse = course.toMockString();
+            stringCourse = stringCourse.replaceAll(" ", ",");
+            if (i != courses.size()-1) { stringCourse += "\n"; }
+            stringCourses.add(stringCourse);
+        }
+
+        StringBuilder myMessageBuilder = new StringBuilder(userName + ",,,\n" + photoURL + ",,,\n");
+
+        for(String course : stringCourses) {
+            myMessageBuilder.append(course);//.append("\n");
+        }
+
+        myMessageString = myMessageBuilder.toString();
+        myMessage = new Message(myMessageString.getBytes());
+
+        Nearby.getMessagesClient(this).publish(myMessage);
+        Log.i("Published my message", myMessageString);
+        // sending your message done
+
 
         RecyclerView studentView = findViewById(R.id.student_view);
         LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
@@ -67,10 +91,11 @@ public class StudentsListActivity extends AppCompatActivity {
 
     public void onStopClick(View view) {
         if (MockActivity.messageListener != null) {
-            Message lostMessage = new Message("lost signal".getBytes());
             Nearby.getMessagesClient(this).unsubscribe(MockActivity.messageListener);
-            MockActivity.messageListener.onLost(lostMessage);
-            Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
+            Log.i("Unsubscribe Message Listener", "...");
+            MockActivity.messageListener.onLost(MockActivity.mMessage);
+            Nearby.getMessagesClient(this).unpublish(myMessage);
+            Log.i("Unpublished my message", myMessageString);
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
