@@ -7,6 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ import java.util.List;
 public interface UserDao {
     @Query("SELECT MAX(userId) from users")
     int maxId();
+
+    @Transaction
     @Query("SELECT * FROM users")
     List<User> retrieveAllUsers();
 
@@ -26,12 +29,14 @@ public interface UserDao {
     @Query("DELETE FROM users")
     void deleteAll();
 
+    @Transaction
     @Query("SELECT * FROM users WHERE userId=:userId")
     User getUserWithId(String userId);
 
     @Query("SELECT COUNT(*) from users")
     int count();
 
+    @Transaction
     @Query("SELECT * FROM users WHERE userId!=:userId")
     List<User> getOthers(String userId);
 

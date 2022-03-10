@@ -48,7 +48,7 @@ public class CourseRoom {
     }
 
     @PrimaryKey(autoGenerate = true) // auto generate a unique ID for courseID
-    private int courseId = 0;   // courseID is just there as if it is a row number
+    private Integer courseId = 0;   // courseID is just there as if it is a row number
 
     @ColumnInfo
     private String userId;
@@ -56,11 +56,11 @@ public class CourseRoom {
     @ColumnInfo
     private String courseName;
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 

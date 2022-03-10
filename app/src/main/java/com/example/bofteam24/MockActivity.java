@@ -42,7 +42,6 @@ public class MockActivity extends AppCompatActivity {
     public void onEnterClick(View view) {
         EditText editText = this.findViewById(R.id.edit_text);
         String csvInfo = editText.getText().toString();
-        StudentsListActivity.cameFromMock = true;
         if (!csvInfo.equals("")) {
             Message mMessage = new Message(csvInfo.getBytes());
             Nearby.getMessagesClient(this).subscribe(messageListener);

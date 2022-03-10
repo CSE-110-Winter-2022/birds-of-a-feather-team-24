@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bofteam24">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BoFTeam24">
-
+        <activity
+            android:name=".SaveSessionActivity"
+            android:exported="false" />
         <activity
             android:name=".ProfilePictureActivity"
             android:exported="false" />
-
         <activity
             android:name=".TestingActivity"
             android:exported="false" />
@@ -24,12 +22,10 @@
             android:name=".MockActivity"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.google.android.nearby.message.API_KEY"
-            android:value="AIzaSyA7OFvDubaC4uGVLIKdRS6gOY5_eGu4sCc" />
         <activity
             android:name=".StudentsListActivity"
             android:exported="false" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -48,6 +44,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.nearby.message.API_KEY"
+            android:value="AIzaSyA7OFvDubaC4uGVLIKdRS6gOY5_eGu4sCc" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -15,9 +15,11 @@ public interface CourseDao {
     @Query("SELECT * FROM courses where userId=:userId")
     List<CourseRoom> getForUser(String userId);
 
+    @Transaction
     @Query("SELECT * FROM courses")
     List<CourseRoom> getAll();
 
+    @Transaction
     @Query("SELECT * FROM courses where courseId=:courseId")
     CourseRoom get(int courseId);
 
@@ -40,4 +42,7 @@ public interface CourseDao {
 
     @Query("DELETE FROM courses WHERE userId!=:userId")
     void deleteOthers(String userId);
+
+    @Query("SELECT * FROM courses WHERE userId=:userId AND courseName LIKE '%' || :quarterYear")
+    List<CourseRoom> getCurrentCourses(String userId, String quarterYear);
 }

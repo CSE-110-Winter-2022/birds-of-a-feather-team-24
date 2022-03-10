@@ -1,19 +1,11 @@
 package com.example.bofteam24;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,42 +13,40 @@ import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.Session;
 import com.example.bofteam24.db.User;
-import com.example.bofteam24.db.UserWithCourses;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class StudentsListActivity extends AppCompatActivity {
 
     public static AppDatabase db;
     public static List<User> users;
     public static List<CourseRoom> allCoursesInfo;
-    public static boolean cameFromMock = false;
-    String sessionName;
     String savedName;
+    Session session;
+
+    MessageListener messageListener;
 
     @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
-        sessionName = getIntent().getStringExtra("time");
 
         db = AppDatabase.singleton(this);
         users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
         allCoursesInfo = db.courseDao().getAll();
 
-
+        Date currentTime = Calendar.getInstance().getTime();
+        String time = currentTime.toString();
+        session = new Session(time);
+        db.sessionDao().insert(session);
 
         //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
         Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
@@ -84,6 +74,7 @@ public class StudentsListActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, SaveSessionActivity.class);
+        intent.putExtra("sessionId", session.getSessionId());
         startActivity(intent);
 
 //        AlertDialog.Builder alert = new AlertDialog.Builder(this);

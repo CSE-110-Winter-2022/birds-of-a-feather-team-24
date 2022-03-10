@@ -1,60 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".SaveSessionActivity">
 
-    <Button
-        android:id="@+id/save_custom_buttom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="235dp" />
+<Button
+    android:id="@+id/save_custom_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="72dp"
+    android:onClick="onSaveCustomClick"
+    android:text="Save"
+    app:layout_constraintBottom_toTopOf="@+id/textView2"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/session_name_text_field" />
 
-    <Button
-        android:id="@+id/use_current_course_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Use Current Course"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="566dp" />
+<Button
+    android:id="@+id/use_current_course_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="117dp"
+    android:onClick="onSaveCurrentClick"
+    android:text="Use Current Course"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="@+id/current_courses_spinner"
+    app:layout_constraintTop_toBottomOf="@+id/current_courses_spinner" />
 
-    <Spinner
-        android:id="@+id/current_courses_spinner"
-        android:layout_width="203dp"
-        android:layout_height="53dp"
-        android:textAlignment="textEnd"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="473dp" />
+<EditText
+    android:id="@+id/session_name_text_field"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginBottom="44dp"
+    android:ems="10"
+    android:hint="enter custom name..."
+    android:inputType="textPersonName"
+    app:layout_constraintBottom_toTopOf="@+id/save_custom_button"
+    app:layout_constraintStart_toStartOf="@+id/save_session_label"
+    app:layout_constraintTop_toBottomOf="@+id/save_session_label" />
 
-    <EditText
-        android:id="@+id/session_name_text_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="enter custom name..."
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="146dp" />
+<Spinner
+    android:id="@+id/current_courses_spinner"
+    android:layout_width="203dp"
+    android:layout_height="0dp"
+    android:layout_marginBottom="40dp"
+    android:textAlignment="textEnd"
+    app:layout_constraintBottom_toTopOf="@+id/use_current_course_button"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="62dp"
-        android:layout_height="58dp"
-        android:text="OR"
-        android:textSize="42dp"
-        tools:layout_editor_absoluteX="174dp"
-        tools:layout_editor_absoluteY="355dp" />
+<TextView
+    android:id="@+id/textView2"
+    android:layout_width="62dp"
+    android:layout_height="0dp"
+    android:layout_marginBottom="60dp"
+    android:text="OR"
+    android:textSize="42dp"
+    app:layout_constraintBottom_toTopOf="@+id/current_courses_spinner"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/save_custom_button" />
 
-    <TextView
-        android:id="@+id/save_session_label"
-        android:layout_width="239dp"
-        android:layout_height="40dp"
-        android:text="Name Session"
-        android:textAlignment="center"
-        android:textSize="32sp"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="52dp" />
+<TextView
+    android:id="@+id/save_session_label"
+    android:layout_width="239dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="52dp"
+    android:layout_marginBottom="54dp"
+    android:text="Name Session"
+    android:textAlignment="center"
+    android:textSize="32sp"
+    app:layout_constraintBottom_toTopOf="@+id/session_name_text_field"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
