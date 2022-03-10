@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 String myCourse = course.toMockString();
                 for(CourseRoom otherCourseRoom : otherCoursesRoom) {
                     String otherCourse = otherCourseRoom.getCourseName();
-                    Log.i("PAIRS", myCourse + ";" + otherCourse);
+                    // Log.i("PAIRS", myCourse + ";" + otherCourse);
                     if (myCourse.equals(otherCourse)) {
                         sameNumCourses+=1;
                     }

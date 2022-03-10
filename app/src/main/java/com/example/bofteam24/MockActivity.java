@@ -18,14 +18,17 @@ import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MockActivity extends AppCompatActivity {
 
-    public static MessageListener messageListener;
+    // public static MessageListener messageListener;
     public static Message mMessage;
+    public static ArrayList<String> incomingMessagesString = new ArrayList<>();
+    // private ArrayList<Message> incomingMessages;
     AppDatabase db;
 
     @Override
@@ -33,53 +36,24 @@ public class MockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock);
         db = AppDatabase.singleton(this);
-
-        if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
-
-//        // everything below is for sending your own message to other devices
-//        String userId = UserSelf.getInstance(this).getUserId();
-//        User user = db.userDao().getUserWithId(userId);
-//        List<CourseRoom> courses = db.courseDao().getForUser(userId);
-//        String userName = user.getName();
-//        String photoURL = user.getPhotoUrl();
-//        List<String> stringCourses = new ArrayList<>();
-//
-//        for(int i = 0; i < courses.size(); i++) {
-//            CourseRoom course = courses.get(i);
-//            String stringCourse = course.toMockString();
-//            stringCourse = stringCourse.replaceAll(" ", ",");
-//            if (i != courses.size()-1) { stringCourse += "\n"; }
-//            stringCourses.add(stringCourse);
-//        }
-//
-//        StringBuilder myMessage = new StringBuilder(userName + ",,,\n" + photoURL + ",,,\n");
-//
-//        for(String course : stringCourses) {
-//            myMessage.append(course);//.append("\n");
-//        }
-//
-//        Log.d("---------------------- myMessage ", myMessage.toString());
-//
-//        Nearby.getMessagesClient(this).publish(new Message(myMessage.toString().getBytes()));
-
+        // incomingMessagesString = new ArrayList<>();
+        // if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
     }
 
     public void onEnterClick(View view) {
         EditText editText = this.findViewById(R.id.edit_text);
         String csvInfo = editText.getText().toString();
-        Log.i("------- Entered Mock Info is ", csvInfo);
+        Log.d("--------------- Entered Mock Info is ", csvInfo);
 
         if (!csvInfo.equals("")) {
-            mMessage = new Message(csvInfo.getBytes());
-            Nearby.getMessagesClient(this).subscribe(messageListener);
-            Log.i("Subscribe to Messgae Listener", "...");
-            messageListener.onFound(mMessage);
+            incomingMessagesString.add(csvInfo);
         }
 
         editText.setText("");
     }
 
     public void onBackClick(View view) {
+        Log.d("--------------- incomingMessagesString size ", Integer.toString(incomingMessagesString.size()));
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

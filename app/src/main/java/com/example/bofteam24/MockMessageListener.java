@@ -24,6 +24,7 @@ public class MockMessageListener extends MessageListener {
     private Context context;
     private AppDatabase db;
     private User user;
+
     public MockMessageListener(Context context) {
         this.context = context;
         db = AppDatabase.singleton(context);
@@ -34,25 +35,17 @@ public class MockMessageListener extends MessageListener {
     @Override
     public void onFound(@NonNull Message message) {
         String messageString = new String(message.getContent());
-        Log.i(TAG, "Found message: " + messageString);
+        Log.i(TAG, "-------- Found message: " + "\n" + messageString);
         // Log.d("------------messageString ", messageString);
         messageString = messageString.trim();
         String[] csvInfoDivided = ParseUtils.cleanCVSInput(messageString);
-        for(int i = 0; i < csvInfoDivided.length; i++) {
-            String c = csvInfoDivided[i];
-            Log.d(i + ") ---------------- in MockMessageListener csvInfoDivided[" + i + "]", c);
-        }
 
         String userIDString = ParseUtils.getUserId(csvInfoDivided);
         String firstName = ParseUtils.getUserFirstName(csvInfoDivided);
         String photoURL = ParseUtils.getUserPhotoURL(csvInfoDivided);
 
-        Log.d("---------------- in MockMessageListener userIDString", userIDString);
-        Log.d("---------------- in MockMessageListener firstName", firstName);
-        Log.d("---------------- in MockMessageListener photoURL", photoURL);
         ArrayList<String> allCoursesString = ParseUtils.getAllCoursesInfo(csvInfoDivided);
-        Log.d("---------------- getting all courses info", "...");
-        ParseUtils.printAllCourses(allCoursesString);
+        // ParseUtils.printAllCourses(allCoursesString);
 
         boolean wave = false;
         if (allCoursesString.get(allCoursesString.size() - 1).contains("_")) {
@@ -65,19 +58,11 @@ public class MockMessageListener extends MessageListener {
         Log.d("------------------ user ID when creating user ", userIDString);
         User otherUser = db.userDao().getUserWithId(userIDString);
 
+        // user does not exist in database
         if(otherUser == null) {
             List<CourseRoom> myCourses = db.courseDao().getForUser(user.getUserId());
 
-            int sameNumCourses = 0;
-            for(CourseRoom course : myCourses) {
-                String myCourse = course.toMockString();
-                for(String otherCourse : allCoursesString) {
-                    Log.i("PAIRS", myCourse + ";" + otherCourse);
-                    if (myCourse.equals(otherCourse)) {
-                        sameNumCourses+=1;
-                    }
-                }
-            }
+            int sameNumCourses = ParseUtils.getSameNumCourses1(myCourses, allCoursesString);
 
             if (sameNumCourses == 0) { return; }
 
@@ -91,13 +76,13 @@ public class MockMessageListener extends MessageListener {
                 db.courseDao().insert(course);
             }
         }
-        else {
+        else { // user already exists in database
             Log.d("------------------ user with ^ ID DOES exist in DB ", "...");
             List<CourseRoom> otherUserPrevCourses = db.courseDao().getForUser(otherUser.getUserId());
             List<String> otherUserPrevCoursesString = new ArrayList<>();
 
             for (CourseRoom cr : otherUserPrevCourses) {
-                Log.d("------------------ other user prev courses ", cr.getCourseName());
+                // Log.d("------------------ other user prev courses ", cr.getCourseName());
                 otherUserPrevCoursesString.add(cr.getCourseName());
             }
 
@@ -129,24 +114,18 @@ public class MockMessageListener extends MessageListener {
             List<CourseRoom> updatedOtherUserCourses = db.courseDao().getForUser(otherUser.getUserId());
             List<CourseRoom> myCourses = db.courseDao().getForUser(user.getUserId());
 
-            int sameNumCourses = 0;
-            for(CourseRoom course : myCourses) {
-                String myCourse = course.toMockString();
-                for(CourseRoom otherCourseRoom : updatedOtherUserCourses) {
-                    String otherCourse = otherCourseRoom.getCourseName();
-                    Log.i("PAIRS", myCourse + ";" + otherCourse);
-                    if (myCourse.equals(otherCourse)) {
-                        sameNumCourses+=1;
-                    }
-                }
-            }
+            int sameNumCourses = ParseUtils.getSameNumCourses2(myCourses, updatedOtherUserCourses);
 
             if (!photoURL.equals(otherUser.getPhotoUrl())) {
                 otherUser.setPhotoUrl(photoURL);
                 db.userDao().updateUserPhoto(otherUser.getUserId(), photoURL);
             }
 
-            if (sameNumCourses != (otherUser.getNumOfSameCourses())) {
+            if (sameNumCourses == 0) {
+                db.courseDao().deleteUserCourses(otherUser.getUserId());
+                db.userDao().delete(otherUser);
+            }
+            else if (sameNumCourses != (otherUser.getNumOfSameCourses())) {
                 otherUser.setNumOfSameCourses(sameNumCourses); // 1
                 db.userDao().updateNumCourses(otherUser.getUserId(), sameNumCourses);
             }
@@ -166,6 +145,6 @@ public class MockMessageListener extends MessageListener {
 
     @Override
     public void onLost(@NonNull Message message) {
-        Log.i(TAG, "Lost message: " + new String(message.getContent()));
+        Log.i(TAG, "-------- Lost message: " + "\n" + new String(message.getContent()));
     }
 }

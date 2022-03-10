@@ -2,13 +2,17 @@ package com.example.bofteam24;
 
 import android.util.Log;
 
+import com.example.bofteam24.db.CourseRoom;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class ParseUtils {
     private ParseUtils() { }
 
     public static boolean wave;
+    public static String TAG = "BoF-Team24";
 
     /*
     Method to clean up the incoming cvs input. Remove spaces, new lines, etc.
@@ -18,17 +22,20 @@ public final class ParseUtils {
 
         String[] csvInfoDivided = csvInfo.split(",");
         String[] dividedByNewLine = csvInfo.split("\n");
+        String lastLine = dividedByNewLine[dividedByNewLine.length - 1];
+
         String csvInfoDividedSize = String.valueOf(csvInfoDivided.length);
         String dividedByNewLineSize = String.valueOf(dividedByNewLine.length);
 
 //        Log.d("---------------- size of csvInfoDivided", csvInfoDividedSize);
 //        Log.d("---------------- size of dividedByNewLine", dividedByNewLineSize);
-        if (dividedByNewLine.length == 5) {
-            ParseUtils.wave = false;
-        }
-        else if (dividedByNewLine.length > 5) {
+        if (lastLine.contains("wave")) {
             ParseUtils.wave = true;
         }
+        else {
+            ParseUtils.wave = false;
+        }
+
         for(int i = 0; i < csvInfoDivided.length; i++) {
             String index = String.valueOf(i);
             if (i >=3 ) {
@@ -72,22 +79,6 @@ public final class ParseUtils {
         String userId = csvInfoDivided[0]; // added
         String firstName = csvInfoDivided[4];
         String photoURL = csvInfoDivided[8];
-//        for(int i = 0; i < csvInfoDivided.length; i++) {
-//            if (i == csvInfoDivided.length - 1) {
-//                break;
-//            }
-//            if (i == 0) {
-//                userId = csvInfoDivided[i];
-//                Log.d("---------------- userId", userId);
-//            }
-//            if (i == 4) { // prev (i == 0)
-//                firstName = csvInfoDivided[i];
-//                Log.d("---------------- firstName", firstName);
-//            } else if (i == 8) { // prev (i == 3)
-//                photoURL = csvInfoDivided[i];
-//                Log.d("---------------- photoURL", photoURL);
-//            }
-//        }
 
         return new String[]{firstName, photoURL};
     }
@@ -192,5 +183,36 @@ public final class ParseUtils {
         }
 
         return allCoursesInfo;
+    }
+
+    public static int getSameNumCourses1(List<CourseRoom> myCourses, List<String> allCoursesString) {
+        int sameNumCourses = 0;
+        for(CourseRoom course : myCourses) {
+            String myCourse = course.toMockString();
+            for(String otherCourse : allCoursesString) {
+                // Log.i("PAIRS", myCourse + ";" + otherCourse);
+                if (myCourse.equals(otherCourse)) {
+                    sameNumCourses+=1;
+                }
+            }
+        }
+
+        return sameNumCourses;
+    }
+
+    public static int getSameNumCourses2(List<CourseRoom> myCourses, List<CourseRoom> allCoursesString) {
+        int sameNumCourses = 0;
+        for(CourseRoom course : myCourses) {
+            String myCourse = course.toMockString();
+            for(CourseRoom otherCourseRoom : allCoursesString) {
+                String otherCourse = otherCourseRoom.getCourseName();
+                // Log.i("PAIRS", myCourse + ";" + otherCourse);
+                if (myCourse.equals(otherCourse)) {
+                    sameNumCourses+=1;
+                }
+            }
+        }
+
+        return sameNumCourses;
     }
 }

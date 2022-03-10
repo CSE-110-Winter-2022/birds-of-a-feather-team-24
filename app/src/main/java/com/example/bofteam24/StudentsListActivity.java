@@ -38,6 +38,7 @@ public class StudentsListActivity extends AppCompatActivity {
     public static List<CourseRoom> allCoursesInfo;
     public static Message myMessage;
     public static String myMessageString;
+    public static MessageListener messageListener;
 
     @SuppressLint("LongLogTag")
     @Override
@@ -46,11 +47,10 @@ public class StudentsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_students_list);
 
         db = AppDatabase.singleton(this);
-        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
-        allCoursesInfo = db.courseDao().getAll();
 
-        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
-        Collections.reverse(StudentsListActivity.users);
+        if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
+        Nearby.getMessagesClient(this).subscribe(messageListener);
+        Log.d("-------- Subscribed to Message Listener", "...");
 
         // everything below is for sending your own message to other devices
         String userId = UserSelf.getInstance(this).getUserId();
@@ -78,9 +78,26 @@ public class StudentsListActivity extends AppCompatActivity {
         myMessage = new Message(myMessageString.getBytes());
 
         Nearby.getMessagesClient(this).publish(myMessage);
-        Log.i("Published my message", myMessageString);
+        Log.d(ParseUtils.TAG, "-------- Published my message" + "\n" + myMessageString);
         // sending your message done
 
+        // everything below is mocking
+        if (MockActivity.incomingMessagesString == null || MockActivity.incomingMessagesString.size() == 0) {
+            Log.d("------------- incomingMessagesString IS NULL", "...");
+        }
+        if (MockActivity.incomingMessagesString != null && MockActivity.incomingMessagesString.size() > 0) {
+            Log.d("------------- incomingMessagesString is NOT NULL", "...");
+            for (String messageString : MockActivity.incomingMessagesString) {
+                // Log.d("----- the string that came from mock activity ", messageString);
+                messageListener.onFound(new Message(messageString.getBytes()));
+            }
+        }
+
+        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
+        allCoursesInfo = db.courseDao().getAll();
+
+        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
+        Collections.reverse(StudentsListActivity.users);
 
         RecyclerView studentView = findViewById(R.id.student_view);
         LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
@@ -90,13 +107,23 @@ public class StudentsListActivity extends AppCompatActivity {
     }
 
     public void onStopClick(View view) {
-        if (MockActivity.messageListener != null) {
-            Nearby.getMessagesClient(this).unsubscribe(MockActivity.messageListener);
-            Log.i("Unsubscribe Message Listener", "...");
-            MockActivity.messageListener.onLost(MockActivity.mMessage);
+        if (messageListener != null) {
+
             Nearby.getMessagesClient(this).unpublish(myMessage);
-            Log.i("Unpublished my message", myMessageString);
+            Log.d(ParseUtils.TAG, "-------- Unpublished my message" + "\n" + myMessageString);
+
+            Nearby.getMessagesClient(this).unsubscribe(messageListener);
+            Log.d(ParseUtils.TAG, "-------- Unsubscribed Message Listener");
+
+            // this is for mocking
+            if (MockActivity.incomingMessagesString != null && MockActivity.incomingMessagesString.size() > 0) {
+                for (String messageString : MockActivity.incomingMessagesString) {
+                    messageListener.onLost(new Message(messageString.getBytes()));
+                }
+            }
+
         }
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -123,4 +150,5 @@ public class StudentsListActivity extends AppCompatActivity {
 //
 //        Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
     }
+
 }
