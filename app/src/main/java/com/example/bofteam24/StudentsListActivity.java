@@ -82,36 +82,42 @@ public class StudentsListActivity extends AppCompatActivity {
             MockActivity.messageListener.onLost(lostMessage);
             Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
         }
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        final EditText edittext = new EditText(this);
-        alert.setMessage("Enter Custom Save Name");
-        alert.setTitle("Name Session");
 
-        alert.setView(edittext);
+        Intent intent = new Intent(this, SaveSessionActivity.class);
+        startActivity(intent);
 
-        alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                savedName = edittext.getText().toString();
-                for(int i = 0; i < users.size(); i++) {
-                    Session session = new Session(0, savedName, users.get(i).getUserId());
-                }
-                Intent intent = new Intent(alert.getContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        alert.setNegativeButton("Select Current Enrolled Class", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // what ever you want to do with No option.
-                for(int i = 0; i < users.size(); i++) {
-                    Session session = new Session(0, savedName, users.get(i).getUserId());
-                }
-                Intent intent = new Intent(alert.getContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        alert.show();
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        final EditText edittext = new EditText(this);
+//        alert.setMessage("Enter Custom Save Name");
+//        alert.setTitle("Name Session");
+//
+//        alert.setView(edittext);
+//
+//        alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                savedName = edittext.getText().toString();
+//                for(int i = 0; i < users.size(); i++) {
+//                    Session session = new Session(0, savedName, users.get(i).getUserId());
+//                }
+//                Intent intent = new Intent(alert.getContext(), MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        alert.setNegativeButton("Select Current Enrolled Class", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//
+//                // what ever you want to do with No option.
+//                for(int i = 0; i < users.size(); i++) {
+//                    Session session = new Session(0, savedName, users.get(i).getUserId());
+//                }
+//
+//                Intent intent = new Intent(alert.getContext(), MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        alert.show();
 
     }
 

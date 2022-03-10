@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/save_custom_buttom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="235dp" />
+
+    <Button
+        android:id="@+id/use_current_course_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use Current Course"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="566dp" />
+
+    <Spinner
+        android:id="@+id/current_courses_spinner"
+        android:layout_width="203dp"
+        android:layout_height="53dp"
+        android:textAlignment="textEnd"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="473dp" />
+
+    <EditText
+        android:id="@+id/session_name_text_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="enter custom name..."
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="146dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="62dp"
+        android:layout_height="58dp"
+        android:text="OR"
+        android:textSize="42dp"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="355dp" />
+
+    <TextView
+        android:id="@+id/save_session_label"
+        android:layout_width="239dp"
+        android:layout_height="40dp"
+        android:text="Name Session"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="52dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
