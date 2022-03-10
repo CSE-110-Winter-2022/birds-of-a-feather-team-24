@@ -56,7 +56,7 @@
       },
       {
         "tableName": "courses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`courseId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT, `courseName` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`courseId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT, `courseName` TEXT, `courseSize` TEXT)",
         "fields": [
           {
             "fieldPath": "courseId",
@@ -73,6 +73,12 @@
           {
             "fieldPath": "courseName",
             "columnName": "courseName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "courseSize",
+            "columnName": "courseSize",
             "affinity": "TEXT",
             "notNull": false
           }

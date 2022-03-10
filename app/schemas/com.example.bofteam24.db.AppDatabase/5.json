@@ -75,6 +75,12 @@
             "columnName": "courseName",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "courseSize",
+            "columnName": "courseSize",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {

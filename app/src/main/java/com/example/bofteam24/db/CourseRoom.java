@@ -7,10 +7,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "courses")
 public class CourseRoom {
 
-    public CourseRoom(int courseId, String userId, String courseName) {
+    public CourseRoom(int courseId, String userId, String courseName, String courseSize) {
         this.courseId = courseId;
         this.userId = userId;
         this.courseName = courseName;
+        this.courseSize = courseSize;
     }
 
     public String toString() {
@@ -59,6 +60,9 @@ public class CourseRoom {
     @ColumnInfo
     private String courseName;
 
+    @ColumnInfo
+    private String courseSize;
+
     public int getCourseId() {
         return courseId;
     }
@@ -82,6 +86,10 @@ public class CourseRoom {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+
+    public String getCourseSize() { return courseSize; }
+
+    public void setCourseSize(String courseSize) { this.courseSize = courseSize; }
 
     public boolean equals(CourseRoom other) { return other != null &&
             this.courseName.equals(other.courseName); }
