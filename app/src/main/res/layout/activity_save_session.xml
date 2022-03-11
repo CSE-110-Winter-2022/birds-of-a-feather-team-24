@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SaveSessionActivity">
+
+    <TextView
+        android:id="@+id/save_session_label"
+        android:layout_width="239dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="55dp"
+        android:text="Name Session"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/session_name_text_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_button_save_session" />
+
+    <Button
+        android:id="@+id/use_current_course_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="45dp"
+        android:onClick="onSaveCurrentClick"
+        android:text="Use Current Course"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/current_courses_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Spinner
+        android:id="@+id/current_courses_spinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="40dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/use_current_course_button"
+        app:layout_constraintEnd_toEndOf="@+id/save_session_label"
+        app:layout_constraintStart_toStartOf="@+id/save_session_label"
+        app:layout_constraintTop_toBottomOf="@+id/session_name_text_field" />
+
+    <EditText
+        android:id="@+id/session_name_text_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="274dp"
+        android:ems="10"
+        android:hint="enter custom name..."
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/current_courses_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/save_session_label"
+        app:layout_constraintTop_toBottomOf="@+id/save_session_label" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="150dp"
+        android:text="OR"
+        android:textSize="42dp"
+        app:layout_constraintBottom_toTopOf="@+id/use_current_course_button"
+        app:layout_constraintEnd_toEndOf="@+id/save_custom_button"
+        app:layout_constraintStart_toStartOf="@+id/save_custom_button"
+        app:layout_constraintTop_toBottomOf="@+id/save_custom_button" />
+
+    <Button
+        android:id="@+id/save_custom_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="318dp"
+        android:layout_marginBottom="72dp"
+        android:onClick="onSaveCustomClick"
+        android:text="Save"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_button_save_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="56dp"
+        android:text="cancel"
+        android:onClick="onCancelSaveSessionClick"
+        app:layout_constraintBottom_toTopOf="@+id/save_session_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

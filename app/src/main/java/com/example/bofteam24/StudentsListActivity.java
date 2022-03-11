@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
+import com.example.bofteam24.db.Session;
 import com.example.bofteam24.db.User;
 import com.example.bofteam24.db.UserWithCourses;
 import com.google.android.gms.nearby.Nearby;
@@ -28,8 +29,10 @@ import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -43,6 +46,9 @@ public class StudentsListActivity extends AppCompatActivity {
     private Message myMessage;
     private MessageListener messageListener;
     private RecyclerView studentView;
+
+    private Session session;
+    private Long sessionId;
 
     private String getMyMessageString() {
         // everything below is for sending your own message to other devices
@@ -85,6 +91,13 @@ public class StudentsListActivity extends AppCompatActivity {
 
 //        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
 //        allCoursesInfo = db.courseDao().getAll();
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String time = currentTime.toString();
+        session = new Session(null, time);
+        sessionId = db.sessionDao().insert(session);
+        Log.d(ParseUtils.TAG, "----------- in StudentList db.sessionDao().getAll() size: "
+                + Integer.toString(db.sessionDao().getAll().size()));
 
         studentView = findViewById(R.id.student_view);
 
@@ -155,7 +168,8 @@ public class StudentsListActivity extends AppCompatActivity {
     }
 
     public void onStopClick(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SaveSessionActivity.class);
+        intent.putExtra("sessionId", sessionId);
         startActivity(intent);
     }
 
@@ -191,4 +205,8 @@ public class StudentsListActivity extends AppCompatActivity {
         }
     }
 
+    public void onBackClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }

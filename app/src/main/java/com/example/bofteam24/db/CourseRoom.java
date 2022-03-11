@@ -73,9 +73,7 @@ public class CourseRoom {
 
     public void setCourseSize(String courseSize) { this.courseSize = courseSize; }
 
-    public int getCourseId() {
-        return courseId;
-    }
+    public int getCourseId() { return this.courseId == null ? 0 : this.courseId; } // dummy getter
 
     public void setCourseId(int courseId) {
         this.courseId = courseId;

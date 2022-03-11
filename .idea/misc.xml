@@ -14,8 +14,10 @@
         <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile_picture.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/activity_add_classes.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_loaded_session.xml" value="0.146875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_save_session.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_students_list.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/course_description_row.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/spinner_textview_align.xml" value="0.23802083333333332" />

@@ -58,8 +58,6 @@ public class MockMessageListener extends MessageListener {
             String courseSize = courseSplit[4];
 
             CourseRoom course = new CourseRoom(null, userIDString, courseName, courseSize);
-            String courseStringId = Integer.toString(course.getCourseId());
-            Log.d("----------------- new course added Id ", courseStringId);
             db.courseDao().insert(course);
         }
     }
