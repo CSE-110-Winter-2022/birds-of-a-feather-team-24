@@ -14,7 +14,7 @@ public class SessionEntry {
     }
 
     @PrimaryKey(autoGenerate = true) // auto generate a unique entry number for each entry
-    private Integer entryId = 0;
+    private int entryId = 0;
 
     @ColumnInfo
     private int sessionId;
