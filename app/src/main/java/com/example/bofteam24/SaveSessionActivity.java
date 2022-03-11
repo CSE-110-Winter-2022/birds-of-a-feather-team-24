@@ -30,7 +30,7 @@ public class SaveSessionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_save_session);
         setTitle("Name Session");
 
-        int sessionId = getIntent().getExtras().getInt("sessionId", -1);
+        int sessionId = (int)getIntent().getLongExtra("sessionId", -1);
         if(sessionId == -1) throw new RuntimeException("Session ID not passed to SaveSessionActivity.class");
 
         db = AppDatabase.singleton(this);
@@ -74,7 +74,7 @@ public class SaveSessionActivity extends AppCompatActivity {
     }
 
     public void onCancelSaveSessionClick(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, StudentsListActivity.class);
         startActivity(intent);
     }
 }

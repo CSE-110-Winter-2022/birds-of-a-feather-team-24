@@ -30,6 +30,7 @@ public class StudentsListActivity extends AppCompatActivity {
     public static List<CourseRoom> allCoursesInfo;
     String savedName;
     Session session;
+    Long id;
 
     MessageListener messageListener;
 
@@ -45,8 +46,8 @@ public class StudentsListActivity extends AppCompatActivity {
 
         Date currentTime = Calendar.getInstance().getTime();
         String time = currentTime.toString();
-        session = new Session(time);
-        db.sessionDao().insert(session);
+        session = new Session(null, time);
+        id = db.sessionDao().insert(session);
 
         //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
         Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
@@ -74,7 +75,7 @@ public class StudentsListActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, SaveSessionActivity.class);
-        intent.putExtra("sessionId", session.getSessionId());
+        intent.putExtra("sessionId", id);
         startActivity(intent);
 
 //        AlertDialog.Builder alert = new AlertDialog.Builder(this);

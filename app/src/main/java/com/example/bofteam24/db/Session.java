@@ -7,12 +7,13 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "sessions")
 public class Session {
-    public Session(String sessionName) {
+    public Session(Integer sessionId, String sessionName) {
+        this.sessionId = sessionId;
         this.sessionName = sessionName;
     }
 
     @PrimaryKey(autoGenerate = true) // auto generate a unique entry number for each entry
-    private Integer sessionId = 0;
+    private Integer sessionId = null;
 
     @NonNull
     @ColumnInfo

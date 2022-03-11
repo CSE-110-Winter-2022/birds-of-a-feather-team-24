@@ -28,7 +28,7 @@ public interface SessionDao {
     List<String> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Session session);
+    Long insert(Session session);
 
     @Delete
     void delete(Session session);

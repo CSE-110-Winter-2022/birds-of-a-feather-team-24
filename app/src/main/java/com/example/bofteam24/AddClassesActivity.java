@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -76,8 +77,9 @@ public class AddClassesActivity extends AppCompatActivity {
 //        CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1,
 //                userId, courseDesc);
 //        CourseRoom newCourse = new CourseRoom(db.courseDao().maxId()+1, userId, courseDesc);
-        CourseRoom newCourse = new CourseRoom(0, userId, courseDesc);
-        db.courseDao().insert(newCourse);
+        CourseRoom newCourse = new CourseRoom(null, userId, courseDesc);
+        Long id = db.courseDao().insert(newCourse);
+        Log.i("Inserted Course ID", id.toString());
 //        coursesViewAdapter.addCourse(newCourse);
         List<CourseRoom> courseRoomList = db.courseDao().getForUser(userId);
         printCourseList(courseRoomList);
