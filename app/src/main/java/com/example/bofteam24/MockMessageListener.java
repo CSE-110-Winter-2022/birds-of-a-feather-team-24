@@ -3,6 +3,7 @@ package com.example.bofteam24;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -26,6 +27,7 @@ public class MockMessageListener extends MessageListener {
     private User user;
 
     public MockMessageListener(Context context) {
+        super();
         this.context = context;
         db = AppDatabase.singleton(context);
         user = UserSelf.getInstance(context);
@@ -36,6 +38,7 @@ public class MockMessageListener extends MessageListener {
     public void onFound(@NonNull Message message) {
         String messageString = new String(message.getContent());
         Log.i(TAG, "-------- Found message: " + "\n" + messageString);
+        Toast.makeText(context, "Found message: " + messageString, Toast.LENGTH_SHORT).show();
         // Log.d("------------messageString ", messageString);
         messageString = messageString.trim();
         String[] csvInfoDivided = ParseUtils.cleanCVSInput(messageString);
