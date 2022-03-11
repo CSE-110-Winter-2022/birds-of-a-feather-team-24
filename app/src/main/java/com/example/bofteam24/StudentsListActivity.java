@@ -48,16 +48,19 @@ public class StudentsListActivity extends AppCompatActivity {
         // everything below is for sending your own message to other devices
         String userId = UserSelf.getInstance(this).getUserId();
         User user = db.userDao().getUserWithId(userId);
-        List<CourseRoom> courses = db.courseDao().getForUser(userId);
+        List<CourseRoom> courses = db.courseDao().getForUser(userId); // my courses
         String userName = user.getName();
         String photoURL = user.getPhotoUrl();
         List<String> stringCourses = new ArrayList<>();
 
         for(int i = 0; i < courses.size(); i++) {
             CourseRoom course = courses.get(i);
-            String stringCourse = course.toMockString();
+            // String stringCourse = course.toMockString();
+            //String stringCourse = course.getCourseName() + " " + course.getCourseSize().split(",")[0];
+            String stringCourse = course.getCourseName() + " " + course.getCourseSize();
+            // Log.d("-------------------------------- course.getCourseSize() ", course.getCourseSize());
             stringCourse = stringCourse.replaceAll(" ", ",");
-            stringCourse += ",Small";
+            // stringCourse += ",Small";
             if (i != courses.size()-1) { stringCourse += "\n"; }
             stringCourses.add(stringCourse);
         }
@@ -80,15 +83,40 @@ public class StudentsListActivity extends AppCompatActivity {
 
         db = AppDatabase.singleton(this);
 
-        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
-        allCoursesInfo = db.courseDao().getAll();
+//        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
+//        allCoursesInfo = db.courseDao().getAll();
 
         studentView = findViewById(R.id.student_view);
+
+        // for testing
+//        messageListener = new MessageListener() {
+//            @Override
+//            public void onFound(@NonNull Message message) {
+//                String s = "Found message: " + new String(message.getContent());
+//                Log.d("Found message", s);
+//                Toast.makeText(StudentsListActivity.this, s, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onLost(@NonNull Message message) {
+//                String s = "Lost message: " + new String(message.getContent());
+//                Log.d("Lost message", s);
+//            }
+//        };
 
         messageListener = new MockMessageListener(StudentsListActivity.this, studentView);
 
         // everything below is for sending your own message to other devices
+        String myMsgAddition = getIntent().getStringExtra("my_msg_addition");
         myMessageString = getMyMessageString();
+        if (myMsgAddition == null) {
+            Log.d(ParseUtils.TAG, "--------- myMsgAddition is NULL");
+        }
+        if (myMsgAddition != null) {
+            Log.d(ParseUtils.TAG, "--------- myMsgAddition is NOT NULL");
+            Log.d(ParseUtils.TAG, "myMsgAddition is: " + myMsgAddition);
+            myMessageString += "\n" + myMsgAddition;
+        }
         myMessage = new Message(myMessageString.getBytes(StandardCharsets.UTF_8));
         Log.d(ParseUtils.TAG, " ---------- myMessage is: \n" + myMessageString);
     }
@@ -107,6 +135,7 @@ public class StudentsListActivity extends AppCompatActivity {
                 messageListener.onFound(new Message(messageString.getBytes()));
             }
         }
+        // mocking done
 
         Nearby.getMessagesClient(this).publish(myMessage);
         Log.d(ParseUtils.TAG, "-------- Published my message: \n" + myMessageString);

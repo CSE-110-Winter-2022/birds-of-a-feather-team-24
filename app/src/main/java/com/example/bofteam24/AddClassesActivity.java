@@ -147,6 +147,7 @@ public class AddClassesActivity extends AppCompatActivity {
 //                    courseNumber.toUpperCase(), courseSize);
 //            String courseDesc = String.format("%s %s %s %d", subject.toUpperCase(),
 //                    courseNumber.toUpperCase(), quarter, year);
+            courseSize = courseSize.split(" ")[0]; // added to make Large (150-250) --> Large
             addNewCourseToDatabase(courseDesc, courseSize);
 
             Toast.makeText(this, "Course Added!", Toast.LENGTH_LONG).show();

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
@@ -46,13 +47,15 @@ public class ProfileActivity extends AppCompatActivity {
         differentUser = !userId.equals(myId);
         if (differentUser) {
             //change "my courses" -> "<other_user>'s courses"
+            Button waveButton = (Button) findViewById(R.id.wave_button);
+            waveButton.setVisibility(View.VISIBLE);
+
             TextView coursesLabel = findViewById(R.id.my_courses_tv);
             coursesLabel.setText("(user_name)'s courses");
 
             //hide add course button
             Button addCourseButton = findViewById(R.id.add_course_button);
             addCourseButton.setVisibility(View.GONE);
-
 
 //            showProfilePictureFromURL("https://upload.wikimedia.org/wikipedia/commons/1/13/Ia-never-gonna-give-you-up-rick-astley-trionfale-remaster-4k-v3-500421.jpg");
         }
@@ -63,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         //setTitle to name of user
 
 //        //update
-        User user = db.userDao().getUserWithId(userId);
+        user = db.userDao().getUserWithId(userId);
         setTitle(user.getName());
 
         TextView name_tv = findViewById(R.id.name_place_holder_tv);
@@ -132,5 +135,21 @@ public class ProfileActivity extends AppCompatActivity {
             intent = new Intent(this, MainActivity.class);
         }
         startActivity(intent);
+    }
+
+    public void onWaveClicked(View view) {
+        Log.d(ParseUtils.TAG, "----------- I just clicked wave");
+        Intent intent = new Intent(this, StudentsListActivity.class);
+
+        // String myId = UserSelf.getInstance(this).getUserId();
+        String userId = user.getUserId();
+
+        String waveString = userId + ",wave,,,\n";
+        Log.d(ParseUtils.TAG, "----------- wave string is: " + waveString);
+        intent.putExtra("my_msg_addition", waveString);
+        Toast.makeText(this, "Wave sent to: " + user.getName(),
+                Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+
     }
 }

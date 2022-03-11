@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "courses")
 public class CourseRoom {
 
-    public CourseRoom(int courseId, String userId, String courseName, String courseSize) {
+    public CourseRoom(Integer courseId, String userId, String courseName, String courseSize) {
         this.courseId = courseId;
         this.userId = userId;
         // courseInfo = "2022 WI CSE 110 Small"
@@ -58,7 +58,7 @@ public class CourseRoom {
     }
 
     @PrimaryKey(autoGenerate = true) // auto generate a unique ID for courseID
-    private int courseId = 0;   // courseID is just there as if it is a row number
+    private Integer courseId = null;   // courseID is just there as if it is a row number
 
     @ColumnInfo
     private String userId;

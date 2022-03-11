@@ -57,7 +57,7 @@ public class MockMessageListener extends MessageListener {
             String courseName = courseSplit[0] + " " + courseSplit[1] + " " + courseSplit[2] + " " + courseSplit[3];
             String courseSize = courseSplit[4];
 
-            CourseRoom course = new CourseRoom(0, userIDString, courseName, courseSize);
+            CourseRoom course = new CourseRoom(null, userIDString, courseName, courseSize);
             String courseStringId = Integer.toString(course.getCourseId());
             Log.d("----------------- new course added Id ", courseStringId);
             db.courseDao().insert(course);
@@ -103,7 +103,7 @@ public class MockMessageListener extends MessageListener {
             String[] courseSplit = course.split(" ");
             String courseName = courseSplit[0] + " " + courseSplit[1] + " " + courseSplit[2] + " " + courseSplit[3];
             String courseSize = courseSplit[4];
-            CourseRoom courseRoom = new CourseRoom(0, otherUser.getUserId(), courseName, courseSize);
+            CourseRoom courseRoom = new CourseRoom(null, otherUser.getUserId(), courseName, courseSize);
             db.courseDao().insert(courseRoom);
         }
     }
@@ -188,7 +188,19 @@ public class MockMessageListener extends MessageListener {
 
             if (sameNumCourses == 0) {
                 db.courseDao().deleteUserCourses(otherUser.getUserId());
+                String deletedUserName = otherUser.getName();
                 db.userDao().delete(otherUser);
+                List<String> oldCsvInputs = new ArrayList<>();
+                for (String csvInput : MockActivity.incomingMessagesString) {
+                    oldCsvInputs.add(csvInput);
+                }
+                MockActivity.incomingMessagesString = new ArrayList<>();
+                for(String csvInput : oldCsvInputs) {
+                    String userName = csvInput.split("\n")[1];
+                    if (! userName.equals(deletedUserName)) {
+                        MockActivity.incomingMessagesString.add(csvInput);
+                    }
+                }
             }
             else if (sameNumCourses != (otherUser.getNumOfSameCourses())) {
                 otherUser.setNumOfSameCourses(sameNumCourses); // 1
