@@ -8,12 +8,14 @@
 
     <Button
         android:id="@+id/button_mock"
-        android:layout_width="78dp"
-        android:layout_height="68dp"
+        android:layout_width="84dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="74dp"
         android:onClick="onMockClick"
         android:text="MOCK"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/session_spinner"
         app:layout_constraintHorizontal_bias="0.951"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,12 +25,14 @@
     <TextView
         android:id="@+id/bof_title"
         android:layout_width="145dp"
-        android:layout_height="51dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="144dp"
         android:gravity="center"
         android:text="BoFs"
         android:textSize="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/choose_session_label"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,10 +46,10 @@
         android:text="START"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintVertical_bias="0.009" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,5 +64,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/profilepic" />
+
+    <Spinner
+        android:id="@+id/session_spinner"
+        android:layout_width="206dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="436dp"
+        android:textAlignment="textEnd"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/choose_session_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:text="Load Past Session"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/go_to_past_session_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bof_title" />
+
+    <Button
+        android:id="@+id/go_to_past_session_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="359dp"
+        android:text="Load"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choose_session_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

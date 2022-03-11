@@ -23,6 +23,10 @@ public interface SessionDao {
     @Query("SELECT * FROM sessions WHERE sessionId=:sessionId")
     Session getSessionById(int sessionId);
 
+    @Transaction
+    @Query("SELECT sessionName FROM sessions")
+    List<String> getAll();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Session session);
 

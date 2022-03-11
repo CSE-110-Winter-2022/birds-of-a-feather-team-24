@@ -5,8 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.bofteam24.db.AppDatabase;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +27,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(loginAct);
         }
         db = AppDatabase.singleton(this);
+
+        List<String> allSessionNames = db.sessionDao().getAll();
+        if (!allSessionNames.isEmpty()) {
+            //set session elements visible
+            Spinner sessionSpinner = findViewById(R.id.session_spinner);
+            TextView session_label = findViewById(R.id.choose_session_label);
+            Button load_session_button = findViewById(R.id.go_to_past_session_button);
+
+            sessionSpinner.setVisibility(View.VISIBLE);
+            session_label.setVisibility(View.VISIBLE);
+            load_session_button.setVisibility(View.VISIBLE);
+            //populate session_spinner with all saved sessions
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item);
+            adapter.addAll(allSessionNames);
+            sessionSpinner.setAdapter(adapter);
+        }
     }
 
     @Override
