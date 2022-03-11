@@ -42,6 +42,7 @@ public class StudentsListActivity extends AppCompatActivity {
     private Message myMessage;
     private String myMessageString;
     private MessageListener messageListener;
+    private RecyclerView studentView;
 
     @SuppressLint("LongLogTag")
     @Override
@@ -69,7 +70,7 @@ public class StudentsListActivity extends AppCompatActivity {
         Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
         Collections.reverse(StudentsListActivity.users);
 
-        RecyclerView studentView = findViewById(R.id.student_view);
+        studentView = findViewById(R.id.student_view);
         LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
         studentView.setLayoutManager(studentLayoutManager);
         StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
@@ -89,7 +90,7 @@ public class StudentsListActivity extends AppCompatActivity {
 //                Log.d("Lost message", s);
 //            }
 //        };
-        messageListener = new MockMessageListener(StudentsListActivity.this);
+        messageListener = new MockMessageListener(StudentsListActivity.this, studentView);
 
         // everything below is for sending your own message to other devices
         String userId = UserSelf.getInstance(this).getUserId();
@@ -103,11 +104,13 @@ public class StudentsListActivity extends AppCompatActivity {
             CourseRoom course = courses.get(i);
             String stringCourse = course.toMockString();
             stringCourse = stringCourse.replaceAll(" ", ",");
+            stringCourse += ",Small";
             if (i != courses.size()-1) { stringCourse += "\n"; }
             stringCourses.add(stringCourse);
         }
 
-        StringBuilder myMessageBuilder = new StringBuilder(userName + ",,,\n" + photoURL + ",,,\n");
+        StringBuilder myMessageBuilder = new StringBuilder(userId + ",,,,\n" +
+                userName + ",,,,\n" + photoURL + ",,,,\n");
 
         for(String course : stringCourses) {
             myMessageBuilder.append(course);//.append("\n");
@@ -115,6 +118,7 @@ public class StudentsListActivity extends AppCompatActivity {
 
         myMessageString = myMessageBuilder.toString();
         myMessage = new Message(myMessageString.getBytes(StandardCharsets.UTF_8));
+        Log.d(ParseUtils.TAG, " ---------- myMessage is: " + myMessage);
     }
 
     @Override

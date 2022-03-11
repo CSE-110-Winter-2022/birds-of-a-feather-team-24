@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
@@ -25,12 +26,14 @@ public class MockMessageListener extends MessageListener {
     private Context context;
     private AppDatabase db;
     private User user;
+    private RecyclerView studentView;
 
-    public MockMessageListener(Context context) {
+    public MockMessageListener(Context context, RecyclerView studentView) {
         super();
         this.context = context;
         db = AppDatabase.singleton(context);
         user = UserSelf.getInstance(context);
+        this.studentView = studentView;
     }
 
     @SuppressLint("SetTextI18n")
@@ -144,6 +147,8 @@ public class MockMessageListener extends MessageListener {
 
         StudentsListActivity.allCoursesInfo = db.courseDao().getAll();
         StudentsListActivity.users = db.userDao().getOthers(user.getUserId());
+        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
+        studentView.setAdapter(studentViewAdapter);
     }
 
     @Override
