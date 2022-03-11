@@ -138,12 +138,43 @@ public class AddClassesActivity extends AppCompatActivity {
         }
         else {
             //Using Room Database
-            String courseDesc = String.format("%s %s %s %d", subject.toUpperCase(),
-                    courseNumber.toUpperCase(), quarter, year);
+            String quarterAbbrev = getQuarterAbbrev(quarter);
+            String courseDesc = String.format("%d %s %s %s", year, quarterAbbrev, subject.toUpperCase(),
+                    courseNumber.toUpperCase());
+//            String quarterAbbrev = getQuarterAbbrev(quarter);
+//            String courseDesc = String.format("%d %s %s %s", year, quarterAbbrev, subject.toUpperCase(),
+//                    courseNumber.toUpperCase(), courseSize);
+//            String courseDesc = String.format("%s %s %s %d", subject.toUpperCase(),
+//                    courseNumber.toUpperCase(), quarter, year);
             addNewCourseToDatabase(courseDesc, courseSize);
 
             Toast.makeText(this, "Course Added!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private String getQuarterAbbrev(String quarter) {
+        String quarterAbbrev = "";
+        quarter = quarter.toUpperCase();
+
+        if(quarter.equals("FALL")) {
+            quarterAbbrev = "FA";
+        }
+        else if(quarter.equals("WINTER")) {
+            quarterAbbrev = "WI";
+        }
+        else if(quarter.equals("SPRING")) {
+            quarterAbbrev = "SP";
+        }
+        else if(quarter.equals("SUMMER SESSION 1")) {
+            quarterAbbrev = "SS1";
+        }
+        else if(quarter.equals("SUMMER SESSION 2")) {
+            quarterAbbrev = "SS2";
+        }
+        else { // SPECIAL SUMMER SESSION
+            quarterAbbrev = "SSS";
+        }
+        return quarterAbbrev;
     }
 
     public void onCancelClick(View view) {
