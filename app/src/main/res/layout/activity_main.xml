@@ -95,6 +95,7 @@
         android:layout_marginBottom="359dp"
         android:text="Load"
         android:visibility="gone"
+        android:onClick="onLoadClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

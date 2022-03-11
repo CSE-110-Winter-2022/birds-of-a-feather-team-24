@@ -74,4 +74,15 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("user_id", userId);
         startActivity(intent);
     }
+
+    public void onLoadClicked(View view) {
+        Spinner loaded_sessions_spinner = findViewById(R.id.session_spinner);
+        String selected = loaded_sessions_spinner.getSelectedItem().toString();
+
+        List<Integer> sessionId = db.sessionDao().getSessionIdForSession(selected);
+
+        Intent intent = new Intent(this, LoadedSessionActivity.class);
+        intent.putExtra("sessionId", sessionId.get(0));
+        startActivity(intent);
+    }
 }

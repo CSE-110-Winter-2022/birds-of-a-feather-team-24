@@ -27,6 +27,14 @@ public interface SessionDao {
     @Query("SELECT sessionName FROM sessions")
     List<String> getAll();
 
+    @Transaction
+    @Query("SELECT sessionId FROM sessions WHERE sessionName=:sessionName")
+    List<Integer> getSessionIdForSession(String sessionName);
+
+//    @Transaction
+//    @Query("SELECT userId FROM sessionEntries WHERE sessionId=:sessionId")
+//    List<Integer> getUserIdsForSession(String sessionId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(Session session);
 

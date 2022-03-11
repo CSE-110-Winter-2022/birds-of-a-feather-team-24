@@ -5,9 +5,12 @@
       <map>
         <entry key="..\:/BoFTeam24/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.22" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_loaded_session.xml" value="0.22" />
         <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_profile_picture.xml" value="0.14945652173913043" />
         <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_save_session.xml" value="0.23369565217391305" />
         <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_students_list.xml" value="0.2" />
+        <entry key="..\:/BoFTeam24/app/src/main/res/layout/course_description_row.xml" value="0.14945652173913043" />
         <entry key="..\:/BoFTeam24/app/src/main/res/layout/student_row.xml" value="0.2453125" />
         <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_login.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />

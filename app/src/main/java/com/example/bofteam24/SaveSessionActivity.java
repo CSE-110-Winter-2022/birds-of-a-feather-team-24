@@ -66,7 +66,13 @@ public class SaveSessionActivity extends AppCompatActivity {
 
     public void onSaveCustomClick(View view) {
         TextView sessionNameField = findViewById(R.id.session_name_text_field);
-        saveSessionName(sessionNameField.getText().toString());
+
+        if (!sessionNameField.getText().toString().equals("")) {
+            saveSessionName(sessionNameField.getText().toString());
+        }
+        else {
+            saveSessionName(session.getSessionName());
+        }
     }
 
     public void onSaveCurrentClick(View view) {
