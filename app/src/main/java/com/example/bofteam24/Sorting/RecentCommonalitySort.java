@@ -27,7 +27,7 @@ public class RecentCommonalitySort extends SortingStrategy {
     }
 
 
-    public int calculateCourseScore(CourseRoom course) {
+    public double calculateCourseScore(CourseRoom course) {
         int age;
         int score;
         String courseQuarter;

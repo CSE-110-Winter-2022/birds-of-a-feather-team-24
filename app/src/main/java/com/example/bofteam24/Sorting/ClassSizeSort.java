@@ -23,7 +23,7 @@ public class ClassSizeSort extends SortingStrategy {
     }
 
     @Override
-    public int calculateCourseScore(CourseRoom course) {
+    public double calculateCourseScore(CourseRoom course) {
         return 0;
     }
 

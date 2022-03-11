@@ -9,6 +9,7 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.bofteam24.Sorting.ClassSizeSort;
 import com.example.bofteam24.Sorting.RecentCommonalitySort;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseDao;
@@ -63,7 +64,7 @@ public class SortingAndFilteringTesting {
         User mockUser = new User();
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        assertTrue(4 < sorter.calculateAge("SPECIAL SUMMER SESSION", 2020));
+        assertTrue(4 < (sorter.calculateAge("SPECIAL SUMMER SESSION", 2020)));
         assertTrue(4 < sorter.calculateAge("FALL", 2018));
         assertTrue(4 < sorter.calculateAge("WINTER", 2019));
     }
@@ -76,7 +77,7 @@ public class SortingAndFilteringTesting {
         CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
                 "CSE 12 FALL 2020");
 
-        assertEquals(1, sorter.calculateCourseScore(course));
+        assertEquals(1, (int)sorter.calculateCourseScore(course));
     }
 
     @Test
@@ -87,7 +88,7 @@ public class SortingAndFilteringTesting {
         CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
                 "CSE 12 FALL 2018");
 
-        assertEquals(1, sorter.calculateCourseScore(course));
+        assertEquals(1, (int)sorter.calculateCourseScore(course));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class SortingAndFilteringTesting {
         CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
                 "CSE 12 FALL 2021");
 
-        assertEquals(5, sorter.calculateCourseScore(course));
+        assertEquals(5, (int)sorter.calculateCourseScore(course));
     }
 
     @Test
@@ -109,7 +110,7 @@ public class SortingAndFilteringTesting {
         CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
                 "CSE 12 SUMMER SESSION 1 2021");
 
-        assertEquals(4, sorter.calculateCourseScore(course));
+        assertEquals(4, (int)sorter.calculateCourseScore(course));
     }
 
     @Test
@@ -120,6 +121,55 @@ public class SortingAndFilteringTesting {
         CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
                 "CSE 12 WINTER 2022");
 
-        assertEquals(0, sorter.calculateCourseScore(course));
+        assertEquals(0, (int)sorter.calculateCourseScore(course));
+    }
+
+    @Test
+    public void calculateOverallScoreWithRecentCommonality() {
+        User mockUser = new User("id", "Test", "", 0);
+        RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
+
+        CourseRoom course1 = new CourseRoom(0, mockUser.getUserId(),
+                "CSE 12 WINTER 2022");
+        CourseRoom course2 = new CourseRoom(0, mockUser.getUserId(),
+                "CSE 12 FALL 2021");
+        CourseRoom course3 = new CourseRoom(0, mockUser.getUserId(),
+                "CSE 12 SPRING 2021");
+
+        db.courseDao().insert(course1);
+        db.courseDao().insert(course2);
+        db.courseDao().insert(course3);
+
+        System.out.println("-----size of course table: " + db.courseDao().getAll().size());
+
+        assertEquals(8, (int)sorter.calculateScore(mockUser));
+    }
+
+
+    //TESTING SORT BY CLASS SIZE
+    @Test
+    public void testCalcScoreForAllSizes() {
+//        User mockUser = new User();
+//        ClassSizeSort sorter = new ClassSizeSort(mockUser, db);
+//
+//        CourseRoom course1 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//        CourseRoom course2 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//        CourseRoom course3 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//        CourseRoom course4 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//        CourseRoom course5 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//        CourseRoom course6 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//
+//        assertEquals(1.00, sorter.calculateCourseScore(course1), 0.05);
+//        assertEquals(0.33, sorter.calculateCourseScore(course2), 0.05);
+//        assertEquals(0.18, sorter.calculateCourseScore(course3), 0.05);
+//        assertEquals(0.10, sorter.calculateCourseScore(course4), 0.05);
+//        assertEquals(0.06, sorter.calculateCourseScore(course5), 0.05);
+//        assertEquals(0.03, sorter.calculateCourseScore(course6), 0.05);
     }
 }

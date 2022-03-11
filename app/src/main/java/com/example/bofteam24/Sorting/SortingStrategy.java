@@ -37,7 +37,7 @@ public abstract class SortingStrategy implements Comparator<User> {
         return 0;
     }
 
-    public int calculateScore(User other) {
+    public double calculateScore(User other) {
         String id = other.getUserId();
         List<CourseRoom> others_courses = db.courseDao().getForUser(id);
         int score = 0;
@@ -52,5 +52,5 @@ public abstract class SortingStrategy implements Comparator<User> {
         return score;
     }
 
-    public abstract int calculateCourseScore(CourseRoom course);
+    public abstract double calculateCourseScore(CourseRoom course);
 }
