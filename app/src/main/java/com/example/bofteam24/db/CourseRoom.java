@@ -7,11 +7,18 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "courses")
 public class CourseRoom {
 
-    public CourseRoom(int courseId, String userId, String courseName) {
+    public CourseRoom(int courseId, String userId, String courseName, String courseSize) {
         this.courseId = courseId;
         this.userId = userId;
+        // courseInfo = "2022 WI CSE 110 Small"
         this.courseName = courseName;
+        this.courseSize = courseSize;
+//        this.courseInfo = courseInfo;
+//        String[] courseSplit = courseInfo.split(" "); // ["2022", "WI", "CSE", "110", "Small"]
+//        this.courseName = courseSplit[0] + " " + courseSplit[1] + " " + courseSplit[2] + " " + courseSplit[3]; // "2022 WI CSE 110"
+//        this.courseSize = courseSplit[4]; // Small
     }
+
 
     public String toString() {
         return this.courseName;
@@ -58,6 +65,13 @@ public class CourseRoom {
 
     @ColumnInfo
     private String courseName;
+
+    @ColumnInfo
+    private String courseSize;
+
+    public String getCourseSize() { return this.courseSize; }
+
+    public void setCourseSize(String courseSize) { this.courseSize = courseSize; }
 
     public int getCourseId() {
         return courseId;

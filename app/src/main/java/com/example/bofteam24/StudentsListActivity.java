@@ -39,59 +39,12 @@ public class StudentsListActivity extends AppCompatActivity {
     public static AppDatabase db;
     public static List<User> users;
     public static List<CourseRoom> allCoursesInfo;
-    private Message myMessage;
     private String myMessageString;
+    private Message myMessage;
     private MessageListener messageListener;
     private RecyclerView studentView;
 
-    @SuppressLint("LongLogTag")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_students_list);
-
-        db = AppDatabase.singleton(this);
-
-        // everything below is mocking
-        if (MockActivity.incomingMessagesString == null || MockActivity.incomingMessagesString.size() == 0) {
-            Log.d("------------- incomingMessagesString IS NULL", "...");
-        }
-        if (MockActivity.incomingMessagesString != null && MockActivity.incomingMessagesString.size() > 0) {
-            Log.d("------------- incomingMessagesString is NOT NULL", "...");
-            for (String messageString : MockActivity.incomingMessagesString) {
-                // Log.d("----- the string that came from mock activity ", messageString);
-                messageListener.onFound(new Message(messageString.getBytes()));
-            }
-        }
-
-        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
-        allCoursesInfo = db.courseDao().getAll();
-
-        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
-        Collections.reverse(StudentsListActivity.users);
-
-        studentView = findViewById(R.id.student_view);
-        LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
-        studentView.setLayoutManager(studentLayoutManager);
-        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
-        studentView.setAdapter(studentViewAdapter);
-
-//        messageListener = new MessageListener() {
-//            @Override
-//            public void onFound(@NonNull Message message) {
-//                String s = "Found message: " + new String(message.getContent());
-//                Log.d("Found message", s);
-//                Toast.makeText(StudentsListActivity.this, s, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onLost(@NonNull Message message) {
-//                String s = "Lost message: " + new String(message.getContent());
-//                Log.d("Lost message", s);
-//            }
-//        };
-        messageListener = new MockMessageListener(StudentsListActivity.this, studentView);
-
+    private String getMyMessageString() {
         // everything below is for sending your own message to other devices
         String userId = UserSelf.getInstance(this).getUserId();
         User user = db.userDao().getUserWithId(userId);
@@ -116,20 +69,60 @@ public class StudentsListActivity extends AppCompatActivity {
             myMessageBuilder.append(course);//.append("\n");
         }
 
-        myMessageString = myMessageBuilder.toString();
+        return myMessageBuilder.toString();
+    }
+
+    @SuppressLint("LongLogTag")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_students_list);
+
+        db = AppDatabase.singleton(this);
+
+        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
+        allCoursesInfo = db.courseDao().getAll();
+
+        studentView = findViewById(R.id.student_view);
+
+        messageListener = new MockMessageListener(StudentsListActivity.this, studentView);
+
+        // everything below is for sending your own message to other devices
+        myMessageString = getMyMessageString();
         myMessage = new Message(myMessageString.getBytes(StandardCharsets.UTF_8));
-        Log.d(ParseUtils.TAG, " ---------- myMessage is: " + myMessage);
+        Log.d(ParseUtils.TAG, " ---------- myMessage is: \n" + myMessageString);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        // everything below is mocking
+        if (MockActivity.incomingMessagesString == null || MockActivity.incomingMessagesString.size() == 0) {
+            Log.d("------------- incomingMessagesString IS NULL", "...");
+        }
+        if (MockActivity.incomingMessagesString != null && MockActivity.incomingMessagesString.size() > 0) {
+            Log.d("------------- incomingMessagesString is NOT NULL", "...");
+            for (String messageString : MockActivity.incomingMessagesString) {
+                // Log.d("----- the string that came from mock activity ", messageString);
+                messageListener.onFound(new Message(messageString.getBytes()));
+            }
+        }
+
         Nearby.getMessagesClient(this).publish(myMessage);
-        Log.d(ParseUtils.TAG, "-------- Published my message" + "\n" + myMessageString);
+        Log.d(ParseUtils.TAG, "-------- Published my message: \n" + myMessageString);
         // sending your message done
 
         Nearby.getMessagesClient(this).subscribe(messageListener);
         Log.d("-------- Subscribed to Message Listener", "...");
+
+//        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
+//        Collections.reverse(StudentsListActivity.users);
+//
+//        studentView = findViewById(R.id.student_view);
+//        LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
+//        studentView.setLayoutManager(studentLayoutManager);
+//        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
+//        studentView.setAdapter(studentViewAdapter);
     }
 
     public void onStopClick(View view) {
@@ -151,13 +144,7 @@ public class StudentsListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //if (StudentsListActivity.cameFromMock) {
-//        Message lostMessage = new Message("lost signal".getBytes());
-//        Nearby.getMessagesClient(this).unsubscribe(StudentsListActivity.messageListener);
-//        StudentsListActivity.messageListener.onLost(lostMessage);
-//        //}
-//
-//        Nearby.getMessagesClient(this).unpublish(new Message("I am the user".getBytes()));
+
         if (messageListener != null) {
 
             Nearby.getMessagesClient(this).unpublish(myMessage);
