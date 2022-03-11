@@ -72,4 +72,9 @@ public class SaveSessionActivity extends AppCompatActivity {
     public void onSaveCurrentClick(View view) {
         saveSessionName(courseMenu.getSelectedItem().toString());
     }
+
+    public void onCancelSaveSessionClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }
