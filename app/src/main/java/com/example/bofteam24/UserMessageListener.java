@@ -137,6 +137,9 @@ public class UserMessageListener extends MessageListener {
     private boolean getWaveInfo(List<String> allCoursesString) {
 
         boolean wave = false;
+        // List<String> userIdsWavedTo = new ArrayList<>();
+        // List<String> newAllCoursesInfo = new ArrayList<>();
+
         if(allCoursesString != null && allCoursesString.size() != 0) {
             if (allCoursesString.get(allCoursesString.size() - 1).contains("_")) {
                 String userIdOfWavie = allCoursesString.get(allCoursesString.size() - 1).split("_")[0];
@@ -148,6 +151,54 @@ public class UserMessageListener extends MessageListener {
 
         return wave;
     }
+
+    private ArrayList<String> getWaveUpdatedAllCourses(ArrayList<String> allCoursesString) {
+
+        ArrayList<String> userIdsWavedTo = new ArrayList<>();
+        ArrayList<String> newAllCoursesInfo = new ArrayList<>();
+
+        for (int i = 0; i < allCoursesString.size(); i++) {
+            String courseInfo = allCoursesString.get(i);
+            if (courseInfo.contains(" ")) {
+                String firstInInfo = courseInfo.split(" ")[0];
+                newAllCoursesInfo.add(courseInfo);
+            }
+            else {
+                String userId = courseInfo.split("_")[0];
+                userIdsWavedTo.add(userId);
+            }
+        }
+
+        if (newAllCoursesInfo.size() != 0) {
+            return newAllCoursesInfo;
+        }
+
+        return allCoursesString;
+
+    }
+
+
+    private ArrayList<String> getWaveUserIds(ArrayList<String> allCoursesString) {
+
+        ArrayList<String> userIdsWavedTo = new ArrayList<>();
+        ArrayList<String> newAllCoursesInfo = new ArrayList<>();
+
+        for (int i = 0; i < allCoursesString.size(); i++) {
+            String courseInfo = allCoursesString.get(i);
+            if (courseInfo.contains(" ")) {
+                String firstInInfo = courseInfo.split(" ")[0];
+                newAllCoursesInfo.add(courseInfo);
+            }
+            else {
+                String userId = courseInfo.split("_")[0];
+                userIdsWavedTo.add(userId);
+            }
+        }
+
+        return userIdsWavedTo;
+
+    }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -163,12 +214,23 @@ public class UserMessageListener extends MessageListener {
         String userIDString = ParseUtils.getUserId(csvInfoDivided);
         String firstName = ParseUtils.getUserFirstName(csvInfoDivided);
         String photoURL = ParseUtils.getUserPhotoURL(csvInfoDivided);
-        Toast.makeText(context, "Found message: " + firstName, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(context, "Found message: " + firstName, Toast.LENGTH_SHORT).show();
 
-        ArrayList<String> allCoursesString = ParseUtils.getAllCoursesInfo(csvInfoDivided);
+        // ArrayList<String> allCoursesString = ParseUtils.getAllCoursesInfo(csvInfoDivided); // uncomment
+
+        ArrayList<String> allCoursesString1 = ParseUtils.getAllCoursesInfo(csvInfoDivided);
         // ParseUtils.printAllCourses(allCoursesString);
+        // boolean wave = getWaveInfo(allCoursesString); // uncomment
 
-        boolean wave = getWaveInfo(allCoursesString);
+        ArrayList<String> allCoursesString = getWaveUpdatedAllCourses(allCoursesString1);
+        ArrayList<String> waveUserIds = getWaveUserIds(allCoursesString1);
+        boolean wave = false;
+        Log.d(ParseUtils.TAG, "--------------- waveUserIds = " + waveUserIds.toString());
+        Log.d(ParseUtils.TAG, "--------------- allCoursesString = " + allCoursesString.toString());
+        Log.d(ParseUtils.TAG, "------------------ myID = " + user.getUserId());
+        if (waveUserIds.contains(user.getUserId())) {
+            wave = true;
+        }
 
         Log.d(ParseUtils.TAG, "------------------ user ID when creating user:" + userIDString);
         User otherUser = db.userDao().getUserWithId(userIDString);
@@ -229,7 +291,6 @@ public class UserMessageListener extends MessageListener {
         studentView.setLayoutManager(studentLayoutManager);
         StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
         studentView.setAdapter(studentViewAdapter);
-
     }
 
     private void sortUsers() {

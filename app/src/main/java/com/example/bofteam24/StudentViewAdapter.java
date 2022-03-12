@@ -83,6 +83,10 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
 
             favButton.setOnClickListener((view) -> {
                 if(!this.student.getFav()) {
+
+                    int color = Color.parseColor("#FFD700");
+                    favButton.setColorFilter(color);
+
                     Context context = view.getContext();
                     AppDatabase db = AppDatabase.singleton(context);
                     this.student.setFav(true);
@@ -91,6 +95,10 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
 
                 }
                 else if (this.student.getFav()) {
+
+                    int color = Color.parseColor("#808080");
+                    favButton.setColorFilter(color);
+
                     Context context = view.getContext();
                     AppDatabase db = AppDatabase.singleton(context);
                     this.student.setFav(false);
@@ -115,7 +123,17 @@ public class StudentViewAdapter extends RecyclerView.Adapter<StudentViewAdapter.
             this.numCommonCourses.setText(String.valueOf(commonCourses));
             this.numCommonCourses.setEnabled(true);
 
-            this.favButton.setEnabled(true);
+            if (this.student.getFav()) {
+                int color = Color.parseColor("#FFD700");
+                this.favButton.setColorFilter(color);
+                this.favButton.setEnabled(true);
+            }
+            else {
+                int color = Color.parseColor("#808080");
+                this.favButton.setColorFilter(color);
+                this.favButton.setEnabled(true);
+            }
+
 
             if (this.student.getWave()) {
                 handWave.setVisibility(View.VISIBLE);
