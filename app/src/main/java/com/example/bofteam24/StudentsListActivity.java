@@ -79,6 +79,16 @@ public class StudentsListActivity extends AppCompatActivity {
 
 //        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
 //        allCoursesInfo = db.courseDao().getAll();
+        String waveSent = getIntent().getStringExtra("wave_sent");
+
+        if (waveSent == null || !waveSent.equals("true")) {
+            Date currentTime = Calendar.getInstance().getTime();
+            String time = currentTime.toString();
+            session = new Session(null, time);
+            sessionId = db.sessionDao().insert(session);
+            Log.d(ParseUtils.TAG, "----------- in StudentList db.sessionDao().getAll() size: "
+                    + Integer.toString(db.sessionDao().getAll().size()));
+        }
 
         Date currentTime = Calendar.getInstance().getTime();
         String time = currentTime.toString();

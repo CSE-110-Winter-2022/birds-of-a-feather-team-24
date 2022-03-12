@@ -147,6 +147,8 @@ public class ProfileActivity extends AppCompatActivity {
         String waveString = userId + ",wave,,,\n";
         Log.d(ParseUtils.TAG, "----------- wave string is: " + waveString);
         intent.putExtra("my_msg_addition", waveString);
+        intent.putExtra("wave_sent", "true");
+
         Toast.makeText(this, "Wave sent to: " + user.getName(),
                 Toast.LENGTH_SHORT).show();
         startActivity(intent);

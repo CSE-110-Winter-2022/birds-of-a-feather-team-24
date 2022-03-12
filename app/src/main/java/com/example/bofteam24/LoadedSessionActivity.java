@@ -24,10 +24,10 @@ public class LoadedSessionActivity extends AppCompatActivity {
         db = AppDatabase.singleton(this);
 
         Integer sessionId = getIntent().getIntExtra("sessionId", -1);
-        Log.i("------------Opening sessionId: " , sessionId.toString());
-        Log.i("-----------All sessionId in database: ", db.sessionDao().getAllSessionIds().toString());
+        Log.d("------------Opening sessionId: " , sessionId.toString());
+        Log.d("-----------All sessionId in database: ", db.sessionDao().getAllSessionIds().toString());
         List<User> usersFromSession = db.sessionDao().getUsersBySessionId(sessionId);
-        Log.i("----------Users in session: ", usersFromSession.toString());
+        Log.d("----------Users in session: ", usersFromSession.toString());
 
         RecyclerView studentView = findViewById(R.id.session_student_view);
         LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
