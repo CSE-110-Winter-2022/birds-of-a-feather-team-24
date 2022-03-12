@@ -224,7 +224,7 @@ public class StudentsListActivity extends AppCompatActivity {
     private void sortUsers() {
         StudentsListActivity.allCoursesInfo = db.courseDao().getAll();
         User useSelf = UserSelf.getInstance(this);
-        StudentsListActivity.users = db.sessionDao().getUsersBySessionId(this.sessionId);
+        StudentsListActivity.users = db.sessionDao().getUsersBySessionId(sessionId);
        //StudentsListActivity.users = db.userDao().getOthers(useSelf.getUserId());
 
         SortUsers.byStrategy(this, sortSpinner, StudentsListActivity.users);
@@ -233,6 +233,11 @@ public class StudentsListActivity extends AppCompatActivity {
     public void onSortClick(View view) {
 
         sortUsers();
+
+        LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
+        studentView.setLayoutManager(studentLayoutManager);
+        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
+        studentView.setAdapter(studentViewAdapter);
 
     }
 }

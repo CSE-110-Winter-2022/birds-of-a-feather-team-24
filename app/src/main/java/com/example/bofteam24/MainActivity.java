@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
             sessionSpinner.setAdapter(adapter);
         }
 
+        String userId = UserSelf.getInstance(this).getUserId();
+        Log.d(ParseUtils.TAG, " --------- MY OWN UUID = " + userId);
         // setSameNumCourses();
     }
 

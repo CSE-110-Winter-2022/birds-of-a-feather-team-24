@@ -1,5 +1,8 @@
 package com.example.bofteam24.sorting;
 
+import android.util.Log;
+
+import com.example.bofteam24.ParseUtils;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
@@ -50,8 +53,33 @@ public class RecentCommonalitySort extends SortingStrategy {
     }
 
     public int calculateAge(String quarter, int year) {
+        int currQuarterNum = 0; // since currQuarter is always "WINTER"
+        int quarterNum;
+
+        if(quarter.equals("FALL")) {
+            quarterNum = 3;
+        }
+        else if(quarter.equals("WINTER")) {
+            quarterNum = 0;
+        }
+        else if(quarter.equals("SPRING")) {
+            quarterNum = 1;
+        }
+        else if(quarter.equals("SUMMER SESSION 1")) {
+            quarterNum = 2;
+        }
+        else if(quarter.equals("SUMMER SESSION 2")) {
+            quarterNum = 2;
+        }
+        else { // SPECIAL SUMMER SESSION
+            quarterNum = 2;
+        }
+        Log.d(ParseUtils.TAG, "----------- currentQuarter = " + currentQuarter);
+//        return (currentYear - year) * 4 +
+//                quarter_to_num.get(currentQuarter) - quarter_to_num.get(quarter) - 1;
 
         return (currentYear - year) * 4 +
-                quarter_to_num.get(currentQuarter) - quarter_to_num.get(quarter) - 1;
+                currQuarterNum - quarterNum - 1;
+
     }
 }
