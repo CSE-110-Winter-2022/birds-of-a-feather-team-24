@@ -21,11 +21,19 @@ public interface SessionDao {
 
     @Transaction
     @Query("SELECT * FROM sessions WHERE sessionId=:sessionId")
-    Session getSessionById(int sessionId);
+    Session getSessionById(Long sessionId);
 
     @Transaction
     @Query("SELECT sessionName FROM sessions")
     List<String> getAll();
+
+    @Transaction
+    @Query("SELECT * FROM sessionEntries")
+    List<SessionEntry> getAllSessionEntries();
+
+    @Transaction
+    @Query("SELECT * FROM sessionEntries WHERE sessionId=:sessionId")
+    List<SessionEntry> getAllSessionEntriesForSessionId(Long sessionId);
 
     @Transaction
     @Query("SELECT sessionId FROM sessions WHERE sessionName=:sessionName")
@@ -37,6 +45,9 @@ public interface SessionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(Session session);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Long insert(SessionEntry sessionEntry);
 
     @Delete
     void delete(Session session);

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 13,
-    "identityHash": "7e37edba7266e5d69d55cd7bae805996",
+    "identityHash": "5fb289ad4e1a5f3a010069dabd232787",
     "entities": [
       {
         "tableName": "users",
@@ -76,19 +76,19 @@
       },
       {
         "tableName": "sessionEntries",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sessionId` INTEGER NOT NULL, `userId` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT, `sessionId` INTEGER, `userId` TEXT)",
         "fields": [
           {
             "fieldPath": "entryId",
             "columnName": "entryId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "sessionId",
             "columnName": "sessionId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "userId",
@@ -136,7 +136,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7e37edba7266e5d69d55cd7bae805996')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5fb289ad4e1a5f3a010069dabd232787')"
     ]
   }
 }

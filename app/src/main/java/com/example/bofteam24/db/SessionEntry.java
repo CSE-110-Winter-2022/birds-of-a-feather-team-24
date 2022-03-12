@@ -8,24 +8,25 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "sessionEntries")
 public class SessionEntry {
 
-    public SessionEntry(int sessionId, String userId) {
+    public SessionEntry(Integer entryId, Long sessionId, String userId) {
+        this.entryId = entryId;
         this.sessionId = sessionId;
         this.userId = userId;
     }
 
     @PrimaryKey(autoGenerate = true) // auto generate a unique entry number for each entry
-    private int entryId = 0;
+    private Integer entryId = 0;
 
     @ColumnInfo
-    private int sessionId;
+    private Long sessionId;
 
     @ColumnInfo
     private String userId;
 
     @NonNull
-    public int getSessionId() { return sessionId; }
+    public Long getSessionId() { return sessionId; }
 
-    public void setSessionId(int sessionId) { this.sessionId = sessionId; }
+    public void setSessionId(Long sessionId) { this.sessionId = sessionId; }
 
     public String getUserId() { return userId; }
 
