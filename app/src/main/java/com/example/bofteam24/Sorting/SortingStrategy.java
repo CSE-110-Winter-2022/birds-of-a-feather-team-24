@@ -1,5 +1,7 @@
 package com.example.bofteam24.Sorting;
 
+import android.util.Log;
+
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
@@ -40,12 +42,19 @@ public abstract class SortingStrategy implements Comparator<User> {
     public double calculateScore(User other) {
         String id = other.getUserId();
         List<CourseRoom> others_courses = db.courseDao().getForUser(id);
+        courses = db.courseDao().getForUser(user.getUserId());
         int score = 0;
 
+        Log.i("----------CalculateScore ", "size of others_courses = " + others_courses.size());
+        Log.i("----------CalculateScore ", "size of my_courses = " + courses.size());
+        Log.i("----------CalculateScore ", "my id = " + user.getUserId());
+
         for(CourseRoom course : courses) {
+            System.out.println("----------SortingStrategy: in for-loop");
             for (CourseRoom others_course: others_courses) {
                 if (course.equals(others_course)) {
                     score += calculateCourseScore(course);
+                    Log.i("----------SortingStrategy: ", "score is now " + score);
                 }
             }
         }

@@ -172,4 +172,25 @@ public class SortingAndFilteringTesting {
 //        assertEquals(0.06, sorter.calculateCourseScore(course5), 0.05);
 //        assertEquals(0.03, sorter.calculateCourseScore(course6), 0.05);
     }
+
+    @Test
+    public void calculateOverallScoreWithClassSize() {
+//        User mockUser = new User("id", "Test", "", 0);
+//        ClassSizeSort sorter = new ClassSizeSort(mockUser, db);
+//
+//        CourseRoom course1 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 WINTER 2022", "Small");
+//        CourseRoom course2 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 FALL 2021", "Medium");
+//        CourseRoom course3 = new CourseRoom(0, mockUser.getUserId(),
+//                "CSE 12 SPRING 2021", "Large");
+//
+//        db.courseDao().insert(course1);
+//        db.courseDao().insert(course2);
+//        db.courseDao().insert(course3);
+//
+//        System.out.println("-----size of course table: " + db.courseDao().getAll().size());
+//
+//        assertEquals(1.51, sorter.calculateScore(mockUser), 0.06);
+    }
 }
