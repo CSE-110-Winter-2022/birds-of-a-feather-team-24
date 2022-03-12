@@ -124,7 +124,9 @@ public final class ParseUtils {
                 String courseNumber = csvInfoDivided[i+3]; // prev String courseNumber = csvInfoDivided[i+3].split("-")[0];
                 String courseSize = csvInfoDivided[i+4].split("_")[0]; // added
 
-                courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
+                // 2021 FA CSE 110 Small
+                courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber + " " + courseSize;
+                // courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
                 allCoursesInfo.add(courseInfo);
                 i = i + 3;
             }
@@ -140,11 +142,12 @@ public final class ParseUtils {
                     String courseNumber = csvInfoDivided[i+3];
                     String courseSize = csvInfoDivided[i+4].split("_")[0];
 
-                    courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
+                    // 2021 FA CSE 110 Small
+                    courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber + " " + courseSize;
+                    // courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
                     allCoursesInfo.add(courseInfo);
                     i = i + 3;
                 }
-
             }
         }
 
@@ -164,7 +167,10 @@ public final class ParseUtils {
                 String subject = csvInfoDivided[i+2];
                 String courseNumber = csvInfoDivided[i+3]; // prev String courseNumber = csvInfoDivided[i+3].split("-")[0];
                 String courseSize = csvInfoDivided[i+4].split("_")[0]; // added
-                courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
+
+                // 2021 FA CSE 110 Small
+                courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber + " " + courseSize;
+                // courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
                 allCoursesInfo.add(courseInfo);
                 i = i + 3;
             }
@@ -176,7 +182,9 @@ public final class ParseUtils {
                 String courseNumber = csvInfoDivided[i+3];
                 String courseSize = csvInfoDivided[i+4].split("_")[0];
 
-                courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
+                // 2021 FA CSE 110 Small
+                courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber + " " + courseSize;
+                // courseInfo = courseYear + " " + quarter + " " + subject + " " + courseNumber;
                 allCoursesInfo.add(courseInfo);
                 i = i + 3;
             }
@@ -188,10 +196,15 @@ public final class ParseUtils {
     public static int getSameNumCourses1(List<CourseRoom> myCourses, List<String> allCoursesString) {
         int sameNumCourses = 0;
         for(CourseRoom course : myCourses) {
-            String myCourse = course.toMockString();
+            // String myCourse = course.toMockString();
+            String myCourseName = course.getCourseName();
+            Log.d("------ my Courses", myCourseName);
             for(String otherCourse : allCoursesString) {
+                String[] courseSplit = otherCourse.split(" ");
+                String otherCourseName = courseSplit[0] + " " + courseSplit[1] + " " + courseSplit[2] + " " + courseSplit[3];
+
                 // Log.i("PAIRS", myCourse + ";" + otherCourse);
-                if (myCourse.equals(otherCourse)) {
+                if (myCourseName.equals(otherCourseName)) {
                     sameNumCourses+=1;
                 }
             }
@@ -200,14 +213,17 @@ public final class ParseUtils {
         return sameNumCourses;
     }
 
-    public static int getSameNumCourses2(List<CourseRoom> myCourses, List<CourseRoom> allCoursesString) {
+    public static int getSameNumCourses2(List<CourseRoom> myCourses, List<CourseRoom> allCoursesRoom) {
         int sameNumCourses = 0;
         for(CourseRoom course : myCourses) {
-            String myCourse = course.toMockString();
-            for(CourseRoom otherCourseRoom : allCoursesString) {
-                String otherCourse = otherCourseRoom.getCourseName();
+            // String myCourse = course.toMockString();
+            String myCourseName = course.getCourseName();
+            // myCourse = myCourse + " Small"; // comment later
+            // Log.d("------ my Courses", myCourseName);
+            for(CourseRoom otherCourseRoom : allCoursesRoom) {
+                String otherCourseName = otherCourseRoom.getCourseName();
                 // Log.i("PAIRS", myCourse + ";" + otherCourse);
-                if (myCourse.equals(otherCourse)) {
+                if (myCourseName.equals(otherCourseName)) {
                     sameNumCourses+=1;
                 }
             }

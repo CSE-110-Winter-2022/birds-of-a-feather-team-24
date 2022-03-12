@@ -14,6 +14,7 @@ import java.util.List;
 public interface UserDao {
     @Query("SELECT MAX(userId) from users")
     int maxId();
+
     @Query("SELECT * FROM users")
     List<User> retrieveAllUsers();
 

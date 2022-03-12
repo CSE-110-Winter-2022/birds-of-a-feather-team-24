@@ -25,6 +25,9 @@ public interface CourseDao {
     CourseRoom getSpecificCourse(String userId, String courseName);
 
     //add a duplicate course check?
+    // courseName = "2022 WI CSE 110"
+    @Query("SELECT * FROM courses WHERE userId=:userId AND courseName LIKE '%' || :quarterYear")
+    List<CourseRoom> getCurrentCourses(String userId, String quarterYear);
 
     @Query("SELECT COUNT(*) from courses")
     int count();
