@@ -1,14 +1,10 @@
-package com.example.bofteam24.Sorting;
+package com.example.bofteam24.sorting;
 
-import com.example.bofteam24.Course;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 public class RecentCommonalitySort extends SortingStrategy {
 
@@ -29,7 +25,6 @@ public class RecentCommonalitySort extends SortingStrategy {
 
     public double calculateCourseScore(CourseRoom course) {
         int age;
-        int score;
         String courseQuarter;
         int courseYear;
         String[] course_desc = course.getCourseName().split(" ");
