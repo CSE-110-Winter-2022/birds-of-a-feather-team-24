@@ -235,20 +235,7 @@ public class UserMessageListener extends MessageListener {
         StudentsListActivity.allCoursesInfo = db.courseDao().getAll();
         StudentsListActivity.users = db.userDao().getOthers(user.getUserId());
 
-        Comparator<User> strategy = null;
-        switch(sortSpinner.getSelectedItemPosition()) {
-            case 0:
-                strategy = Comparator.comparing(User::getNumOfSameCourses).reversed();
-                break;
-            case 1:
-                strategy = new RecentCommonalitySort(UserSelf.getInstance(context), db);
-                break;
-            case 2:
-                strategy = new ClassSizeSort(UserSelf.getInstance(context), db);
-                break;
-        }
-
-        Collections.sort(StudentsListActivity.users, strategy);
+        SortUsers.byStrategy(context, sortSpinner, StudentsListActivity.users);
     }
 
     @Override

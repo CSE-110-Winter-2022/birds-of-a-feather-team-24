@@ -35,8 +35,8 @@ public class StudentsListActivity extends AppCompatActivity {
     private MessageListener messageListener;
     private RecyclerView studentView;
 
-    private Session session;
-    private Long sessionId;
+    public static Session session;
+    public static Long sessionId;
 
     private String getMyMessageString() {
         // everything below is for sending your own message to other devices
@@ -89,13 +89,6 @@ public class StudentsListActivity extends AppCompatActivity {
             Log.d(ParseUtils.TAG, "----------- in StudentList db.sessionDao().getAll() size: "
                     + Integer.toString(db.sessionDao().getAll().size()));
         }
-
-        Date currentTime = Calendar.getInstance().getTime();
-        String time = currentTime.toString();
-        session = new Session(null, time);
-        sessionId = db.sessionDao().insert(session);
-        Log.d(ParseUtils.TAG, "----------- in StudentList db.sessionDao().getAll() size: "
-                + Integer.toString(db.sessionDao().getAll().size()));
 
         studentView = findViewById(R.id.student_view);
 
