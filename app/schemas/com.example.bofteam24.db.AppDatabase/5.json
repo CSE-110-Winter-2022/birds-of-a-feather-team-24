@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 4,
-    "identityHash": "f5def64e6c035b0b58f7cbdb0fe51d92",
+    "version": 5,
+    "identityHash": "d3b5e2f2400f212d29c1866b999258a6",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT, `photoUrl` TEXT, `numOfSameCourses` INTEGER NOT NULL, `fav` INTEGER NOT NULL, PRIMARY KEY(`userId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT, `photoUrl` TEXT, `numOfSameCourses` INTEGER NOT NULL, `fav` INTEGER NOT NULL, `wave` INTEGER NOT NULL, PRIMARY KEY(`userId`))",
         "fields": [
           {
             "fieldPath": "userId",
@@ -35,6 +35,12 @@
           {
             "fieldPath": "fav",
             "columnName": "fav",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wave",
+            "columnName": "wave",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -84,7 +90,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f5def64e6c035b0b58f7cbdb0fe51d92')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd3b5e2f2400f212d29c1866b999258a6')"
     ]
   }
 }

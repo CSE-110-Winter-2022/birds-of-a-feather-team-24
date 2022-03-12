@@ -41,8 +41,11 @@ public class CourseRoom {
         else if(quarter.equals("SUMMER SESSION 2")) {
             quarterAbbrev = "SS2";
         }
-        else { // SPECIAL SUMMER SESSION
+        else if(quarter.equals("SPECIAL SUMMER SESSION")) { // SPECIAL SUMMER SESSION
             quarterAbbrev = "SSS";
+        }
+        else {
+            quarterAbbrev = quarter;
         }
         return String.format("%s %s %s %s", year, quarterAbbrev, subject, num);
     }
@@ -83,9 +86,7 @@ public class CourseRoom {
     public boolean equals(CourseRoom other) { return other != null &&
             this.courseName.equals(other.courseName); }
 
-    //courseId, userId1, "CSE 12 FALL 2019"
-    //courseId, userId1, "CSE 12 FALL 2019"
-    //courseId, userId, "CSE 12 FALL 2019"
-    //courseId, userId, "CSE 12 FALL 2019"
+    //courseId, userId1, "CSE 12 FALL 2019" --> for "my course"
+    //courseId, userId1, "2019 FA CSE 12" --> for "other user course"
 
 }

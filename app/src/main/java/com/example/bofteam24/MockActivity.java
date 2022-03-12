@@ -18,41 +18,42 @@ import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockActivity extends AppCompatActivity {
 
-    public static MessageListener messageListener;
-
+    // public static MessageListener messageListener;
+    public static Message mMessage;
+    public static ArrayList<String> incomingMessagesString = new ArrayList<>();
+    // private ArrayList<Message> incomingMessages;
     AppDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock);
         db = AppDatabase.singleton(this);
-
-        if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
-
-        Nearby.getMessagesClient(this).subscribe(messageListener);
-        Nearby.getMessagesClient(this).publish(new Message("I am the user".getBytes()));
-
+        // incomingMessagesString = new ArrayList<>();
+        // if(messageListener == null) messageListener = new MockMessageListener(getApplicationContext());
     }
 
     public void onEnterClick(View view) {
         EditText editText = this.findViewById(R.id.edit_text);
         String csvInfo = editText.getText().toString();
-        StudentsListActivity.cameFromMock = true;
+        Log.d("--------------- Entered Mock Info is ", csvInfo);
+
         if (!csvInfo.equals("")) {
-            Message mMessage = new Message(csvInfo.getBytes());
-            Nearby.getMessagesClient(this).subscribe(messageListener);
-            messageListener.onFound(mMessage);
+            incomingMessagesString.add(csvInfo);
         }
 
         editText.setText("");
     }
 
     public void onBackClick(View view) {
+        Log.d("--------------- incomingMessagesString size ", Integer.toString(incomingMessagesString.size()));
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

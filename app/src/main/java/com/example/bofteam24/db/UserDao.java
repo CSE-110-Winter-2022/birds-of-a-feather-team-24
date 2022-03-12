@@ -37,4 +37,22 @@ public interface UserDao {
 
     @Query("DELETE FROM users WHERE userId!=:userId")
     void deleteOthers(String userId);
+
+    @Query("UPDATE users SET name=:name WHERE userId=:userId")
+    void updateUserName(String userId, String name);
+
+    @Query("UPDATE users SET photoUrl=:photoUrl WHERE userId=:userId")
+    void updateUserPhoto(String userId, String photoUrl);
+
+    @Query("UPDATE users SET numOfSameCourses=:numOfSameCourses WHERE userId=:userId")
+    void updateNumCourses(String userId, int numOfSameCourses);
+
+    @Query("UPDATE users SET fav=:fav WHERE userId=:userId")
+    void updateUserFav(String userId, Boolean fav);
+
+    @Query("UPDATE users SET wave=:wave WHERE userId=:userId")
+    void updateUserWave(String userId, Boolean wave);
+
+    @Query("SELECT * FROM users WHERE fav=:fav")
+    List<User> getFavUsers(Boolean fav);
 }

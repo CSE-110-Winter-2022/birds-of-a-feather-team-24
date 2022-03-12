@@ -18,6 +18,8 @@ public class User {
         this.name = name;
         this.photoUrl = photoUrl;
         this.numOfSameCourses = numOfSameCourses;
+        this.fav = false;
+        this.wave = false;
     }
 
     @PrimaryKey // userID must be different for every user
@@ -30,7 +32,22 @@ public class User {
     @ColumnInfo
     private String photoUrl;
 
+    @ColumnInfo
     private int numOfSameCourses;
+
+    @ColumnInfo
+    private boolean fav;
+
+    @ColumnInfo
+    private boolean wave;
+
+    public boolean getWave() { return this.wave; }
+
+    public void setWave(boolean wave) { this.wave = wave; }
+
+    public boolean getFav() { return this.fav; }
+
+    public void setFav(boolean fav) { this.fav = fav; }
 
     @NonNull
     public String getUserId() {
