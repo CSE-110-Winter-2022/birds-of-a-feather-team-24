@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.bofteam24.Sorting.RecentCommonalitySort;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.Session;
@@ -98,6 +100,11 @@ public class StudentsListActivity extends AppCompatActivity {
         sessionId = db.sessionDao().insert(session);
         Log.d(ParseUtils.TAG, "----------- in StudentList db.sessionDao().getAll() size: "
                 + Integer.toString(db.sessionDao().getAll().size()));
+        //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
+
+        //UPDATEEEEEEEEEEEEEEEEEEEEEEEEEEEE---------------------
+//        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
+        Collections.sort(StudentsListActivity.users, new RecentCommonalitySort(UserSelf.getInstance(this), db));
 
         studentView = findViewById(R.id.student_view);
 
