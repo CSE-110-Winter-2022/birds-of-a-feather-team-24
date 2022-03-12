@@ -117,7 +117,7 @@ public class StudentsListActivity extends AppCompatActivity {
 //            }
 //        };
 
-        messageListener = new MockMessageListener(StudentsListActivity.this, studentView);
+        messageListener = new MockMessageListener(StudentsListActivity.this, studentView, sessionId);
 
         // everything below is for sending your own message to other devices
         String myMsgAddition = getIntent().getStringExtra("my_msg_addition");
@@ -139,10 +139,10 @@ public class StudentsListActivity extends AppCompatActivity {
         super.onStart();
         // everything below is mocking
         if (MockActivity.incomingMessagesString == null || MockActivity.incomingMessagesString.size() == 0) {
-            Log.d("------------- incomingMessagesString IS NULL", "...");
+            Log.d(ParseUtils.TAG, "------------- incomingMessagesString IS NULL");
         }
         if (MockActivity.incomingMessagesString != null && MockActivity.incomingMessagesString.size() > 0) {
-            Log.d("------------- incomingMessagesString is NOT NULL", "...");
+            Log.d(ParseUtils.TAG, "------------- incomingMessagesString is NOT NULL");
             for (String messageString : MockActivity.incomingMessagesString) {
                 // Log.d("----- the string that came from mock activity ", messageString);
                 messageListener.onFound(new Message(messageString.getBytes()));
@@ -205,7 +205,7 @@ public class StudentsListActivity extends AppCompatActivity {
         }
     }
 
-    public void onBackClick(View view) {
+    public void onHomeClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

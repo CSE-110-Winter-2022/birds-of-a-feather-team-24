@@ -16,6 +16,7 @@ import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SaveSessionActivity extends AppCompatActivity {
@@ -39,13 +40,27 @@ public class SaveSessionActivity extends AppCompatActivity {
         courseMenu = findViewById(R.id.current_courses_spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         String myUserId = UserSelf.getInstance(this).getUserId();
-        List<CourseRoom> currentCourses = db.courseDao().getCurrentCourses(myUserId, "WI 2022"); // WI 2022
+        List<CourseRoom> currentCourses = db.courseDao().getCurrentCourses(myUserId, "2022 WI"); // 2022 WI
+//        List<CourseRoom> allOfMyCourses = db.courseDao().getForUser(myUserId);
+//        List<CourseRoom> myCoursesSpecifics = new ArrayList<>();
+//        for(CourseRoom cr : allOfMyCourses) {
+//            String courseName = cr.getCourseName();
+//            String yearAndQuarter = courseName.split(" ")[0] + courseName.split(" ")[1];
+//        }
+        Log.d(ParseUtils.TAG, "-------------------- IN SaveSessionActivity");
+        Log.d(ParseUtils.TAG, "--------------------- in SaveSessionActivity currentCourses: " + currentCourses.toString());
+        for (CourseRoom cr : currentCourses) {
+            Log.d(ParseUtils.TAG, "--------------------- in SaveSessionActivity currentCourses: " + cr.getCourseName());
+        }
+
         // TODO: remove hardcoded value after merge with sorting branch
         for(CourseRoom course : currentCourses) {
-            String courseName = course.getCourseName();
-            int firstSpace = courseName.indexOf(' ');
-            int secondSpace = courseName.indexOf(' ', firstSpace + 1);
-            adapter.add(courseName.substring(0, secondSpace));
+            String courseName = course.getCourseName(); // 2022 WI CSE 110
+            String subjectAndNumber = courseName.split(" ")[2] + courseName.split(" ")[3];
+            Log.d(ParseUtils.TAG, "--------------------- in SaveSessionActivity subjectAndNum: " + subjectAndNumber);
+//            int firstSpace = courseName.indexOf(' ');
+//            int secondSpace = courseName.indexOf(' ', firstSpace + 1);
+            adapter.add(subjectAndNumber);
         }
         courseMenu.setAdapter(adapter);
     }

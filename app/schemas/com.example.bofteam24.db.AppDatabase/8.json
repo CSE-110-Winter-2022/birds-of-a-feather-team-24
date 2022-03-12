@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 8,
-    "identityHash": "53b3eefbf3ced074cdf390ddfe886c94",
+    "identityHash": "164912e4c4c24298c7e4c0a19e6e9fe6",
     "entities": [
       {
         "tableName": "users",
@@ -120,13 +120,13 @@
       },
       {
         "tableName": "sessionEntries",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sessionId` INTEGER NOT NULL, `userId` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT, `sessionId` INTEGER NOT NULL, `userId` TEXT)",
         "fields": [
           {
             "fieldPath": "entryId",
             "columnName": "entryId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "sessionId",
@@ -154,7 +154,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '53b3eefbf3ced074cdf390ddfe886c94')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '164912e4c4c24298c7e4c0a19e6e9fe6')"
     ]
   }
 }

@@ -219,7 +219,7 @@ public final class ParseUtils {
             // String myCourse = course.toMockString();
             String myCourseName = course.getCourseName();
             // myCourse = myCourse + " Small"; // comment later
-            Log.d("------ my Courses", myCourseName);
+            // Log.d("------ my Courses", myCourseName);
             for(CourseRoom otherCourseRoom : allCoursesRoom) {
                 String otherCourseName = otherCourseRoom.getCourseName();
                 // Log.i("PAIRS", myCourse + ";" + otherCourse);

@@ -28,13 +28,15 @@ public class MockMessageListener extends MessageListener {
     private AppDatabase db;
     private User user;
     private RecyclerView studentView;
+    Long sessionId;
 
-    public MockMessageListener(Context context, RecyclerView studentView) {
+    public MockMessageListener(Context context, RecyclerView studentView, Long sessionId) {
         super();
         this.context = context;
         db = AppDatabase.singleton(context);
         user = UserSelf.getInstance(context);
         this.studentView = studentView;
+        this.sessionId = sessionId;
     }
 
     private void userNotInDbTODO(List<String> allCoursesString, String userIDString,
@@ -46,7 +48,6 @@ public class MockMessageListener extends MessageListener {
 
         if (sameNumCourses == 0) { return; }
 
-        Log.d("------------------ user with ^ ID does NOT exist in DB ", "...");
         User otherUser = new User(userIDString, firstName, photoURL, sameNumCourses);
         db.userDao().insert(otherUser);
 
@@ -125,12 +126,15 @@ public class MockMessageListener extends MessageListener {
     private boolean getWaveInfo(List<String> allCoursesString) {
 
         boolean wave = false;
-        if (allCoursesString.get(allCoursesString.size() - 1).contains("_")) {
-            String userIdOfWavie = allCoursesString.get(allCoursesString.size() - 1).split("_")[0];
-            String waveString = allCoursesString.get(allCoursesString.size() - 1).split("_")[1]; // String waveString = "wave"
-            allCoursesString.remove(allCoursesString.size()-1);
-            wave = true;
+        if(allCoursesString != null && allCoursesString.size() != 0) {
+            if (allCoursesString.get(allCoursesString.size() - 1).contains("_")) {
+                String userIdOfWavie = allCoursesString.get(allCoursesString.size() - 1).split("_")[0];
+                String waveString = allCoursesString.get(allCoursesString.size() - 1).split("_")[1]; // String waveString = "wave"
+                allCoursesString.remove(allCoursesString.size()-1);
+                wave = true;
+            }
         }
+
         return wave;
     }
 
@@ -155,16 +159,16 @@ public class MockMessageListener extends MessageListener {
 
         boolean wave = getWaveInfo(allCoursesString);
 
-        Log.d("------------------ user ID when creating user ", userIDString);
+        Log.d(ParseUtils.TAG, "------------------ user ID when creating user:" + userIDString);
         User otherUser = db.userDao().getUserWithId(userIDString);
 
         // user does not exist in database
         if(otherUser == null) {
-            Log.d("------------------ user with ^ ID does NOT exist in DB ", "...");
+            Log.d(ParseUtils.TAG, "user ID: " + userIDString + " does NOT exist ind DB");
             userNotInDbTODO(allCoursesString, userIDString, firstName, photoURL);
         }
         else { // user already exists in database
-            Log.d("------------------ user with ^ ID DOES exist in DB ", "...");
+            Log.d("------------------ user ID: " + userIDString +  " DOES exist in DB ", "...");
 
             List<CourseRoom> otherUserPrevCourses = db.courseDao().getForUser(otherUser.getUserId());
             List<String> otherUserPrevCoursesString = courseRoomToStringList(otherUserPrevCourses);
@@ -186,19 +190,7 @@ public class MockMessageListener extends MessageListener {
 
             if (sameNumCourses == 0) {
                 db.courseDao().deleteUserCourses(otherUser.getUserId());
-                String deletedUserName = otherUser.getName();
                 db.userDao().delete(otherUser);
-                List<String> oldCsvInputs = new ArrayList<>();
-                for (String csvInput : MockActivity.incomingMessagesString) {
-                    oldCsvInputs.add(csvInput);
-                }
-                MockActivity.incomingMessagesString = new ArrayList<>();
-                for(String csvInput : oldCsvInputs) {
-                    String userName = csvInput.split("\n")[1];
-                    if (! userName.equals(deletedUserName)) {
-                        MockActivity.incomingMessagesString.add(csvInput);
-                    }
-                }
             }
             else if (sameNumCourses != (otherUser.getNumOfSameCourses())) {
                 otherUser.setNumOfSameCourses(sameNumCourses); // 1

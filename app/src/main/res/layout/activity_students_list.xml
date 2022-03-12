@@ -7,11 +7,11 @@
     tools:context=".StudentsListActivity">
 
     <Button
-        android:id="@+id/button_back_sl"
+        android:id="@+id/button_home_sl"
         android:layout_width="78dp"
         android:layout_height="68dp"
-        android:onClick="onBackClick"
-        android:text="BACK"
+        android:onClick="onHomeClick"
+        android:text="HOME"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.951"

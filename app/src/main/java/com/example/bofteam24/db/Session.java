@@ -19,6 +19,7 @@ public class Session {
     @ColumnInfo
     private String sessionName;
 
+
     @NonNull
     public String getSessionName() {
         return sessionName;
