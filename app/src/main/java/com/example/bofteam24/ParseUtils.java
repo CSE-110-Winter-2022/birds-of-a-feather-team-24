@@ -18,7 +18,7 @@ public final class ParseUtils {
     Method to clean up the incoming cvs input. Remove spaces, new lines, etc.
     This way it is easier to obtain the data that is needed.
      */
-    public static String[] cleanCVSInput(String csvInfo) {
+    public static String[] cleanCSVInput(String csvInfo) {
 
         String[] csvInfoDivided = csvInfo.split(",");
         String[] dividedByNewLine = csvInfo.split("\n");
@@ -88,11 +88,11 @@ public final class ParseUtils {
      */
     public static ArrayList<String> getAllCoursesInfo(String[] csvInfoDivided) {
         if (ParseUtils.wave) {
-            Log.d("------------- ", "THERE IS A WAVE IN CSV INPUT");
+            // Log.d("------------- ", "THERE IS A WAVE IN CSV INPUT");
             return allCoursesWave(csvInfoDivided);
         }
 
-        Log.d("------------- ", "THERE IS NO WAVE IN CSV INPUT");
+        // Log.d("------------- ", "THERE IS NO WAVE IN CSV INPUT");
         return allCoursesNoWave(csvInfoDivided);
     }
 

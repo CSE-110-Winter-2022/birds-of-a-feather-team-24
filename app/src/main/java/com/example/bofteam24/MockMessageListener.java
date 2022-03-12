@@ -14,10 +14,8 @@ import com.example.bofteam24.db.User;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class MockMessageListener extends MessageListener {
 
@@ -44,7 +42,7 @@ public class MockMessageListener extends MessageListener {
         Toast.makeText(context, "Found message: " + messageString, Toast.LENGTH_SHORT).show();
         // Log.d("------------messageString ", messageString);
         messageString = messageString.trim();
-        String[] csvInfoDivided = ParseUtils.cleanCVSInput(messageString);
+        String[] csvInfoDivided = ParseUtils.cleanCSVInput(messageString);
 
         String userIDString = ParseUtils.getUserId(csvInfoDivided);
         String firstName = ParseUtils.getUserFirstName(csvInfoDivided);
