@@ -86,7 +86,6 @@ public class SaveSessionActivity extends AppCompatActivity {
     }
 
     public void onCancelSaveSessionClick(View view) {
-        Intent intent = new Intent(this, StudentsListActivity.class);
-        startActivity(intent);
+        finish();
     }
 }
