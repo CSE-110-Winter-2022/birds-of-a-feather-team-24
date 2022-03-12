@@ -2,42 +2,28 @@ package com.example.bofteam24;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bofteam24.Sorting.RecentCommonalitySort;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.Session;
 import com.example.bofteam24.db.User;
-import com.example.bofteam24.db.UserWithCourses;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
-import com.google.android.gms.nearby.messages.Strategy;
-import com.google.android.gms.nearby.messages.SubscribeOptions;
 
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class StudentsListActivity extends AppCompatActivity {
 
@@ -100,31 +86,15 @@ public class StudentsListActivity extends AppCompatActivity {
         sessionId = db.sessionDao().insert(session);
         Log.d(ParseUtils.TAG, "----------- in StudentList db.sessionDao().getAll() size: "
                 + Integer.toString(db.sessionDao().getAll().size()));
-        //StudentsListActivity.users.sort(Comparator.comparing(User::getNumOfSameCourses));
-
-        //UPDATEEEEEEEEEEEEEEEEEEEEEEEEEEEE---------------------
-//        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
-        Collections.sort(StudentsListActivity.users, new RecentCommonalitySort(UserSelf.getInstance(this), db));
 
         studentView = findViewById(R.id.student_view);
 
-        // for testing
-//        messageListener = new MessageListener() {
-//            @Override
-//            public void onFound(@NonNull Message message) {
-//                String s = "Found message: " + new String(message.getContent());
-//                Log.d("Found message", s);
-//                Toast.makeText(StudentsListActivity.this, s, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onLost(@NonNull Message message) {
-//                String s = "Lost message: " + new String(message.getContent());
-//                Log.d("Lost message", s);
-//            }
-//        };
-
-        messageListener = new MockMessageListener(StudentsListActivity.this, studentView, sessionId);
+        Spinner sortSpinner = findViewById(R.id.sortSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.sorts, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
+        messageListener = new UserMessageListener(StudentsListActivity.this, studentView, sortSpinner, sessionId);
 
         // everything below is for sending your own message to other devices
         String myMsgAddition = getIntent().getStringExtra("my_msg_addition");

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.Session;
+import com.example.bofteam24.sorting.SortingStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,28 +41,18 @@ public class SaveSessionActivity extends AppCompatActivity {
         courseMenu = findViewById(R.id.current_courses_spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         String myUserId = UserSelf.getInstance(this).getUserId();
-        List<CourseRoom> currentCourses = db.courseDao().getCurrentCourses(myUserId, "2022 WI"); // 2022 WI
-//        List<CourseRoom> allOfMyCourses = db.courseDao().getForUser(myUserId);
-//        List<CourseRoom> myCoursesSpecifics = new ArrayList<>();
-//        for(CourseRoom cr : allOfMyCourses) {
-//            String courseName = cr.getCourseName();
-//            String yearAndQuarter = courseName.split(" ")[0] + courseName.split(" ")[1];
-//        }
-        Log.d(ParseUtils.TAG, "-------------------- IN SaveSessionActivity");
-        Log.d(ParseUtils.TAG, "--------------------- in SaveSessionActivity currentCourses: " + currentCourses.toString());
-        for (CourseRoom cr : currentCourses) {
-            Log.d(ParseUtils.TAG, "--------------------- in SaveSessionActivity currentCourses: " + cr.getCourseName());
+        List<CourseRoom> allOfMyCourses = db.courseDao().getForUser(myUserId);
+        String current = "2022WI";
+        for(CourseRoom cr : allOfMyCourses) {
+            String courseName = cr.getCourseName();
+            String yearAndQuarter = courseName.split(" ")[0] + courseName.split(" ")[1];
+            System.out.println(yearAndQuarter + "; " + current);
+            if(yearAndQuarter.equals(current)) {
+                String subjectAndNumber = courseName.split(" ")[2] + courseName.split(" ")[3];
+                adapter.add(subjectAndNumber);
+            }
         }
 
-        // TODO: remove hardcoded value after merge with sorting branch
-        for(CourseRoom course : currentCourses) {
-            String courseName = course.getCourseName(); // 2022 WI CSE 110
-            String subjectAndNumber = courseName.split(" ")[2] + courseName.split(" ")[3];
-            Log.d(ParseUtils.TAG, "--------------------- in SaveSessionActivity subjectAndNum: " + subjectAndNumber);
-//            int firstSpace = courseName.indexOf(' ');
-//            int secondSpace = courseName.indexOf(' ', firstSpace + 1);
-            adapter.add(subjectAndNumber);
-        }
         courseMenu.setAdapter(adapter);
     }
 
@@ -95,7 +86,6 @@ public class SaveSessionActivity extends AppCompatActivity {
     }
 
     public void onCancelSaveSessionClick(View view) {
-        Intent intent = new Intent(this, StudentsListActivity.class);
-        startActivity(intent);
+        finish();
     }
 }

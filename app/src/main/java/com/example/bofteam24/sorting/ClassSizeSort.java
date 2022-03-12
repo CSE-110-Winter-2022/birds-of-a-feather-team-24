@@ -1,4 +1,4 @@
-package com.example.bofteam24.Sorting;
+package com.example.bofteam24.sorting;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
@@ -24,15 +24,6 @@ public class ClassSizeSort extends SortingStrategy {
 
     @Override
     public double calculateCourseScore(CourseRoom course) {
-        return 0;
-    }
-
-    public double calculateCourseWeight(CourseRoom course) {
-        /*TODO: uncomment once merging all the code (getCourseSize()
-         *  not in sorting_and_filtering branch)
-         */
-//        return size_to_weights.get(course.getCourseSize());
-
-        return 0;
+        return size_to_weights.get(course.getCourseSize());
     }
 }

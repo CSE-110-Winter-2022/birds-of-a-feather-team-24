@@ -9,12 +9,10 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.bofteam24.Sorting.ClassSizeSort;
-import com.example.bofteam24.Sorting.RecentCommonalitySort;
+import com.example.bofteam24.sorting.RecentCommonalitySort;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseDao;
 import com.example.bofteam24.db.CourseRoom;
-import com.example.bofteam24.db.MockAppDatabase;
 import com.example.bofteam24.db.User;
 import com.example.bofteam24.db.UserDao;
 

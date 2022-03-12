@@ -3,11 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/BoFTeam24/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.22" />
-        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_save_session.xml" value="0.23369565217391305" />
-        <entry key="..\:/BoFTeam24/app/src/main/res/layout/activity_students_list.xml" value="0.2" />
         <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_login.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
         <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile.xml" value="0.2957427536231884" />
@@ -15,22 +10,22 @@
         <entry key="..\:/Users/Jawad/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_students_list.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Kirtan/Desktop/UCSD/CSE110/BoFTeam24/app/src/main/res/layout/activity_add_classes.xml" value="0.25" />
         <entry key="..\:/Users/Kirtan/Desktop/UCSD/CSE110/BoFTeam24/app/src/main/res/layout/activity_profile.xml" value="0.1796875" />
+        <entry key="..\:/Users/Kirtan/Desktop/UCSD/CSE110/BoFTeam24/app/src/main/res/layout/activity_save_session.xml" value="0.1640625" />
+        <entry key="..\:/Users/Kirtan/Desktop/UCSD/CSE110/BoFTeam24/app/src/main/res/layout/activity_students_list.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_login.xml" value="0.31521739130434784" />
         <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/brett/AndroidStudioProjects/BoFTeam24/app/src/main/res/layout/activity_profile_picture.xml" value="0.31354166666666666" />
-        <entry key="app/src/main/res/layout/activity_add_classes.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_loaded_session.xml" value="0.146875" />
+        <entry key="app/src/main/res/drawable/star.xml" value="0.11979166666666667" />
+        <entry key="app/src/main/res/layout/activity_fav_students_list.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_save_session.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_students_list.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/course_description_row.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/spinner_textview_align.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/student_row.xml" value="0.11875" />
+        <entry key="app/src/main/res/layout/student_row.xml" value="0.33" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

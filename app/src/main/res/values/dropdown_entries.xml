@@ -27,5 +27,11 @@
         <item>Gigantic (400+)</item>
     </string-array>
 
+    <string-array name="sorts">
+        <item>Default</item>
+        <item>Prioritize Recent</item>
+        <item>Prioritize Small Classes</item>
+    </string-array>
+
 
 </resources>

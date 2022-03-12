@@ -1,4 +1,4 @@
-package com.example.bofteam24.Sorting;
+package com.example.bofteam24.sorting;
 
 import android.util.Log;
 
@@ -14,8 +14,8 @@ public abstract class SortingStrategy implements Comparator<User> {
     User user;
     AppDatabase db;
     List<CourseRoom> courses;
-    static final String currentQuarter = "WINTER";
-    static final int currentYear = 2022;
+    public static final String currentQuarter = "WINTER";
+    public static final int currentYear = 2022;
 
     public SortingStrategy(User user, AppDatabase db) {
         this.user = user;
@@ -41,18 +41,18 @@ public abstract class SortingStrategy implements Comparator<User> {
 
     public double calculateScore(User other) {
         String id = other.getUserId();
-        List<CourseRoom> others_courses = db.courseDao().getForUser(id);
+        List<CourseRoom> otherCourses = db.courseDao().getForUser(id);
         courses = db.courseDao().getForUser(user.getUserId());
         int score = 0;
 
-        Log.i("----------CalculateScore ", "size of others_courses = " + others_courses.size());
+        Log.i("----------CalculateScore ", "size of otherCourses = " + otherCourses.size());
         Log.i("----------CalculateScore ", "size of my_courses = " + courses.size());
         Log.i("----------CalculateScore ", "my id = " + user.getUserId());
 
         for(CourseRoom course : courses) {
             System.out.println("----------SortingStrategy: in for-loop");
-            for (CourseRoom others_course: others_courses) {
-                if (course.equals(others_course)) {
+            for (CourseRoom otherCourse : otherCourses) {
+                if (course.equals(otherCourse)) {
                     score += calculateCourseScore(course);
                     Log.i("----------SortingStrategy: ", "score is now " + score);
                 }

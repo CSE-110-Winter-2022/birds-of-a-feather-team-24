@@ -3,6 +3,7 @@ package com.example.bofteam24;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
 import com.example.bofteam24.db.User;
+import com.example.bofteam24.sorting.ClassSizeSort;
+import com.example.bofteam24.sorting.RecentCommonalitySort;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
@@ -20,7 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MockMessageListener extends MessageListener {
+public class UserMessageListener extends MessageListener {
 
     private static final String TAG = "BoF-Team24";
 
@@ -28,15 +31,17 @@ public class MockMessageListener extends MessageListener {
     private AppDatabase db;
     private User user;
     private RecyclerView studentView;
+    private Spinner sortSpinner;
     Long sessionId;
 
-    public MockMessageListener(Context context, RecyclerView studentView, Long sessionId) {
+    public UserMessageListener(Context context, RecyclerView studentView, Spinner sortSpinner, Long sessionId) {
         super();
         this.context = context;
         db = AppDatabase.singleton(context);
         user = UserSelf.getInstance(context);
         this.studentView = studentView;
         this.sessionId = sessionId;
+        this.sortSpinner = sortSpinner;
     }
 
     private void userNotInDbTODO(List<String> allCoursesString, String userIDString,
@@ -207,11 +212,7 @@ public class MockMessageListener extends MessageListener {
 
         }
 
-        StudentsListActivity.allCoursesInfo = db.courseDao().getAll();
-        StudentsListActivity.users = db.userDao().getOthers(user.getUserId());
-
-        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
-        Collections.reverse(StudentsListActivity.users);
+        sortUsers();
 
         LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this.context);
         studentView.setLayoutManager(studentLayoutManager);
@@ -220,6 +221,26 @@ public class MockMessageListener extends MessageListener {
 
 //        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
 //        studentView.setAdapter(studentViewAdapter);
+    }
+
+    private void sortUsers() {
+        StudentsListActivity.allCoursesInfo = db.courseDao().getAll();
+        StudentsListActivity.users = db.userDao().getOthers(user.getUserId());
+
+        Comparator<User> strategy = null;
+        switch(sortSpinner.getSelectedItemPosition()) {
+            case 0:
+                strategy = Comparator.comparing(User::getNumOfSameCourses).reversed();
+                break;
+            case 1:
+                strategy = new RecentCommonalitySort(UserSelf.getInstance(context), db);
+                break;
+            case 2:
+                strategy = new ClassSizeSort(UserSelf.getInstance(context), db);
+                break;
+        }
+
+        Collections.sort(StudentsListActivity.users, strategy);
     }
 
     @Override
