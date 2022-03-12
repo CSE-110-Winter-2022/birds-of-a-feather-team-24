@@ -14,8 +14,8 @@ public abstract class SortingStrategy implements Comparator<User> {
     User user;
     AppDatabase db;
     List<CourseRoom> courses;
-    static final String currentQuarter = "WINTER";
-    static final int currentYear = 2022;
+    public static final String currentQuarter = "WINTER";
+    public static final int currentYear = 2022;
 
     public SortingStrategy(User user, AppDatabase db) {
         this.user = user;
