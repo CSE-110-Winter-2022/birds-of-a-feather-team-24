@@ -44,4 +44,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.974" />
 
+    <Spinner
+        android:id="@+id/sortSpinner"
+        android:layout_width="137dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/session_student_view"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/sort_by_label"
+        android:layout_width="53dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="199dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="18dp"
+        android:text="Sort By"
+        app:layout_constraintBottom_toTopOf="@+id/session_student_view"
+        app:layout_constraintEnd_toStartOf="@+id/sortSpinner"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
