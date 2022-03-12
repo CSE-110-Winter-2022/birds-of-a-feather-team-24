@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {User.class, CourseRoom.class, Session.class, SessionEntry.class}, version = 8)
+@Database(entities = {User.class, CourseRoom.class, Session.class, SessionEntry.class}, version = 9)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase singletonInstance;
 
