@@ -35,6 +35,14 @@ public interface SessionDao {
     @Query("SELECT sessionId FROM sessions WHERE sessionName=:sessionName")
     List<Long> getSessionIdForSession(String sessionName);
 
+    @Transaction
+    @Query("SELECT * FROM sessionEntries")
+    List<SessionEntry> getAllSessionEntries();
+
+    @Transaction
+    @Query("SELECT * FROM sessionEntries WHERE sessionId=:sessionId")
+    List<SessionEntry> getAllSessionEntriesForSessionId(Long sessionId);
+
 //    @Transaction
 //    @Query("SELECT userId FROM sessionEntries WHERE sessionId=:sessionId")
 //    List<Integer> getUserIdsForSession(String sessionId);
