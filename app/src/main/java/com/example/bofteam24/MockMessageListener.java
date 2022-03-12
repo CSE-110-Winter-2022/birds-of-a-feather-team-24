@@ -76,7 +76,7 @@ public class MockMessageListener extends MessageListener {
 
             for (String oneCourse : allCoursesString) {
                 // int courseID = (int) (Math.random() * 10000);
-                CourseRoom course = new CourseRoom(0, userIDString, oneCourse);
+                CourseRoom course = new CourseRoom(0, userIDString, oneCourse, null);
                 db.courseDao().insert(course);
             }
         }
