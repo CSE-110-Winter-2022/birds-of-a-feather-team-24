@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bofteam24.db.AppDatabase;
@@ -34,6 +35,7 @@ public class StudentsListActivity extends AppCompatActivity {
     private Message myMessage;
     private MessageListener messageListener;
     private RecyclerView studentView;
+    private Spinner sortSpinner;
 
     public static Session session;
     public static Long sessionId;
@@ -80,7 +82,7 @@ public class StudentsListActivity extends AppCompatActivity {
 //        users = db.userDao().getOthers(UserSelf.getInstance(this).getUserId());
 //        allCoursesInfo = db.courseDao().getAll();
         String waveSent = getIntent().getStringExtra("wave_sent");
-
+        Log.d(ParseUtils.TAG, "----------- in student list activity, wave sent = " + waveSent);
         if (waveSent == null || !waveSent.equals("true")) {
             Date currentTime = Calendar.getInstance().getTime();
             String time = currentTime.toString();
@@ -92,11 +94,13 @@ public class StudentsListActivity extends AppCompatActivity {
 
         studentView = findViewById(R.id.student_view);
 
-        Spinner sortSpinner = findViewById(R.id.sortSpinner);
+        this.sortSpinner = findViewById(R.id.sortSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sorts, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
+
+
         messageListener = new UserMessageListener(StudentsListActivity.this, studentView, sortSpinner, sessionId);
 
         // everything below is for sending your own message to other devices
@@ -112,11 +116,7 @@ public class StudentsListActivity extends AppCompatActivity {
         }
         myMessage = new Message(myMessageString.getBytes(StandardCharsets.UTF_8));
         Log.d(ParseUtils.TAG, " ---------- myMessage is: \n" + myMessageString);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         // everything below is mocking
         if (MockActivity.incomingMessagesString == null || MockActivity.incomingMessagesString.size() == 0) {
             Log.d(ParseUtils.TAG, "------------- incomingMessagesString IS NULL");
@@ -136,6 +136,37 @@ public class StudentsListActivity extends AppCompatActivity {
 
         Nearby.getMessagesClient(this).subscribe(messageListener);
         Log.d("-------- Subscribed to Message Listener", "...");
+
+//        sortUsers();
+//
+//        LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
+//        studentView.setLayoutManager(studentLayoutManager);
+//        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
+//        studentView.setAdapter(studentViewAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        // everything below is mocking
+//        if (MockActivity.incomingMessagesString == null || MockActivity.incomingMessagesString.size() == 0) {
+//            Log.d(ParseUtils.TAG, "------------- incomingMessagesString IS NULL");
+//        }
+//        if (MockActivity.incomingMessagesString != null && MockActivity.incomingMessagesString.size() > 0) {
+//            Log.d(ParseUtils.TAG, "------------- incomingMessagesString is NOT NULL");
+//            for (String messageString : MockActivity.incomingMessagesString) {
+//                // Log.d("----- the string that came from mock activity ", messageString);
+//                messageListener.onFound(new Message(messageString.getBytes()));
+//            }
+//        }
+//        // mocking done
+//
+//        Nearby.getMessagesClient(this).publish(myMessage);
+//        Log.d(ParseUtils.TAG, "-------- Published my message: \n" + myMessageString);
+//        // sending your message done
+//
+//        Nearby.getMessagesClient(this).subscribe(messageListener);
+//        Log.d("-------- Subscribed to Message Listener", "...");
 
 //        Collections.sort(StudentsListActivity.users, Comparator.comparing(User::getNumOfSameCourses));
 //        Collections.reverse(StudentsListActivity.users);
@@ -188,5 +219,20 @@ public class StudentsListActivity extends AppCompatActivity {
     public void onHomeClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void sortUsers() {
+        StudentsListActivity.allCoursesInfo = db.courseDao().getAll();
+        User useSelf = UserSelf.getInstance(this);
+        StudentsListActivity.users = db.sessionDao().getUsersBySessionId(this.sessionId);
+       //StudentsListActivity.users = db.userDao().getOthers(useSelf.getUserId());
+
+        SortUsers.byStrategy(this, sortSpinner, StudentsListActivity.users);
+    }
+
+    public void onSortClick(View view) {
+
+        sortUsers();
+
     }
 }

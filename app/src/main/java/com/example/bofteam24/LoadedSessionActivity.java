@@ -14,11 +14,26 @@ import android.widget.Spinner;
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.User;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class LoadedSessionActivity extends AppCompatActivity {
 
     AppDatabase db;
+
+    private List<User> getNoDuplicates(List<User> fromSession) {
+        List<User> usersWithoutDuplicates = new ArrayList<>();
+        HashSet<String> found = new HashSet<>();
+
+        for (User user: fromSession) {
+            if (!found.contains(user.getUserId())) {
+                found.add(user.getUserId());
+                usersWithoutDuplicates.add(user);
+            }
+        }
+        return usersWithoutDuplicates;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +41,21 @@ public class LoadedSessionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loaded_session);
         db = AppDatabase.singleton(this);
 
-        Integer sessionId = getIntent().getIntExtra("sessionId", -1);
+        Long sessionId = getIntent().getLongExtra("sessionId", -1);
         Log.d("------------Opening sessionId: " , sessionId.toString());
         Log.d("-----------All sessionId in database: ", db.sessionDao().getAllSessionIds().toString());
         List<User> usersFromSession = db.sessionDao().getUsersBySessionId(sessionId);
+        List<User> usersWithoutDuplicates = getNoDuplicates(usersFromSession);
+        for(User user : usersFromSession) {
+            Log.d(ParseUtils.TAG, "--------- User in session ID: " + user.getUserId());
+            Log.d(ParseUtils.TAG, "--------- User in session NAME: " + user.getName());
+        }
+
+        for(User user : usersWithoutDuplicates) {
+            Log.d(ParseUtils.TAG, "usersWithoutDuplicates");
+            Log.d(ParseUtils.TAG, "--------- User in session ID: " + user.getUserId());
+            Log.d(ParseUtils.TAG, "--------- User in session NAME: " + user.getName());
+        }
         Log.d("----------Users in session: ", usersFromSession.toString());
 
         Spinner sortSpinner = findViewById(R.id.sortSpinner);
@@ -40,21 +66,21 @@ public class LoadedSessionActivity extends AppCompatActivity {
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SortUsers.byStrategy(LoadedSessionActivity.this, sortSpinner, usersFromSession);
+                SortUsers.byStrategy(LoadedSessionActivity.this, sortSpinner, usersWithoutDuplicates);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                SortUsers.byStrategy(LoadedSessionActivity.this, sortSpinner, usersFromSession);
+                SortUsers.byStrategy(LoadedSessionActivity.this, sortSpinner, usersWithoutDuplicates);
             }
         });
 
-        SortUsers.byStrategy(LoadedSessionActivity.this, sortSpinner, usersFromSession);
+        SortUsers.byStrategy(LoadedSessionActivity.this, sortSpinner, usersWithoutDuplicates);
 
         RecyclerView studentView = findViewById(R.id.session_student_view);
         LinearLayoutManager studentLayoutManager = new LinearLayoutManager(this);
         studentView.setLayoutManager(studentLayoutManager);
-        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(usersFromSession);
+        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(usersWithoutDuplicates);
         studentView.setAdapter(studentViewAdapter);
     }
 

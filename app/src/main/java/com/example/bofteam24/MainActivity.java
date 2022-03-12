@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner loaded_sessions_spinner = findViewById(R.id.session_spinner);
         String selected = loaded_sessions_spinner.getSelectedItem().toString();
 
-        List<Integer> sessionId = db.sessionDao().getSessionIdForSession(selected);
+        List<Long> sessionId = db.sessionDao().getSessionIdForSession(selected);
 
         Intent intent = new Intent(this, LoadedSessionActivity.class);
         intent.putExtra("sessionId", sessionId.get(0));

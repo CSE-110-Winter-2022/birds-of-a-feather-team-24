@@ -17,11 +17,11 @@ public interface SessionDao {
             "INNER JOIN sessionEntries " +
             "ON sessionEntries.userId = users.userId " +
             "WHERE sessionEntries.sessionId=:sessionId")
-    List<User> getUsersBySessionId(int sessionId);
+    List<User> getUsersBySessionId(Long sessionId);
 
     @Transaction
     @Query("SELECT * FROM sessions WHERE sessionId=:sessionId")
-    Session getSessionById(int sessionId);
+    Session getSessionById(Long sessionId);
 
     @Transaction
     @Query("SELECT sessionName FROM sessions")
@@ -29,11 +29,11 @@ public interface SessionDao {
 
     @Transaction
     @Query("SELECT sessionId FROM sessions")
-    List<Integer> getAllSessionIds();
+    List<Long> getAllSessionIds();
 
     @Transaction
     @Query("SELECT sessionId FROM sessions WHERE sessionName=:sessionName")
-    List<Integer> getSessionIdForSession(String sessionName);
+    List<Long> getSessionIdForSession(String sessionName);
 
 //    @Transaction
 //    @Query("SELECT userId FROM sessionEntries WHERE sessionId=:sessionId")

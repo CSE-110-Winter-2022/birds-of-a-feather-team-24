@@ -1,6 +1,7 @@
 package com.example.bofteam24;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Spinner;
 
 import com.example.bofteam24.db.AppDatabase;
@@ -27,6 +28,8 @@ public class SortUsers {
                 strategy = new ClassSizeSort(UserSelf.getInstance(context), AppDatabase.singleton(context));
                 break;
         }
+
+        Log.d(ParseUtils.TAG, "--------- Sort Strategy is: " + strategy.toString());
 
         Collections.sort(users, strategy);
     }

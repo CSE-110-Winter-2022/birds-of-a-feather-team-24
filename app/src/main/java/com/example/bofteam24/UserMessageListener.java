@@ -33,6 +33,7 @@ public class UserMessageListener extends MessageListener {
     private User user;
     private RecyclerView studentView;
     private Spinner sortSpinner;
+    private Long sessionEntryID;
     Long sessionId;
 
     public UserMessageListener(Context context, RecyclerView studentView, Spinner sortSpinner, Long sessionId) {
@@ -58,7 +59,7 @@ public class UserMessageListener extends MessageListener {
         db.userDao().insert(otherUser);
 
         SessionEntry sessionEntry = new SessionEntry(null, this.sessionId, otherUser.getUserId());
-        db.sessionDao().insert(sessionEntry);
+        this.sessionEntryID = db.sessionDao().insert(sessionEntry);
 
         for (String oneCourse : allCoursesString) {
 
@@ -174,14 +175,16 @@ public class UserMessageListener extends MessageListener {
 
         // user does not exist in database
         if(otherUser == null) {
+            Log.d(ParseUtils.TAG, "------------- otherUser is null");
             Log.d(ParseUtils.TAG, "user ID: " + userIDString + " does NOT exist ind DB");
             userNotInDbTODO(allCoursesString, userIDString, firstName, photoURL);
 
         }
         else { // user already exists in database
+            Log.d(ParseUtils.TAG, "------------- otherUser is NOT null");
             Log.d("------------------ user ID: " + userIDString +  " DOES exist in DB ", "...");
 
-            SessionEntry sessionEntry = new SessionEntry(null, this.sessionId, otherUser.getUserId());
+            SessionEntry sessionEntry = new SessionEntry(this.sessionEntryID, this.sessionId, otherUser.getUserId());
             db.sessionDao().insert(sessionEntry);
 
             List<CourseRoom> otherUserPrevCourses = db.courseDao().getForUser(otherUser.getUserId());
@@ -227,8 +230,6 @@ public class UserMessageListener extends MessageListener {
         StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
         studentView.setAdapter(studentViewAdapter);
 
-//        StudentViewAdapter studentViewAdapter = new StudentViewAdapter(StudentsListActivity.users);
-//        studentView.setAdapter(studentViewAdapter);
     }
 
     private void sortUsers() {
