@@ -72,8 +72,8 @@ public class SortingAndFilteringTesting {
         User mockUser = new User();
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 FALL 2020");
+        CourseRoom course = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 FALL 2020", "mockSize");
 
         assertEquals(1, (int)sorter.calculateCourseScore(course));
     }
@@ -83,8 +83,8 @@ public class SortingAndFilteringTesting {
         User mockUser = new User();
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 FALL 2018");
+        CourseRoom course = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 FALL 2018", "mockSize");
 
         assertEquals(1, (int)sorter.calculateCourseScore(course));
     }
@@ -94,8 +94,8 @@ public class SortingAndFilteringTesting {
         User mockUser = new User();
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 FALL 2021");
+        CourseRoom course = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 FALL 2021", "mockSize");
 
         assertEquals(5, (int)sorter.calculateCourseScore(course));
     }
@@ -105,8 +105,8 @@ public class SortingAndFilteringTesting {
         User mockUser = new User();
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 SUMMER SESSION 1 2021");
+        CourseRoom course = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 SUMMER SESSION 1 2021", "mockSize");
 
         assertEquals(4, (int)sorter.calculateCourseScore(course));
     }
@@ -116,8 +116,8 @@ public class SortingAndFilteringTesting {
         User mockUser = new User();
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        CourseRoom course = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 WINTER 2022");
+        CourseRoom course = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 WINTER 2022", "mockSize");
 
         assertEquals(0, (int)sorter.calculateCourseScore(course));
     }
@@ -127,12 +127,12 @@ public class SortingAndFilteringTesting {
         User mockUser = new User("id", "Test", "", 0);
         RecentCommonalitySort sorter = new RecentCommonalitySort(mockUser, db);
 
-        CourseRoom course1 = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 WINTER 2022");
-        CourseRoom course2 = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 FALL 2021");
-        CourseRoom course3 = new CourseRoom(0, mockUser.getUserId(),
-                "CSE 12 SPRING 2021");
+        CourseRoom course1 = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 WINTER 2022", "mockSize");
+        CourseRoom course2 = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 FALL 2021", "mockSize");
+        CourseRoom course3 = new CourseRoom(null, mockUser.getUserId(),
+                "CSE 12 SPRING 2021", "mockSize");
 
         db.courseDao().insert(course1);
         db.courseDao().insert(course2);
