@@ -99,6 +99,7 @@ public class MockMessageListener extends MessageListener {
                                           User otherUser) {
 
         for (String course : addedCoursesString) {
+            // "2022 WI CSE 110 SMALL"
             String[] courseSplit = course.split(" ");
             String courseName = courseSplit[0] + " " + courseSplit[1] + " " + courseSplit[2] + " " + courseSplit[3];
             String courseSize = courseSplit[4];
