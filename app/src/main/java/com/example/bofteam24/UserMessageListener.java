@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bofteam24.db.AppDatabase;
 import com.example.bofteam24.db.CourseRoom;
+import com.example.bofteam24.db.SessionEntry;
 import com.example.bofteam24.db.User;
 import com.example.bofteam24.sorting.ClassSizeSort;
 import com.example.bofteam24.sorting.RecentCommonalitySort;
@@ -55,6 +56,9 @@ public class UserMessageListener extends MessageListener {
 
         User otherUser = new User(userIDString, firstName, photoURL, sameNumCourses);
         db.userDao().insert(otherUser);
+
+        SessionEntry sessionEntry = new SessionEntry(null, this.sessionId, otherUser.getUserId());
+        db.sessionDao().insert(sessionEntry);
 
         for (String oneCourse : allCoursesString) {
 
@@ -172,9 +176,13 @@ public class UserMessageListener extends MessageListener {
         if(otherUser == null) {
             Log.d(ParseUtils.TAG, "user ID: " + userIDString + " does NOT exist ind DB");
             userNotInDbTODO(allCoursesString, userIDString, firstName, photoURL);
+
         }
         else { // user already exists in database
             Log.d("------------------ user ID: " + userIDString +  " DOES exist in DB ", "...");
+
+            SessionEntry sessionEntry = new SessionEntry(null, this.sessionId, otherUser.getUserId());
+            db.sessionDao().insert(sessionEntry);
 
             List<CourseRoom> otherUserPrevCourses = db.courseDao().getForUser(otherUser.getUserId());
             List<String> otherUserPrevCoursesString = courseRoomToStringList(otherUserPrevCourses);

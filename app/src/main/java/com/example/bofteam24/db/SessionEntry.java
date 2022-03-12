@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "sessionEntries")
 public class SessionEntry {
 
-    public SessionEntry(Integer entryId, int sessionId, String userId) {
+    public SessionEntry(Integer entryId, Long sessionId, String userId) {
         this.entryId = entryId;
         this.sessionId = sessionId;
         this.userId = userId;
@@ -19,15 +19,15 @@ public class SessionEntry {
     private Integer entryId = null;
 
     @ColumnInfo
-    private int sessionId;
+    private Long sessionId;
 
     @ColumnInfo
     private String userId;
 
     @NonNull
-    public int getSessionId() { return sessionId; }
+    public Long getSessionId() { return sessionId; }
 
-    public void setSessionId(int sessionId) { this.sessionId = sessionId; }
+    public void setSessionId(Long sessionId) { this.sessionId = sessionId; }
 
     public String getUserId() { return userId; }
 
