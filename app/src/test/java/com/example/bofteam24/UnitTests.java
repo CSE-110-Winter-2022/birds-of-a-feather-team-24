@@ -56,7 +56,7 @@ public class UnitTests {
 
         String[] csvOutput = ParseUtils.cleanCSVInput(csvInput);
 
-        String[] expectedOutputArr = {"2021 FA CSE 210", "2022 WI CSE 110", "2022 SP CSE 110"};
+        String[] expectedOutputArr = {"2021 FA CSE 210 Small", "2022 WI CSE 110 Large", "2022 SP CSE 110 Small"};
         List<String> actualOutput = ParseUtils.getAllCoursesInfo(csvOutput);
 
         assertArrayEquals(expectedOutputArr, actualOutput.toArray());
